@@ -3,7 +3,7 @@
  * SDK version: 5.5.3
  * CLI version: 2.14.2
  * 
- * Generated: Mon, 06 Jan 2025 09:51:38 GMT
+ * Generated: Mon, 06 Jan 2025 10:21:07 GMT
  */
 
 var APP_com_domain_app_bundleSize = (function () {
@@ -28,1014 +28,13 @@ var APP_com_domain_app_bundleSize = (function () {
    * limitations under the License.
    */
 
-  const settings$1 = {};
-  const subscribers$1 = {};
-  const initSettings = (appSettings, platformSettings) => {
-    settings$1['app'] = appSettings;
-    settings$1['platform'] = platformSettings;
-    settings$1['user'] = {};
-  };
-  const publish$1 = (key, value) => {
-    subscribers$1[key] && subscribers$1[key].forEach(subscriber => subscriber(value));
-  };
-  const dotGrab$1 = function () {
-    let obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    let key = arguments.length > 1 ? arguments[1] : undefined;
-    if (obj === null) return undefined;
-    const keys = key.split('.');
-    for (let i = 0; i < keys.length; i++) {
-      obj = obj[keys[i]] = obj[keys[i]] !== undefined ? obj[keys[i]] : {};
-    }
-    return typeof obj === 'object' && obj !== null ? Object.keys(obj).length ? obj : undefined : obj;
-  };
-  var Settings$1 = {
-    get(type, key) {
-      let fallback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-      const val = dotGrab$1(settings$1[type], key);
-      return val !== undefined ? val : fallback;
-    },
-    has(type, key) {
-      return !!this.get(type, key);
-    },
-    set(key, value) {
-      settings$1['user'][key] = value;
-      publish$1(key, value);
-    },
-    subscribe(key, callback) {
-      subscribers$1[key] = subscribers$1[key] || [];
-      subscribers$1[key].push(callback);
-    },
-    unsubscribe(key, callback) {
-      if (callback) {
-        const index = subscribers$1[key] && subscribers$1[key].findIndex(cb => cb === callback);
-        index > -1 && subscribers$1[key].splice(index, 1);
-      } else {
-        if (key in subscribers$1) {
-          subscribers$1[key] = [];
-        }
-      }
-    },
-    clearSubscribers() {
-      for (const key of Object.getOwnPropertyNames(subscribers$1)) {
-        delete subscribers$1[key];
-      }
-    }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const prepLog$1 = (type, args) => {
-    const colors = {
-      Info: 'green',
-      Debug: 'gray',
-      Warn: 'orange',
-      Error: 'red'
-    };
-    args = Array.from(args);
-    return ['%c' + (args.length > 1 && typeof args[0] === 'string' ? args.shift() : type), 'background-color: ' + colors[type] + '; color: white; padding: 2px 4px; border-radius: 2px', args];
-  };
-  var Log$1 = {
-    info() {
-      Settings$1.get('platform', 'log') && console.log.apply(console, prepLog$1('Info', arguments));
-    },
-    debug() {
-      Settings$1.get('platform', 'log') && console.debug.apply(console, prepLog$1('Debug', arguments));
-    },
-    error() {
-      Settings$1.get('platform', 'log') && console.error.apply(console, prepLog$1('Error', arguments));
-    },
-    warn() {
-      Settings$1.get('platform', 'log') && console.warn.apply(console, prepLog$1('Warn', arguments));
-    }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  var Lightning = window.lng;
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class ColorShift$1 extends Lightning.shaders.WebGLDefaultShader {
-    set brightness(v) {
-      this._brightness = (v - 50) / 100;
-      this.redraw();
-    }
-    set contrast(v) {
-      this._contrast = (v + 50) / 100;
-      this.redraw();
-    }
-    set gamma(v) {
-      this._gamma = (v + 50) / 100;
-      this.redraw();
-    }
-    setupUniforms(operation) {
-      super.setupUniforms(operation);
-      const gl = this.gl;
-      this._setUniform('colorAdjust', [this._brightness || 0.0, this._contrast || 1.0, this._gamma || 1.0], gl.uniform3fv);
-    }
-  }
-  ColorShift$1.before = "\n    #ifdef GL_ES\n    # ifdef GL_FRAGMENT_PRECISION_HIGH\n    precision highp float;\n    # else\n    precision lowp float;\n    # endif\n    #endif\n        \n    varying vec2 vTextureCoord;\n    varying vec4 vColor;\n    uniform sampler2D uSampler;\n    uniform vec3 colorAdjust;\n    \n    const mat3 RGBtoOpponentMat = mat3(0.2814, -0.0971, -0.0930, 0.6938, 0.1458,-0.2529, 0.0638, -0.0250, 0.4665);\n    const mat3 OpponentToRGBMat = mat3(1.1677, 0.9014, 0.7214, -6.4315, 2.5970, 0.1257, -0.5044, 0.0159, 2.0517);    \n";
-  ColorShift$1.after = "    \n    vec3 brightnessContrast(vec3 value, float brightness, float contrast)\n    {\n        return (value - 0.5) * contrast + 0.5 + brightness;\n    }   \n    \n    vec3 updateGamma(vec3 value, float param)\n    {\n        return vec3(pow(abs(value.r), param),pow(abs(value.g), param),pow(abs(value.b), param));\n    } \n       \n    void main(void){\n        vec4 fragColor = texture2D(uSampler, vTextureCoord);        \n        vec4 color = filter(fragColor) * vColor;       \n        \n        vec3 bc = brightnessContrast(color.rgb,colorAdjust[0],colorAdjust[1]);        \n        vec3 ga = updateGamma(bc.rgb, colorAdjust[2]);  \n              \n        gl_FragColor = vec4(ga.rgb, color.a);          \n    }    \n";
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class ProtanopiaShader$1 extends ColorShift$1 {}
-  ProtanopiaShader$1.fragmentShaderSource = "\n    ".concat(ColorShift$1.before, "    \n    vec4 vision(vec4 color)\n    {\n        vec4 r = vec4( 0.20,  0.99, -0.19, 0.0);\n        vec4 g = vec4( 0.16,  0.79,  0.04, 0.0);\n        vec4 b = vec4( 0.01, -0.01,  1.00, 0.0);\n       \n        return vec4(dot(color, r), dot(color, g), dot(color, b), color.a);\t\n    }\n    \n    vec4 filter( vec4 color )\n    {   \n        vec3 opponentColor = RGBtoOpponentMat * vec3(color.r, color.g, color.b);\n        opponentColor.x -= opponentColor.y * 1.5; \n        vec3 rgbColor = OpponentToRGBMat * opponentColor;\n        return vision(vec4(rgbColor.r, rgbColor.g, rgbColor.b, color.a));      \n    }    \n    ").concat(ColorShift$1.after, " \n");
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class DeuteranopiaShader$1 extends ColorShift$1 {}
-  DeuteranopiaShader$1.fragmentShaderSource = "\n    ".concat(ColorShift$1.before, "\n    vec4 vision(vec4 color)\n    {\n        vec4 r = vec4( 0.43,  0.72, -0.15, 0.0 );\n        vec4 g = vec4( 0.34,  0.57,  0.09, 0.0 );\n        vec4 b = vec4(-0.02,  0.03,  1.00, 0.0 );\n       \n        return vec4(dot(color, r), dot(color, g), dot(color, b), color.a);\t\n    }\n       \n    vec4 filter( vec4 color )\n    {   \n        vec3 opponentColor = RGBtoOpponentMat * vec3(color.r, color.g, color.b);\n        opponentColor.x -= opponentColor.y * 1.5; \n        vec3 rgbColor = OpponentToRGBMat * opponentColor;\n        return vision(vec4(rgbColor.r, rgbColor.g, rgbColor.b, color.a));    \n    }\n    ").concat(ColorShift$1.after, "    \n");
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class TritanopiaShader$1 extends ColorShift$1 {}
-  TritanopiaShader$1.fragmentShaderSource = "\n    ".concat(ColorShift$1.before, "    \n    vec4 vision(vec4 color)\n    {\n        vec4 r = vec4( 0.97,  0.11, -0.08, 0.0 );\n        vec4 g = vec4( 0.02,  0.82,  0.16, 0.0 );\n        vec4 b = vec4(-0.06,  0.88,  0.18, 0.0 );\n       \n        return vec4(dot(color, r), dot(color, g), dot(color, b), color.a);\t\n    }   \n    \n    vec4 filter( vec4 color )\n    {   \n        vec3 opponentColor = RGBtoOpponentMat * vec3(color.r, color.g, color.b);\n        opponentColor.x -= ((3.0 * opponentColor.z) - opponentColor.y) * 0.25;\n        vec3 rgbColor = OpponentToRGBMat * opponentColor;\n        return vision(vec4(rgbColor.r, rgbColor.g, rgbColor.b, color.a));\n    }   \n    ").concat(ColorShift$1.after, " \n");
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class NeutralShader$1 extends ColorShift$1 {}
-  NeutralShader$1.fragmentShaderSource = "\n    ".concat(ColorShift$1.before, "\n    vec4 filter( vec4 color )\n    {\n        return color;\n    }\n    ").concat(ColorShift$1.after, "\n");
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class MonochromacyShader$1 extends ColorShift$1 {}
-  MonochromacyShader$1.fragmentShaderSource = "\n    ".concat(ColorShift$1.before, "\n    vec4 filter( vec4 color )\n    {   \n        float grey = dot(color.rgb, vec3(0.299, 0.587, 0.114));\n        return vec4(vec3(grey, grey, grey), 1.0 ); \n    }\n    ").concat(ColorShift$1.after, "\n");
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const colorshiftShader = type => {
-    const shadersMap = {
-      normal: NeutralShader$1,
-      monochromacy: MonochromacyShader$1,
-      deuteranopia: DeuteranopiaShader$1,
-      tritanopia: TritanopiaShader$1,
-      protanopia: ProtanopiaShader$1
-    };
-    type = typeof type === 'string' && type.toLowerCase() || null;
-    return Object.keys(shadersMap).indexOf(type) > -1 ? shadersMap[type] : false;
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /* global SpeechSynthesisErrorEvent */
-  function flattenStrings$1() {
-    let series = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    const flattenedSeries = [];
-    for (var i = 0; i < series.length; i++) {
-      if (typeof series[i] === 'string' && !series[i].includes('PAUSE-')) {
-        flattenedSeries.push(series[i]);
-      } else {
-        break;
-      }
-    }
-    // add a "word boundary" to ensure the Announcer doesn't automatically try to
-    // interpret strings that look like dates but are not actually dates
-    // for example, if "Rising Sun" and "1993" are meant to be two separate lines,
-    // when read together, "Sun 1993" is interpretted as "Sunday 1993"
-    return [flattenedSeries.join(',\b ')].concat(series.slice(i));
-  }
-  function delay$1(pause) {
-    return new Promise(resolve => {
-      setTimeout(resolve, pause);
-    });
-  }
-
-  /**
-   * Speak a string
-   *
-   * @param {string} phrase Phrase to speak
-   * @param {SpeechSynthesisUtterance[]} utterances An array which the new SpeechSynthesisUtterance instance representing this utterance will be appended
-   * @return {Promise<void>} Promise resolved when the utterance has finished speaking, and rejected if there's an error
-   */
-  function speak$1(phrase, utterances) {
-    let lang = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'en-US';
-    const synth = window.speechSynthesis;
-    return new Promise((resolve, reject) => {
-      const utterance = new SpeechSynthesisUtterance(phrase);
-      utterance.lang = lang;
-      utterance.onend = () => {
-        resolve();
-      };
-      utterance.onerror = e => {
-        reject(e);
-      };
-      utterances.push(utterance);
-      synth.speak(utterance);
-    });
-  }
-  function speakSeries$1(series, lang) {
-    let root = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    const synth = window.speechSynthesis;
-    const remainingPhrases = flattenStrings$1(Array.isArray(series) ? series : [series]);
-    const nestedSeriesResults = [];
-    /*
-      We hold this array of SpeechSynthesisUtterances in order to prevent them from being
-      garbage collected prematurely on STB hardware which can cause the 'onend' events of
-      utterances to not fire consistently.
-    */
-    const utterances = [];
-    let active = true;
-    const seriesChain = (async () => {
-      try {
-        while (active && remainingPhrases.length) {
-          const phrase = await Promise.resolve(remainingPhrases.shift());
-          if (!active) {
-            // Exit
-            // Need to check this after the await in case it was cancelled in between
-            break;
-          } else if (typeof phrase === 'string' && phrase.includes('PAUSE-')) {
-            // Pause it
-            let pause = phrase.split('PAUSE-')[1] * 1000;
-            if (isNaN(pause)) {
-              pause = 0;
-            }
-            await delay$1(pause);
-          } else if (typeof phrase === 'string' && phrase.length) {
-            // Speak it
-            const totalRetries = 3;
-            let retriesLeft = totalRetries;
-            while (active && retriesLeft > 0) {
-              try {
-                await speak$1(phrase, utterances, lang);
-                retriesLeft = 0;
-              } catch (e) {
-                // eslint-disable-next-line no-undef
-                if (e instanceof SpeechSynthesisErrorEvent) {
-                  if (e.error === 'network') {
-                    retriesLeft--;
-                    console.warn("Speech synthesis network error. Retries left: ".concat(retriesLeft));
-                    await delay$1(500 * (totalRetries - retriesLeft));
-                  } else if (e.error === 'canceled' || e.error === 'interrupted') {
-                    // Cancel or interrupt error (ignore)
-                    retriesLeft = 0;
-                  } else {
-                    throw new Error("SpeechSynthesisErrorEvent: ".concat(e.error));
-                  }
-                } else {
-                  throw e;
-                }
-              }
-            }
-          } else if (typeof phrase === 'function') {
-            const seriesResult = speakSeries$1(phrase(), lang, false);
-            nestedSeriesResults.push(seriesResult);
-            await seriesResult.series;
-          } else if (Array.isArray(phrase)) {
-            // Speak it (recursively)
-            const seriesResult = speakSeries$1(phrase, lang, false);
-            nestedSeriesResults.push(seriesResult);
-            await seriesResult.series;
-          }
-        }
-      } finally {
-        active = false;
-      }
-    })();
-    return {
-      series: seriesChain,
-      get active() {
-        return active;
-      },
-      append: toSpeak => {
-        remainingPhrases.push(toSpeak);
-      },
-      cancel: () => {
-        if (!active) {
-          return;
-        }
-        if (root) {
-          synth.cancel();
-        }
-        nestedSeriesResults.forEach(nestedSeriesResults => {
-          nestedSeriesResults.cancel();
-        });
-        active = false;
-      }
-    };
-  }
-  let currentSeries$1;
-  function SpeechEngine$1 (toSpeak, lang) {
-    currentSeries$1 && currentSeries$1.cancel();
-    currentSeries$1 = speakSeries$1(toSpeak, lang);
-    return currentSeries$1;
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   *
-   * Code from: https://github.com/jashkenas/underscore is
-   * Copyright (c) 2009-2022 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
-   * Licensed under the MIT License based off:
-   * http://unscriptable.com/2009/03/20/debouncing-javascript-methods/ which is:
-   * Copyright (c) 2007-2009 unscriptable.com and John M. Hann
-   * Licensed under the MIT License (with X11 advertising exception)
-   */
-
-  function getElmName$1(elm) {
-    return elm.ref || elm.constructor.name;
-  }
-
-  /**
-   * Returns a function, that, as long as it continues to be invoked, will not
-   * be triggered. The function will be called after it stops being called for
-   * N milliseconds. If `immediate` is passed, trigger the function on the
-   * leading edge, instead of the trailing. The function also has a property 'clear'
-   * that is a function which will clear the timer to prevent previously scheduled executions.
-   *
-   * @source underscore.js
-   * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
-   * @param {Function} function to wrap
-   * @param {Number} timeout in ms (`100`)
-   * @param {Boolean} whether to execute at the beginning (`false`)
-   * @api public
-   */
-  function debounce$1(func, wait, immediate) {
-    var timeout, args, context, timestamp, result;
-    if (null == wait) wait = 100;
-    function later() {
-      var last = Date.now() - timestamp;
-      if (last < wait && last >= 0) {
-        timeout = setTimeout(later, wait - last);
-      } else {
-        timeout = null;
-        if (!immediate) {
-          result = func.apply(context, args);
-          context = args = null;
-        }
-      }
-    }
-    var debounced = function () {
-      context = this;
-      args = arguments;
-      timestamp = Date.now();
-      var callNow = immediate && !timeout;
-      if (!timeout) timeout = setTimeout(later, wait);
-      if (callNow) {
-        result = func.apply(context, args);
-        context = args = null;
-      }
-      return result;
-    };
-    debounced.clear = function () {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-    };
-    debounced.flush = function () {
-      if (timeout) {
-        result = func.apply(context, args);
-        context = args = null;
-        clearTimeout(timeout);
-        timeout = null;
-      }
-    };
-    return debounced;
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let resetFocusPathTimer$1;
-  let prevFocusPath$1 = [];
-  let currentlySpeaking$1;
-  let voiceOutDisabled$1 = false;
-  const fiveMinutes$1 = 300000;
-  function onFocusChangeCore$1() {
-    let focusPath = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    if (!Announcer$1.enabled) {
-      return;
-    }
-    const loaded = focusPath.every(elm => !elm.loading);
-    const focusDiff = focusPath.filter(elm => !prevFocusPath$1.includes(elm));
-    resetFocusPathTimer$1();
-    if (!loaded) {
-      Announcer$1.onFocusChange();
-      return;
-    }
-    prevFocusPath$1 = focusPath.slice(0);
-    let toAnnounceText = [];
-    let toAnnounce = focusDiff.reduce((acc, elm) => {
-      if (elm.announce) {
-        acc.push([getElmName$1(elm), 'Announce', elm.announce]);
-        toAnnounceText.push(elm.announce);
-      } else if (elm.title) {
-        acc.push([getElmName$1(elm), 'Title', elm.title]);
-        toAnnounceText.push(elm.title);
-      }
-      return acc;
-    }, []);
-    focusDiff.reverse().reduce((acc, elm) => {
-      if (elm.announceContext) {
-        acc.push([getElmName$1(elm), 'Context', elm.announceContext]);
-        toAnnounceText.push(elm.announceContext);
-      } else {
-        acc.push([getElmName$1(elm), 'No Context', '']);
-      }
-      return acc;
-    }, toAnnounce);
-    if (Announcer$1.debug) {
-      console.table(toAnnounce);
-    }
-    if (toAnnounceText.length) {
-      return Announcer$1.speak(toAnnounceText.reduce((acc, val) => acc.concat(val), []));
-    }
-  }
-  function textToSpeech$1(toSpeak) {
-    if (voiceOutDisabled$1) {
-      return;
-    }
-    return currentlySpeaking$1 = SpeechEngine$1(toSpeak);
-  }
-  const Announcer$1 = {
-    enabled: true,
-    debug: false,
-    cancel: function () {
-      currentlySpeaking$1 && currentlySpeaking$1.cancel();
-    },
-    clearPrevFocus: function () {
-      let depth = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      prevFocusPath$1 = prevFocusPath$1.slice(0, depth);
-      resetFocusPathTimer$1();
-    },
-    speak: function (text) {
-      let {
-        append = false,
-        notification = false
-      } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      if (Announcer$1.enabled) {
-        Announcer$1.onFocusChange.flush();
-        if (append && currentlySpeaking$1 && currentlySpeaking$1.active) {
-          currentlySpeaking$1.append(text);
-        } else {
-          Announcer$1.cancel();
-          textToSpeech$1(text);
-        }
-        if (notification) {
-          voiceOutDisabled$1 = true;
-          currentlySpeaking$1.series.finally(() => {
-            voiceOutDisabled$1 = false;
-            Announcer$1.refresh();
-          });
-        }
-      }
-      return currentlySpeaking$1;
-    },
-    setupTimers: function () {
-      let {
-        focusDebounce = 400,
-        focusChangeTimeout = fiveMinutes$1
-      } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      Announcer$1.onFocusChange = debounce$1(onFocusChangeCore$1, focusDebounce);
-      resetFocusPathTimer$1 = debounce$1(() => {
-        // Reset focus path for full announce
-        prevFocusPath$1 = [];
-      }, focusChangeTimeout);
-    }
-  };
-  Announcer$1.setupTimers();
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  var Accessibility = {
-    Announcer: Announcer$1,
-    colorshift(component) {
-      let type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      let config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
-        brightness: 50,
-        contrast: 50,
-        gamma: 50
-      };
-      config = {
-        ...{
-          brightness: 50,
-          contrast: 50,
-          gamma: 50
-        },
-        ...config
-      };
-      const shader = type && colorshiftShader(type);
-      if (shader) {
-        Log$1.info('Accessibility Colorshift', type, config);
-        component.rtt = true;
-        component.shader = {
-          type: shader,
-          ...config
-        };
-      } else {
-        Log$1.info('Accessibility Colorshift', 'Disabled');
-        component.rtt = false;
-        component.shader = null;
-      }
-    }
-  };
-
-  var isMergeableObject = function isMergeableObject(value) {
-    return isNonNullObject(value) && !isSpecial(value);
-  };
-  function isNonNullObject(value) {
-    return !!value && typeof value === 'object';
-  }
-  function isSpecial(value) {
-    var stringValue = Object.prototype.toString.call(value);
-    return stringValue === '[object RegExp]' || stringValue === '[object Date]' || isReactElement(value);
-  }
-
-  // see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
-  var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
-  var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
-  function isReactElement(value) {
-    return value.$$typeof === REACT_ELEMENT_TYPE;
-  }
-  function emptyTarget(val) {
-    return Array.isArray(val) ? [] : {};
-  }
-  function cloneUnlessOtherwiseSpecified(value, options) {
-    return options.clone !== false && options.isMergeableObject(value) ? deepmerge(emptyTarget(value), value, options) : value;
-  }
-  function defaultArrayMerge(target, source, options) {
-    return target.concat(source).map(function (element) {
-      return cloneUnlessOtherwiseSpecified(element, options);
-    });
-  }
-  function getMergeFunction(key, options) {
-    if (!options.customMerge) {
-      return deepmerge;
-    }
-    var customMerge = options.customMerge(key);
-    return typeof customMerge === 'function' ? customMerge : deepmerge;
-  }
-  function getEnumerableOwnPropertySymbols(target) {
-    return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(target).filter(function (symbol) {
-      return Object.propertyIsEnumerable.call(target, symbol);
-    }) : [];
-  }
-  function getKeys(target) {
-    return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target));
-  }
-  function propertyIsOnObject(object, property) {
-    try {
-      return property in object;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  // Protects from prototype poisoning and unexpected merging up the prototype chain.
-  function propertyIsUnsafe(target, key) {
-    return propertyIsOnObject(target, key) // Properties are safe to merge if they don't exist in the target yet,
-    && !(Object.hasOwnProperty.call(target, key) // unsafe if they exist up the prototype chain,
-    && Object.propertyIsEnumerable.call(target, key)); // and also unsafe if they're nonenumerable.
-  }
-  function mergeObject(target, source, options) {
-    var destination = {};
-    if (options.isMergeableObject(target)) {
-      getKeys(target).forEach(function (key) {
-        destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
-      });
-    }
-    getKeys(source).forEach(function (key) {
-      if (propertyIsUnsafe(target, key)) {
-        return;
-      }
-      if (propertyIsOnObject(target, key) && options.isMergeableObject(source[key])) {
-        destination[key] = getMergeFunction(key, options)(target[key], source[key], options);
-      } else {
-        destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
-      }
-    });
-    return destination;
-  }
-  function deepmerge(target, source, options) {
-    options = options || {};
-    options.arrayMerge = options.arrayMerge || defaultArrayMerge;
-    options.isMergeableObject = options.isMergeableObject || isMergeableObject;
-    // cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge()
-    // implementations can use it. The caller may not replace it.
-    options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
-    var sourceIsArray = Array.isArray(source);
-    var targetIsArray = Array.isArray(target);
-    var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
-    if (!sourceAndTargetTypesMatch) {
-      return cloneUnlessOtherwiseSpecified(source, options);
-    } else if (sourceIsArray) {
-      return options.arrayMerge(target, source, options);
-    } else {
-      return mergeObject(target, source, options);
-    }
-  }
-  deepmerge.all = function deepmergeAll(array, options) {
-    if (!Array.isArray(array)) {
-      throw new Error('first argument should be an array');
-    }
-    return array.reduce(function (prev, next) {
-      return deepmerge(prev, next, options);
-    }, {});
-  };
-  var deepmerge_1 = deepmerge;
-  var cjs = deepmerge_1;
-
-  /*!
-   * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
-   *
-   * Copyright (c) 2014-2017, Jon Schlinkert.
-   * Released under the MIT License.
-   */
-
-  function isObject$3(o) {
-    return Object.prototype.toString.call(o) === '[object Object]';
-  }
-
-  function isPlainObject(o) {
-    var ctor,prot;
-
-    if (isObject$3(o) === false) return false;
-
-    // If has modified constructor
-    ctor = o.constructor;
-    if (ctor === undefined) return true;
-
-    // If has modified prototype
-    prot = ctor.prototype;
-    if (isObject$3(prot) === false) return false;
-
-    // If constructor does not have an Object-specific method
-    if (prot.hasOwnProperty('isPrototypeOf') === false) {
-      return false;
-    }
-
-    // Most likely a plain Object
-    return true;
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let warned = false;
-  const deprecated = function () {
-    let force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    if (force === true || warned === false) {
-      console.warn(["The 'Locale'-plugin in the Lightning-SDK is deprecated and will be removed in future releases.", "Please consider using the new 'Language'-plugin instead.", 'https://rdkcentral.github.io/Lightning-SDK/#/plugins/language'].join('\n\n'));
-    }
-    warned = true;
-  };
-  class Locale {
-    constructor() {
-      this.__enabled = false;
-    }
-
-    /**
-     * Loads translation object from external json file.
-     *
-     * @param {String} path Path to resource.
-     * @return {Promise}
-     */
-    async load(path) {
-      if (!this.__enabled) {
-        return;
-      }
-      await fetch(path).then(resp => resp.json()).then(resp => {
-        this.loadFromObject(resp);
-      });
-    }
-
-    /**
-     * Sets language used by module.
-     *
-     * @param {String} lang
-     */
-    setLanguage(lang) {
-      deprecated();
-      this.__enabled = true;
-      this.language = lang;
-    }
-
-    /**
-     * Returns reference to translation object for current language.
-     *
-     * @return {Object}
-     */
-    get tr() {
-      deprecated(true);
-      return this.__trObj[this.language];
-    }
-
-    /**
-     * Loads translation object from existing object (binds existing object).
-     *
-     * @param {Object} trObj
-     */
-    loadFromObject(trObj) {
-      deprecated();
-      const fallbackLanguage = 'en';
-      if (Object.keys(trObj).indexOf(this.language) === -1) {
-        Log$1.warn('No translations found for: ' + this.language);
-        if (Object.keys(trObj).indexOf(fallbackLanguage) > -1) {
-          Log$1.warn('Using fallback language: ' + fallbackLanguage);
-          this.language = fallbackLanguage;
-        } else {
-          const error = 'No translations found for fallback language: ' + fallbackLanguage;
-          Log$1.error(error);
-          throw Error(error);
-        }
-      }
-      this.__trObj = trObj;
-      for (const lang of Object.values(this.__trObj)) {
-        for (const str of Object.keys(lang)) {
-          lang[str] = new LocalizedString(lang[str]);
-        }
-      }
-    }
-  }
-
-  /**
-   * Extended string class used for localization.
-   */
-  class LocalizedString extends String {
-    /**
-     * Returns formatted LocalizedString.
-     * Replaces each placeholder value (e.g. {0}, {1}) with corresponding argument.
-     *
-     * E.g.:
-     * > new LocalizedString('{0} and {1} and {0}').format('A', 'B');
-     * A and B and A
-     *
-     * @param  {...any} args List of arguments for placeholders.
-     */
-    format() {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-      const sub = args.reduce((string, arg, index) => string.split("{".concat(index, "}")).join(arg), this);
-      return new LocalizedString(sub);
-    }
-  }
-  var Locale$1 = new Locale();
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
   const settings = {};
   const subscribers = {};
+  const initSettings = (appSettings, platformSettings) => {
+    settings['app'] = appSettings;
+    settings['platform'] = platformSettings;
+    settings['user'] = {};
+  };
   const publish = (key, value) => {
     subscribers[key] && subscribers[key].forEach(subscriber => subscriber(value));
   };
@@ -1125,6 +124,27 @@ var APP_com_domain_app_bundleSize = (function () {
       Settings.get('platform', 'log') && console.warn.apply(console, prepLog('Warn', arguments));
     }
   };
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+  var Lightning = window.lng;
 
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
@@ -1289,6 +309,36 @@ var APP_com_domain_app_bundleSize = (function () {
    */
   class MonochromacyShader extends ColorShift {}
   MonochromacyShader.fragmentShaderSource = "\n    ".concat(ColorShift.before, "\n    vec4 filter( vec4 color )\n    {   \n        float grey = dot(color.rgb, vec3(0.299, 0.587, 0.114));\n        return vec4(vec3(grey, grey, grey), 1.0 ); \n    }\n    ").concat(ColorShift.after, "\n");
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  const colorshiftShader = type => {
+    const shadersMap = {
+      normal: NeutralShader,
+      monochromacy: MonochromacyShader,
+      deuteranopia: DeuteranopiaShader,
+      tritanopia: TritanopiaShader,
+      protanopia: ProtanopiaShader
+    };
+    type = typeof type === 'string' && type.toLowerCase() || null;
+    return Object.keys(shadersMap).indexOf(type) > -1 ? shadersMap[type] : false;
+  };
 
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
@@ -1675,3774 +725,38 @@ var APP_com_domain_app_bundleSize = (function () {
    * See the License for the specific language governing permissions and
    * limitations under the License.
    */
-  let consumer$1;
-  let getAds = () => {
-    // todo: enable some default ads during development, maybe from the settings.json
-    return Promise.resolve({
-      prerolls: [],
-      midrolls: [],
-      postrolls: []
-    });
-  };
-  const state$1 = {
-    active: false
-  };
-  const playSlot = function () {
-    let slot = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    return slot.reduce((promise, ad) => {
-      return promise.then(() => {
-        return playAd(ad);
-      });
-    }, Promise.resolve(null));
-  };
-  const playAd = ad => {
-    return new Promise(resolve => {
-      if (state$1.active === false) {
-        Log.info('Ad', 'Skipping add due to inactive state');
-        return resolve();
-      }
-      // is it safe to rely on videoplayer plugin already created the video tag?
-      const videoEl = document.getElementsByTagName('video')[0];
-      videoEl.style.display = 'block';
-      videoEl.style.visibility = 'visible';
-      videoEl.src = mediaUrl$1(ad.url);
-      videoEl.load();
-      let timeEvents = null;
-      let timeout;
-      const cleanup = () => {
-        // remove all listeners
-        Object.keys(handlers).forEach(handler => videoEl.removeEventListener(handler, handlers[handler]));
-        resolve();
+  var Accessibility = {
+    Announcer,
+    colorshift(component) {
+      let type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      let config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+        brightness: 50,
+        contrast: 50,
+        gamma: 50
       };
-      const handlers = {
-        play() {
-          Log.info('Ad', 'Play ad', ad.url);
-          fireOnConsumer$1('Play', ad);
-          sendBeacon(ad.callbacks, 'defaultImpression');
-        },
-        ended() {
-          fireOnConsumer$1('Ended', ad);
-          sendBeacon(ad.callbacks, 'complete');
-          cleanup();
-        },
-        timeupdate() {
-          if (!timeEvents && videoEl.duration) {
-            // calculate when to fire the time based events (now that duration is known)
-            timeEvents = {
-              firstQuartile: videoEl.duration / 4,
-              midPoint: videoEl.duration / 2,
-              thirdQuartile: videoEl.duration / 4 * 3
-            };
-            Log.info('Ad', 'Calculated quartiles times', {
-              timeEvents
-            });
-          }
-          if (timeEvents && timeEvents.firstQuartile && videoEl.currentTime >= timeEvents.firstQuartile) {
-            fireOnConsumer$1('FirstQuartile', ad);
-            delete timeEvents.firstQuartile;
-            sendBeacon(ad.callbacks, 'firstQuartile');
-          }
-          if (timeEvents && timeEvents.midPoint && videoEl.currentTime >= timeEvents.midPoint) {
-            fireOnConsumer$1('MidPoint', ad);
-            delete timeEvents.midPoint;
-            sendBeacon(ad.callbacks, 'midPoint');
-          }
-          if (timeEvents && timeEvents.thirdQuartile && videoEl.currentTime >= timeEvents.thirdQuartile) {
-            fireOnConsumer$1('ThirdQuartile', ad);
-            delete timeEvents.thirdQuartile;
-            sendBeacon(ad.callbacks, 'thirdQuartile');
-          }
-        },
-        stalled() {
-          fireOnConsumer$1('Stalled', ad);
-          timeout = setTimeout(() => {
-            cleanup();
-          }, 5000); // make timeout configurable
-        },
-        canplay() {
-          timeout && clearTimeout(timeout);
-        },
-        error() {
-          fireOnConsumer$1('Error', ad);
-          cleanup();
-        },
-        // this doesn't work reliably on sky box, moved logic to timeUpdate event
-        // loadedmetadata() {
-        //   // calculate when to fire the time based events (now that duration is known)
-        //   timeEvents = {
-        //     firstQuartile: videoEl.duration / 4,
-        //     midPoint: videoEl.duration / 2,
-        //     thirdQuartile: (videoEl.duration / 4) * 3,
-        //   }
-        // },
-        abort() {
-          cleanup();
-        }
-        // todo: pause, resume, mute, unmute beacons
-      };
-      // add all listeners
-      Object.keys(handlers).forEach(handler => videoEl.addEventListener(handler, handlers[handler]));
-      videoEl.play();
-    });
-  };
-  const sendBeacon = (callbacks, event) => {
-    if (callbacks && callbacks[event]) {
-      Log.info('Ad', 'Sending beacon', event, callbacks[event]);
-      return callbacks[event].reduce((promise, url) => {
-        return promise.then(() => fetch(url)
-        // always resolve, also in case of a fetch error (so we don't block firing the rest of the beacons for this event)
-        // note: for fetch failed http responses don't throw an Error :)
-        .then(response => {
-          if (response.status === 200) {
-            fireOnConsumer$1('Beacon' + event + 'Sent');
-          } else {
-            fireOnConsumer$1('Beacon' + event + 'Failed' + response.status);
-          }
-          Promise.resolve(null);
-        }).catch(() => {
-          Promise.resolve(null);
-        }));
-      }, Promise.resolve(null));
-    } else {
-      Log.info('Ad', 'No callback found for ' + event);
-    }
-  };
-  const fireOnConsumer$1 = (event, args) => {
-    if (consumer$1) {
-      consumer$1.fire('$ad' + event, args);
-      consumer$1.fire('$adEvent', event, args);
-    }
-  };
-  var Ads = {
-    get(config, videoPlayerConsumer) {
-      if (config.enabled === false) {
-        return Promise.resolve({
-          prerolls() {
-            return Promise.resolve();
-          }
-        });
-      }
-      consumer$1 = videoPlayerConsumer;
-      return new Promise(resolve => {
-        Log.info('Ad', 'Starting session');
-        getAds().then(ads => {
-          Log.info('Ad', 'API result', ads);
-          resolve({
-            prerolls() {
-              if (ads.preroll) {
-                state$1.active = true;
-                fireOnConsumer$1('PrerollSlotImpression', ads);
-                sendBeacon(ads.preroll.callbacks, 'slotImpression');
-                return playSlot(ads.preroll.ads).then(() => {
-                  fireOnConsumer$1('PrerollSlotEnd', ads);
-                  sendBeacon(ads.preroll.callbacks, 'slotEnd');
-                  state$1.active = false;
-                });
-              }
-              return Promise.resolve();
-            },
-            midrolls() {
-              return Promise.resolve();
-            },
-            postrolls() {
-              return Promise.resolve();
-            }
-          });
-        });
-      });
-    },
-    cancel() {
-      Log.info('Ad', 'Cancel Ad');
-      state$1.active = false;
-    },
-    stop() {
-      Log.info('Ad', 'Stop Ad');
-      state$1.active = false;
-      // fixme: duplication
-      const videoEl = document.getElementsByTagName('video')[0];
-      videoEl.pause();
-      videoEl.removeAttribute('src');
-    }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class VersionLabel$1 extends Lightning.Component {
-    static _template() {
-      return {
-        rect: true,
-        color: 0xbb0078ac,
-        h: 40,
-        w: 100,
-        x: w => w - 50,
-        y: h => h - 50,
-        mount: 1,
-        Text: {
-          w: w => w,
-          h: h => h,
-          y: 5,
-          x: 20,
-          text: {
-            fontSize: 22,
-            lineHeight: 26
-          }
-        }
-      };
-    }
-    _firstActive() {
-      this.tag('Text').text = "APP - v".concat(this.version, "\nSDK - v").concat(this.sdkVersion);
-      this.tag('Text').loadTexture();
-      this.w = this.tag('Text').renderWidth + 40;
-      this.h = this.tag('Text').renderHeight + 5;
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class FpsIndicator$1 extends Lightning.Component {
-    static _template() {
-      return {
-        rect: true,
-        color: 0xffffffff,
-        texture: Lightning.Tools.getRoundRect(80, 80, 40),
-        h: 80,
-        w: 80,
-        x: 100,
-        y: 100,
-        mount: 1,
-        Background: {
-          x: 3,
-          y: 3,
-          texture: Lightning.Tools.getRoundRect(72, 72, 36),
-          color: 0xff008000
-        },
-        Counter: {
-          w: w => w,
-          h: h => h,
-          y: 10,
-          text: {
-            fontSize: 32,
-            textAlign: 'center'
-          }
-        },
-        Text: {
-          w: w => w,
-          h: h => h,
-          y: 48,
-          text: {
-            fontSize: 15,
-            textAlign: 'center',
-            text: 'FPS'
-          }
-        }
-      };
-    }
-    _setup() {
-      this.config = {
+      config = {
         ...{
-          log: false,
-          interval: 500,
-          threshold: 1
+          brightness: 50,
+          contrast: 50,
+          gamma: 50
         },
-        ...Settings.get('platform', 'showFps')
+        ...config
       };
-      this.fps = 0;
-      this.lastFps = this.fps - this.config.threshold;
-      const fpsCalculator = () => {
-        this.fps = ~~(1 / this.stage.dt);
-      };
-      this.stage.on('frameStart', fpsCalculator);
-      this.stage.off('framestart', fpsCalculator);
-      this.interval = setInterval(this.showFps.bind(this), this.config.interval);
-    }
-    _firstActive() {
-      this.showFps();
-    }
-    _detach() {
-      clearInterval(this.interval);
-    }
-    showFps() {
-      if (Math.abs(this.lastFps - this.fps) <= this.config.threshold) return;
-      this.lastFps = this.fps;
-      // green
-      let bgColor = 0xff008000;
-      // orange
-      if (this.fps <= 40 && this.fps > 20) bgColor = 0xffffa500;
-      // red
-      else if (this.fps <= 20) bgColor = 0xffff0000;
-      this.tag('Background').setSmooth('color', bgColor);
-      this.tag('Counter').text = "".concat(this.fps);
-      this.config.log && Log.info('FPS', this.fps);
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const registry$1 = {
-    eventListeners: [],
-    timeouts: [],
-    intervals: [],
-    targets: []
-  };
-  var Registry$1 = {
-    // Timeouts
-    setTimeout(cb, timeout) {
-      for (var _len = arguments.length, params = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        params[_key - 2] = arguments[_key];
-      }
-      const timeoutId = setTimeout(() => {
-        registry$1.timeouts = registry$1.timeouts.filter(id => id !== timeoutId);
-        cb.apply(null, params);
-      }, timeout, params);
-      Log.info('Set Timeout', 'ID: ' + timeoutId);
-      registry$1.timeouts.push(timeoutId);
-      return timeoutId;
-    },
-    clearTimeout(timeoutId) {
-      if (registry$1.timeouts.indexOf(timeoutId) > -1) {
-        registry$1.timeouts = registry$1.timeouts.filter(id => id !== timeoutId);
-        Log.info('Clear Timeout', 'ID: ' + timeoutId);
-        clearTimeout(timeoutId);
-      } else {
-        Log.error('Clear Timeout', 'ID ' + timeoutId + ' not found');
-      }
-    },
-    clearTimeouts() {
-      registry$1.timeouts.forEach(timeoutId => {
-        this.clearTimeout(timeoutId);
-      });
-    },
-    // Intervals
-    setInterval(cb, interval) {
-      for (var _len2 = arguments.length, params = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        params[_key2 - 2] = arguments[_key2];
-      }
-      const intervalId = setInterval(() => {
-        registry$1.intervals.filter(id => id !== intervalId);
-        cb.apply(null, params);
-      }, interval, params);
-      Log.info('Set Interval', 'ID: ' + intervalId);
-      registry$1.intervals.push(intervalId);
-      return intervalId;
-    },
-    clearInterval(intervalId) {
-      if (registry$1.intervals.indexOf(intervalId) > -1) {
-        registry$1.intervals = registry$1.intervals.filter(id => id !== intervalId);
-        Log.info('Clear Interval', 'ID: ' + intervalId);
-        clearInterval(intervalId);
-      } else {
-        Log.error('Clear Interval', 'ID ' + intervalId + ' not found');
-      }
-    },
-    clearIntervals() {
-      registry$1.intervals.forEach(intervalId => {
-        this.clearInterval(intervalId);
-      });
-    },
-    // Event listeners
-    addEventListener(target, event, handler) {
-      target.addEventListener(event, handler);
-      const targetIndex = registry$1.targets.indexOf(target) > -1 ? registry$1.targets.indexOf(target) : registry$1.targets.push(target) - 1;
-      registry$1.eventListeners[targetIndex] = registry$1.eventListeners[targetIndex] || {};
-      registry$1.eventListeners[targetIndex][event] = registry$1.eventListeners[targetIndex][event] || [];
-      registry$1.eventListeners[targetIndex][event].push(handler);
-      Log.info('Add eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler.toString());
-    },
-    removeEventListener(target, event, handler) {
-      const targetIndex = registry$1.targets.indexOf(target);
-      if (targetIndex > -1 && registry$1.eventListeners[targetIndex] && registry$1.eventListeners[targetIndex][event] && registry$1.eventListeners[targetIndex][event].indexOf(handler) > -1) {
-        registry$1.eventListeners[targetIndex][event] = registry$1.eventListeners[targetIndex][event].filter(fn => fn !== handler);
-        Log.info('Remove eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler.toString());
-        target.removeEventListener(event, handler);
-        // remove key from event listeners object when no events are registered for that event
-        Object.keys(registry$1.eventListeners[targetIndex]).forEach(event => {
-          if (registry$1.eventListeners[targetIndex][event].length === 0) {
-            delete registry$1.eventListeners[targetIndex][event];
-          }
-        });
-        // remove reference to the target when target has no event listeners registered
-        if (Object.keys(registry$1.eventListeners[targetIndex]).length === 0) {
-          registry$1.targets.splice(targetIndex, 1);
-          registry$1.eventListeners.splice(targetIndex, 1);
-        }
-      } else {
-        Log.error('Remove eventListener', 'Not found', 'Target', target, 'Event: ' + event, 'Handler', handler.toString());
-      }
-    },
-    // if `event` is omitted, removes all registered event listeners for target
-    // if `target` is also omitted, removes all registered event listeners
-    removeEventListeners(target, event) {
-      if (target && event) {
-        const targetIndex = registry$1.targets.indexOf(target);
-        if (targetIndex > -1) {
-          registry$1.eventListeners[targetIndex][event].forEach(handler => {
-            this.removeEventListener(target, event, handler);
-          });
-        }
-      } else if (target) {
-        const targetIndex = registry$1.targets.indexOf(target);
-        if (targetIndex > -1) {
-          Object.keys(registry$1.eventListeners[targetIndex]).forEach(_event => {
-            this.removeEventListeners(target, _event);
-          });
-        }
-      } else {
-        Object.keys(registry$1.eventListeners).forEach(targetIndex => {
-          this.removeEventListeners(registry$1.targets[targetIndex]);
-        });
-      }
-    },
-    // Clear everything (to be called upon app close for proper cleanup)
-    clear() {
-      this.clearTimeouts();
-      this.clearIntervals();
-      this.removeEventListeners();
-      registry$1.eventListeners = [];
-      registry$1.timeouts = [];
-      registry$1.intervals = [];
-      registry$1.targets = [];
-    }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let AppInstance$1;
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class ScaledImageTexture$1 extends Lightning.textures.ImageTexture {
-    constructor(stage) {
-      super(stage);
-      this._scalingOptions = undefined;
-    }
-    set options(options) {
-      this.resizeMode = this._scalingOptions = options;
-    }
-    _getLookupId() {
-      return "".concat(this._src, "-").concat(this._scalingOptions.type, "-").concat(this._scalingOptions.w, "-").concat(this._scalingOptions.h);
-    }
-    getNonDefaults() {
-      const obj = super.getNonDefaults();
-      if (this._src) {
-        obj.src = this._src;
-      }
-      return obj;
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const events$2 = ['timeupdate', 'error', 'ended', 'loadeddata', 'canplay', 'play', 'playing', 'pause', 'loadstart', 'seeking', 'seeked', 'encrypted'];
-  let mediaUrl$2 = url => url;
-  class Mediaplayer$1 extends Lightning.Component {
-    _construct() {
-      this._skipRenderToTexture = false;
-      this._metrics = null;
-      this._textureMode = Settings.get('platform', 'textureMode') || false;
-      Log.info('Texture mode: ' + this._textureMode);
-      console.warn(["The 'MediaPlayer'-plugin in the Lightning-SDK is deprecated and will be removed in future releases.", "Please consider using the new 'VideoPlayer'-plugin instead.", 'https://rdkcentral.github.io/Lightning-SDK/#/plugins/videoplayer'].join('\n\n'));
-    }
-    static _template() {
-      return {
-        Video: {
-          VideoWrap: {
-            VideoTexture: {
-              visible: false,
-              pivot: 0.5,
-              texture: {
-                type: Lightning.textures.StaticTexture,
-                options: {}
-              }
-            }
-          }
-        }
-      };
-    }
-    set skipRenderToTexture(v) {
-      this._skipRenderToTexture = v;
-    }
-    get textureMode() {
-      return this._textureMode;
-    }
-    get videoView() {
-      return this.tag('Video');
-    }
-    _init() {
-      //re-use videotag if already there
-      const videoEls = document.getElementsByTagName('video');
-      if (videoEls && videoEls.length > 0) this.videoEl = videoEls[0];else {
-        this.videoEl = document.createElement('video');
-        this.videoEl.setAttribute('id', 'video-player');
-        this.videoEl.style.position = 'absolute';
-        this.videoEl.style.zIndex = '1';
-        this.videoEl.style.display = 'none';
-        this.videoEl.setAttribute('width', '100%');
-        this.videoEl.setAttribute('height', '100%');
-        this.videoEl.style.visibility = this.textureMode ? 'hidden' : 'visible';
-        document.body.appendChild(this.videoEl);
-      }
-      if (this.textureMode && !this._skipRenderToTexture) {
-        this._createVideoTexture();
-      }
-      this.eventHandlers = [];
-    }
-    _registerListeners() {
-      events$2.forEach(event => {
-        const handler = e => {
-          if (this._metrics && this._metrics[event] && typeof this._metrics[event] === 'function') {
-            this._metrics[event]({
-              currentTime: this.videoEl.currentTime
-            });
-          }
-          this.fire(event, {
-            videoElement: this.videoEl,
-            event: e
-          });
+      const shader = type && colorshiftShader(type);
+      if (shader) {
+        Log.info('Accessibility Colorshift', type, config);
+        component.rtt = true;
+        component.shader = {
+          type: shader,
+          ...config
         };
-        this.eventHandlers.push(handler);
-        this.videoEl.addEventListener(event, handler);
-      });
-    }
-    _deregisterListeners() {
-      Log.info('Deregistering event listeners MediaPlayer');
-      events$2.forEach((event, index) => {
-        this.videoEl.removeEventListener(event, this.eventHandlers[index]);
-      });
-      this.eventHandlers = [];
-    }
-    _attach() {
-      this._registerListeners();
-    }
-    _detach() {
-      this._deregisterListeners();
-      this.close();
-    }
-    _createVideoTexture() {
-      const stage = this.stage;
-      const gl = stage.gl;
-      const glTexture = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, glTexture);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      this.videoTexture.options = {
-        source: glTexture,
-        w: this.videoEl.width,
-        h: this.videoEl.height
-      };
-    }
-    _startUpdatingVideoTexture() {
-      if (this.textureMode && !this._skipRenderToTexture) {
-        const stage = this.stage;
-        if (!this._updateVideoTexture) {
-          this._updateVideoTexture = () => {
-            if (this.videoTexture.options.source && this.videoEl.videoWidth && this.active) {
-              const gl = stage.gl;
-              const currentTime = new Date().getTime();
-
-              // When BR2_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_DEBUGUTILS is not set in WPE, webkitDecodedFrameCount will not be available.
-              // We'll fallback to fixed 30fps in this case.
-              const frameCount = this.videoEl.webkitDecodedFrameCount;
-              const mustUpdate = frameCount ? this._lastFrame !== frameCount : this._lastTime < currentTime - 30;
-              if (mustUpdate) {
-                this._lastTime = currentTime;
-                this._lastFrame = frameCount;
-                try {
-                  gl.bindTexture(gl.TEXTURE_2D, this.videoTexture.options.source);
-                  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-                  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.videoEl);
-                  this._lastFrame = this.videoEl.webkitDecodedFrameCount;
-                  this.videoTextureView.visible = true;
-                  this.videoTexture.options.w = this.videoEl.videoWidth;
-                  this.videoTexture.options.h = this.videoEl.videoHeight;
-                  const expectedAspectRatio = this.videoTextureView.w / this.videoTextureView.h;
-                  const realAspectRatio = this.videoEl.videoWidth / this.videoEl.videoHeight;
-                  if (expectedAspectRatio > realAspectRatio) {
-                    this.videoTextureView.scaleX = realAspectRatio / expectedAspectRatio;
-                    this.videoTextureView.scaleY = 1;
-                  } else {
-                    this.videoTextureView.scaleY = expectedAspectRatio / realAspectRatio;
-                    this.videoTextureView.scaleX = 1;
-                  }
-                } catch (e) {
-                  Log.error('texImage2d video', e);
-                  this._stopUpdatingVideoTexture();
-                  this.videoTextureView.visible = false;
-                }
-                this.videoTexture.source.forceRenderUpdate();
-              }
-            }
-          };
-        }
-        if (!this._updatingVideoTexture) {
-          stage.on('frameStart', this._updateVideoTexture);
-          this._updatingVideoTexture = true;
-        }
-      }
-    }
-    _stopUpdatingVideoTexture() {
-      if (this.textureMode) {
-        const stage = this.stage;
-        stage.removeListener('frameStart', this._updateVideoTexture);
-        this._updatingVideoTexture = false;
-        this.videoTextureView.visible = false;
-        if (this.videoTexture.options.source) {
-          const gl = stage.gl;
-          gl.bindTexture(gl.TEXTURE_2D, this.videoTexture.options.source);
-          gl.clearColor(0, 0, 0, 1);
-          gl.clear(gl.COLOR_BUFFER_BIT);
-        }
-      }
-    }
-    updateSettings() {
-      let settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      // The Component that 'consumes' the media player.
-      this._consumer = settings.consumer;
-      if (this._consumer && this._consumer.getMediaplayerSettings) {
-        // Allow consumer to add settings.
-        settings = Object.assign(settings, this._consumer.getMediaplayerSettings());
-      }
-      if (!Lightning.Utils.equalValues(this._stream, settings.stream)) {
-        if (settings.stream && settings.stream.keySystem) {
-          navigator.requestMediaKeySystemAccess(settings.stream.keySystem.id, settings.stream.keySystem.config).then(keySystemAccess => {
-            return keySystemAccess.createMediaKeys();
-          }).then(createdMediaKeys => {
-            return this.videoEl.setMediaKeys(createdMediaKeys);
-          }).then(() => {
-            if (settings.stream && settings.stream.src) this.open(settings.stream.src);
-          }).catch(() => {
-            console.error('Failed to set up MediaKeys');
-          });
-        } else if (settings.stream && settings.stream.src) {
-          // This is here to be backwards compatible, will be removed
-          // in future sdk release
-          if (Settings.get('app', 'hls')) {
-            if (!window.Hls) {
-              window.Hls = class Hls {
-                static isSupported() {
-                  console.warn('hls-light not included');
-                  return false;
-                }
-              };
-            }
-            if (window.Hls.isSupported()) {
-              if (!this._hls) this._hls = new window.Hls({
-                liveDurationInfinity: true
-              });
-              this._hls.loadSource(settings.stream.src);
-              this._hls.attachMedia(this.videoEl);
-              this.videoEl.style.display = 'block';
-            }
-          } else {
-            this.open(settings.stream.src);
-          }
-        } else {
-          this.close();
-        }
-        this._stream = settings.stream;
-      }
-      this._setHide(settings.hide);
-      this._setVideoArea(settings.videoPos);
-    }
-    _setHide(hide) {
-      if (this.textureMode) {
-        this.tag('Video').setSmooth('alpha', hide ? 0 : 1);
       } else {
-        this.videoEl.style.visibility = hide ? 'hidden' : 'visible';
+        Log.info('Accessibility Colorshift', 'Disabled');
+        component.rtt = false;
+        component.shader = null;
       }
     }
-    open(url) {
-      let settings = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-        hide: false,
-        videoPosition: null
-      };
-      // prep the media url to play depending on platform (mediaPlayerplugin)
-      url = mediaUrl$2(url);
-      this._metrics = Metrics$1.media(url);
-      Log.info('Playing stream', url);
-      if (this.application.noVideo) {
-        Log.info('noVideo option set, so ignoring: ' + url);
-        return;
-      }
-      // close the video when opening same url as current (effectively reloading)
-      if (this.videoEl.getAttribute('src') === url) {
-        this.close();
-      }
-      this.videoEl.setAttribute('src', url);
-
-      // force hide, then force show (in next tick!)
-      // (fixes comcast playback rollover issue)
-      this.videoEl.style.visibility = 'hidden';
-      this.videoEl.style.display = 'none';
-      setTimeout(() => {
-        this.videoEl.style.display = 'block';
-        this.videoEl.style.visibility = 'visible';
-      });
-      this._setHide(settings.hide);
-      this._setVideoArea(settings.videoPosition || [0, 0, 1920, 1080]);
-    }
-    close() {
-      // We need to pause first in order to stop sound.
-      this.videoEl.pause();
-      this.videoEl.removeAttribute('src');
-
-      // force load to reset everything without errors
-      this.videoEl.load();
-      this._clearSrc();
-      this.videoEl.style.display = 'none';
-    }
-    playPause() {
-      if (this.isPlaying()) {
-        this.doPause();
-      } else {
-        this.doPlay();
-      }
-    }
-    get muted() {
-      return this.videoEl.muted;
-    }
-    set muted(v) {
-      this.videoEl.muted = v;
-    }
-    get loop() {
-      return this.videoEl.loop;
-    }
-    set loop(v) {
-      this.videoEl.loop = v;
-    }
-    isPlaying() {
-      return this._getState() === 'Playing';
-    }
-    doPlay() {
-      this.videoEl.play();
-    }
-    doPause() {
-      this.videoEl.pause();
-    }
-    reload() {
-      var url = this.videoEl.getAttribute('src');
-      this.close();
-      this.videoEl.src = url;
-    }
-    getPosition() {
-      return Promise.resolve(this.videoEl.currentTime);
-    }
-    setPosition(pos) {
-      this.videoEl.currentTime = pos;
-    }
-    getDuration() {
-      return Promise.resolve(this.videoEl.duration);
-    }
-    seek(time) {
-      let absolute = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      if (absolute) {
-        this.videoEl.currentTime = time;
-      } else {
-        this.videoEl.currentTime += time;
-      }
-    }
-    get videoTextureView() {
-      return this.tag('Video').tag('VideoTexture');
-    }
-    get videoTexture() {
-      return this.videoTextureView.texture;
-    }
-    _setVideoArea(videoPos) {
-      if (Lightning.Utils.equalValues(this._videoPos, videoPos)) {
-        return;
-      }
-      this._videoPos = videoPos;
-      if (this.textureMode) {
-        this.videoTextureView.patch({
-          smooth: {
-            x: videoPos[0],
-            y: videoPos[1],
-            w: videoPos[2] - videoPos[0],
-            h: videoPos[3] - videoPos[1]
-          }
-        });
-      } else {
-        const precision = this.stage.getRenderPrecision();
-        this.videoEl.style.left = Math.round(videoPos[0] * precision) + 'px';
-        this.videoEl.style.top = Math.round(videoPos[1] * precision) + 'px';
-        this.videoEl.style.width = Math.round((videoPos[2] - videoPos[0]) * precision) + 'px';
-        this.videoEl.style.height = Math.round((videoPos[3] - videoPos[1]) * precision) + 'px';
-      }
-    }
-    _fireConsumer(event, args) {
-      if (this._consumer) {
-        this._consumer.fire(event, args);
-      }
-    }
-    _equalInitData(buf1, buf2) {
-      if (!buf1 || !buf2) return false;
-      if (buf1.byteLength != buf2.byteLength) return false;
-      const dv1 = new Int8Array(buf1);
-      const dv2 = new Int8Array(buf2);
-      for (let i = 0; i != buf1.byteLength; i++) if (dv1[i] != dv2[i]) return false;
-      return true;
-    }
-    error(args) {
-      this._fireConsumer('$mediaplayerError', args);
-      this._setState('');
-      return '';
-    }
-    loadeddata(args) {
-      this._fireConsumer('$mediaplayerLoadedData', args);
-    }
-    play(args) {
-      this._fireConsumer('$mediaplayerPlay', args);
-    }
-    playing(args) {
-      this._fireConsumer('$mediaplayerPlaying', args);
-      this._setState('Playing');
-    }
-    canplay(args) {
-      this.videoEl.play();
-      this._fireConsumer('$mediaplayerStart', args);
-    }
-    loadstart(args) {
-      this._fireConsumer('$mediaplayerLoad', args);
-    }
-    seeked() {
-      this._fireConsumer('$mediaplayerSeeked', {
-        currentTime: this.videoEl.currentTime,
-        duration: this.videoEl.duration || 1
-      });
-    }
-    seeking() {
-      this._fireConsumer('$mediaplayerSeeking', {
-        currentTime: this.videoEl.currentTime,
-        duration: this.videoEl.duration || 1
-      });
-    }
-    durationchange(args) {
-      this._fireConsumer('$mediaplayerDurationChange', args);
-    }
-    encrypted(args) {
-      const video = args.videoElement;
-      const event = args.event;
-      // FIXME: Double encrypted events need to be properly filtered by Gstreamer
-      if (video.mediaKeys && !this._equalInitData(this._previousInitData, event.initData)) {
-        this._previousInitData = event.initData;
-        this._fireConsumer('$mediaplayerEncrypted', args);
-      }
-    }
-    static _states() {
-      return [class Playing extends this {
-        $enter() {
-          this._startUpdatingVideoTexture();
-        }
-        $exit() {
-          this._stopUpdatingVideoTexture();
-        }
-        timeupdate() {
-          this._fireConsumer('$mediaplayerProgress', {
-            currentTime: this.videoEl.currentTime,
-            duration: this.videoEl.duration || 1
-          });
-        }
-        ended(args) {
-          this._fireConsumer('$mediaplayerEnded', args);
-          this._setState('');
-        }
-        pause(args) {
-          this._fireConsumer('$mediaplayerPause', args);
-          this._setState('Playing.Paused');
-        }
-        _clearSrc() {
-          this._fireConsumer('$mediaplayerStop', {});
-          this._setState('');
-        }
-        static _states() {
-          return [class Paused extends this {}];
-        }
-      }];
-    }
-  }
-
-  class localCookie {
-    constructor(e) {
-      return e = e || {}, this.forceCookies = e.forceCookies || !1, !0 === this._checkIfLocalStorageWorks() && !0 !== e.forceCookies ? {
-        getItem: this._getItemLocalStorage,
-        setItem: this._setItemLocalStorage,
-        removeItem: this._removeItemLocalStorage,
-        clear: this._clearLocalStorage,
-        keys: this._getLocalStorageKeys
-      } : {
-        getItem: this._getItemCookie,
-        setItem: this._setItemCookie,
-        removeItem: this._removeItemCookie,
-        clear: this._clearCookies,
-        keys: this._getCookieKeys
-      };
-    }
-    _checkIfLocalStorageWorks() {
-      if ("undefined" == typeof localStorage) return !1;
-      try {
-        return localStorage.setItem("feature_test", "yes"), "yes" === localStorage.getItem("feature_test") && (localStorage.removeItem("feature_test"), !0);
-      } catch (e) {
-        return !1;
-      }
-    }
-    _getItemLocalStorage(e) {
-      return window.localStorage.getItem(e);
-    }
-    _setItemLocalStorage(e, t) {
-      return window.localStorage.setItem(e, t);
-    }
-    _removeItemLocalStorage(e) {
-      return window.localStorage.removeItem(e);
-    }
-    _clearLocalStorage() {
-      return window.localStorage.clear();
-    }
-    _getLocalStorageKeys() {
-      return Object.keys(window.localStorage);
-    }
-    _getItemCookie(e) {
-      var t = document.cookie.match(RegExp("(?:^|;\\s*)" + function (e) {
-        return e.replace(/([.*+?\^${}()|\[\]\/\\])/g, "\\$1");
-      }(e) + "=([^;]*)"));
-      return t && "" === t[1] && (t[1] = null), t ? t[1] : null;
-    }
-    _setItemCookie(e, t) {
-      var o = new Date(),
-        r = new Date(o.getTime() + 15768e7);
-      document.cookie = "".concat(e, "=").concat(t, "; expires=").concat(r.toUTCString(), ";");
-    }
-    _removeItemCookie(e) {
-      document.cookie = "".concat(e, "=;Max-Age=-99999999;");
-    }
-    _clearCookies() {
-      document.cookie.split(";").forEach(e => {
-        document.cookie = e.replace(/^ +/, "").replace(/=.*/, "=;expires=Max-Age=-99999999");
-      });
-    }
-    _getCookieKeys() {
-      return document.cookie.split(";").map(e => e.split("=")[0]);
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  const hasRegex$1 = /\{\/(.*?)\/([igm]{0,3})\}/g;
-  const isWildcard$1 = /^[!*$]$/;
-  const hasLookupId$1 = /\/:\w+?@@([0-9]+?)@@/;
-  const isNamedGroup$1 = /^\/:/;
-
-  /**
-   * Test if a route is part regular expressed
-   * and replace it for a simple character
-   * @param route
-   * @returns {*}
-   */
-  const stripRegex$1 = function (route) {
-    let char = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'R';
-    // if route is part regular expressed we replace
-    // the regular expression for a character to
-    // simplify floor calculation and backtracking
-    if (hasRegex$1.test(route)) {
-      route = route.replace(hasRegex$1, char);
-    }
-    return route;
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /**
-   * Create a local request register
-   * @param flags
-   * @returns {Map<any, any>}
-   */
-  const createRegister$1 = flags => {
-    const reg = new Map()
-    // store user defined and router
-    // defined flags in register
-    ;
-    [...Object.keys(flags), ...Object.getOwnPropertySymbols(flags)].forEach(key => {
-      reg.set(key, flags[key]);
-    });
-    return reg;
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class Request$1 {
-    constructor() {
-      let hash = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      let navArgs = arguments.length > 1 ? arguments[1] : undefined;
-      let storeCaller = arguments.length > 2 ? arguments[2] : undefined;
-      /**
-       * Hash we navigate to
-       * @type {string}
-       * @private
-       */
-      this._hash = hash;
-
-      /**
-       * Do we store previous hash in history
-       * @type {boolean}
-       * @private
-       */
-      this._storeCaller = storeCaller;
-
-      /**
-       * Request and navigate data
-       * @type {Map}
-       * @private
-       */
-      this._register = new Map();
-
-      /**
-       * Flag if the instance is created due to
-       * this request
-       * @type {boolean}
-       * @private
-       */
-      this._isCreated = false;
-
-      /**
-       * Flag if the instance is shared between
-       * previous and current request
-       * @type {boolean}
-       * @private
-       */
-      this._isSharedInstance = false;
-
-      /**
-       * Flag if the request has been cancelled
-       * @type {boolean}
-       * @private
-       */
-      this._cancelled = false;
-
-      /**
-       * if instance is shared between requests we copy state object
-       * from instance before the new request overrides state
-       * @type {null}
-       * @private
-       */
-      this._copiedHistoryState = null;
-
-      // if there are arguments attached to navigate()
-      // we store them in new request
-      if (isObject$2(navArgs)) {
-        this._register = createRegister$1(navArgs);
-      } else if (isBoolean$1(navArgs)) {
-        // if second navigate() argument is explicitly
-        // set to false we prevent the calling page
-        // from ending up in history
-        this._storeCaller = navArgs;
-      }
-      // @todo: remove because we can simply check
-      // ._storeCaller property
-      this._register.set(symbols$1.store, this._storeCaller);
-    }
-    cancel() {
-      Log.debug('[router]:', "cancelled ".concat(this._hash));
-      this._cancelled = true;
-    }
-    get url() {
-      return this._hash;
-    }
-    get register() {
-      return this._register;
-    }
-    get hash() {
-      return this._hash;
-    }
-    set hash(args) {
-      this._hash = args;
-    }
-    get route() {
-      return this._route;
-    }
-    set route(args) {
-      this._route = args;
-    }
-    get provider() {
-      return this._provider;
-    }
-    set provider(args) {
-      this._provider = args;
-    }
-    get providerType() {
-      return this._providerType;
-    }
-    set providerType(args) {
-      this._providerType = args;
-    }
-    set page(args) {
-      this._page = args;
-    }
-    get page() {
-      return this._page;
-    }
-    set isCreated(args) {
-      this._isCreated = args;
-    }
-    get isCreated() {
-      return this._isCreated;
-    }
-    get isSharedInstance() {
-      return this._isSharedInstance;
-    }
-    set isSharedInstance(args) {
-      this._isSharedInstance = args;
-    }
-    get isCancelled() {
-      return this._cancelled;
-    }
-    set copiedHistoryState(v) {
-      this._copiedHistoryState = v;
-    }
-    get copiedHistoryState() {
-      return this._copiedHistoryState;
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class Route$1 {
-    constructor() {
-      let config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      // keep backwards compatible
-      let type = ['on', 'before', 'after'].reduce((acc, type) => {
-        return isFunction$1(config[type]) ? type : acc;
-      }, undefined);
-      this._cfg = config;
-      if (type) {
-        this._provider = {
-          type,
-          request: config[type]
-        };
-      }
-    }
-    get path() {
-      return this._cfg.path;
-    }
-    get name() {
-      return this._cfg.name;
-    }
-    get component() {
-      return this._cfg.component;
-    }
-    get options() {
-      return this._cfg.options;
-    }
-    get widgets() {
-      return this._cfg.widgets;
-    }
-    get cache() {
-      return this._cfg.cache;
-    }
-    get hook() {
-      return this._cfg.hook;
-    }
-    get beforeNavigate() {
-      return this._cfg.beforeNavigate;
-    }
-    get provider() {
-      return this._provider;
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /**
-   * Simple route length calculation
-   * @param route {string}
-   * @returns {number} - floor
-   */
-  const getFloor$1 = route => {
-    return stripRegex$1(route).split('/').length;
-  };
-
-  /**
-   * return all stored routes that live on the same floor
-   * @param floor
-   * @returns {Array}
-   */
-  const getRoutesByFloor$1 = floor => {
-    const matches = [];
-    // simple filter of level candidates
-    for (let [route] of routes$1.entries()) {
-      if (getFloor$1(route) === floor) {
-        matches.push(route);
-      }
-    }
-    return matches;
-  };
-
-  /**
-   * return a matching route by provided hash
-   * hash: home/browse/12 will match:
-   * route: home/browse/:categoryId
-   * @param hash {string}
-   * @returns {boolean|{}} - route
-   */
-  const getRouteByHash$1 = hash => {
-    // @todo: clean up on handleHash
-    hash = hash.replace(/^#/, '');
-    const getUrlParts = /(\/?:?[^/]+)/g;
-    // grab possible candidates from stored routes
-    const candidates = getRoutesByFloor$1(getFloor$1(hash));
-    // break hash down in chunks
-    const hashParts = hash.match(getUrlParts) || [];
-
-    // to simplify the route matching and prevent look around
-    // in our getUrlParts regex we get the regex part from
-    // route candidate and store them so that we can reference
-    // them when we perform the actual regex against hash
-    let regexStore = [];
-    let matches = candidates.filter(route => {
-      let isMatching = true;
-      // replace regex in route with lookup id => @@{storeId}@@
-      if (hasRegex$1.test(route)) {
-        const regMatches = route.match(hasRegex$1);
-        if (regMatches && regMatches.length) {
-          route = regMatches.reduce((fullRoute, regex) => {
-            const lookupId = regexStore.length;
-            fullRoute = fullRoute.replace(regex, "@@".concat(lookupId, "@@"));
-            regexStore.push(regex.substring(1, regex.length - 1));
-            return fullRoute;
-          }, route);
-        }
-      }
-      const routeParts = route.match(getUrlParts) || [];
-      for (let i = 0, j = routeParts.length; i < j; i++) {
-        const routePart = routeParts[i];
-        const hashPart = hashParts[i];
-
-        // Since we support catch-all and regex driven name groups
-        // we first test for regex lookup id and see if the regex
-        // matches the value from the hash
-        if (hasLookupId$1.test(routePart)) {
-          const routeMatches = hasLookupId$1.exec(routePart);
-          const storeId = routeMatches[1];
-          const routeRegex = regexStore[storeId];
-
-          // split regex and modifiers so we can use both
-          // to create a new RegExp
-          // eslint-disable-next-line
-          const regMatches = /\/([^\/]+)\/([igm]{0,3})/.exec(routeRegex);
-          if (regMatches && regMatches.length) {
-            const expression = regMatches[1];
-            const modifiers = regMatches[2];
-            const regex = new RegExp("^/".concat(expression, "$"), modifiers);
-            if (!regex.test(hashPart)) {
-              isMatching = false;
-            }
-          }
-        } else if (isNamedGroup$1.test(routePart)) {
-          // we kindly skip namedGroups because this is dynamic
-          // we only need to the static and regex drive parts
-          continue;
-        } else if (hashPart && routePart.toLowerCase() !== hashPart.toLowerCase()) {
-          isMatching = false;
-        }
-      }
-      return isMatching;
-    });
-    if (matches.length) {
-      if (matches.indexOf(hash) !== -1) {
-        const match = matches[matches.indexOf(hash)];
-        return routes$1.get(match);
-      } else {
-        // we give prio to static routes over dynamic
-        matches = matches.sort(a => {
-          return isNamedGroup$1.test(a) ? -1 : 1;
-        });
-        // would be strange if this fails
-        // but still we test
-        if (routeExists$1(matches[0])) {
-          return routes$1.get(matches[0]);
-        }
-      }
-    }
-    return false;
-  };
-  const getValuesFromHash$1 = function () {
-    let hash = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    let path = arguments.length > 1 ? arguments[1] : undefined;
-    // replace the regex definition from the route because
-    // we already did the matching part
-    path = stripRegex$1(path, '');
-    const getUrlParts = /(\/?:?[\w%\s:.-]+)/g;
-    const hashParts = hash.match(getUrlParts) || [];
-    const routeParts = path.match(getUrlParts) || [];
-    const getNamedGroup = /^\/:([\w-]+)\/?/;
-    return routeParts.reduce((storage, value, index) => {
-      const match = getNamedGroup.exec(value);
-      if (match && match.length) {
-        storage.set(match[1], decodeURIComponent(hashParts[index].replace(/^\//, '')));
-      }
-      return storage;
-    }, new Map());
-  };
-  const getOption$1 = (stack, prop) => {
-    // eslint-disable-next-line
-    if (stack && stack.hasOwnProperty(prop)) {
-      return stack[prop];
-    }
-    // we explicitly return undefined since we're testing
-    // for explicit test values
-  };
-
-  /**
-   * create and return new Route instance
-   * @param config
-   */
-  const createRoute$1 = config => {
-    // we need to provide a bit of additional logic
-    // for the bootComponent
-    if (config.path === '$') {
-      let options = {
-        preventStorage: true
-      };
-      if (isObject$2(config.options)) {
-        options = {
-          ...config.options,
-          ...options
-        };
-      }
-      config.options = options;
-      // if configured add reference to bootRequest
-      // as router after provider
-      if (bootRequest$1) {
-        config.after = bootRequest$1;
-      }
-    }
-    return new Route$1(config);
-  };
-
-  /**
-   * Create a new Router request object
-   * @param url
-   * @param args
-   * @param store
-   * @returns {*}
-   */
-  const createRequest$1 = (url, args, store) => {
-    return new Request$1(url, args, store);
-  };
-  const getHashByName$1 = obj => {
-    if (!obj.to && !obj.name) {
-      return false;
-    }
-    const route = getRouteByName$1(obj.to || obj.name);
-    const hasDynamicGroup = /\/:([\w-]+)\/?/;
-    let hash = route;
-
-    // if route contains dynamic group
-    // we replace them with the provided params
-    if (hasDynamicGroup.test(route)) {
-      if (obj.params) {
-        const keys = Object.keys(obj.params);
-        hash = keys.reduce((acc, key) => {
-          return acc.replace(":".concat(key), obj.params[key]);
-        }, route);
-      }
-      if (obj.query) {
-        return "".concat(hash).concat(objectToQueryString$1(obj.query));
-      }
-    }
-    return hash;
-  };
-  const getRouteByName$1 = name => {
-    for (let [path, route] of routes$1.entries()) {
-      if (route.name === name) {
-        return path;
-      }
-    }
-    return false;
-  };
-  const keepActivePageAlive$1 = (route, request) => {
-    if (isString$2(route)) {
-      const routes = getRoutes$1();
-      if (routes.has(route)) {
-        route = routes.get(route);
-      } else {
-        return false;
-      }
-    }
-    const register = request.register;
-    const routeOptions = route.options;
-    if (register.has('keepAlive')) {
-      return register.get('keepAlive');
-    } else if (routeOptions && routeOptions.keepAlive) {
-      return routeOptions.keepAlive;
-    }
-    return false;
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  var emit$1 = (function (page) {
-    let events = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    let params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    if (!isArray$1(events)) {
-      events = [events];
-    }
-    events.forEach(e => {
-      const event = "_on".concat(ucfirst$1(e));
-      if (isFunction$1(page[event])) {
-        page[event](params);
-      }
-    });
-  });
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let activeWidget$1 = null;
-  const getReferences$1 = () => {
-    if (!widgetsHost$1) {
-      return;
-    }
-    return widgetsHost$1.get().reduce((storage, widget) => {
-      const key = widget.ref.toLowerCase();
-      storage[key] = widget;
-      return storage;
-    }, {});
-  };
-
-  /**
-   * update the visibility of the available widgets
-   * for the current page / route
-   * @param page
-   */
-  const updateWidgets$1 = (widgets, page) => {
-    // force lowercase lookup
-    const configured = (widgets || []).map(ref => ref.toLowerCase());
-    widgetsHost$1.forEach(widget => {
-      widget.visible = configured.indexOf(widget.ref.toLowerCase()) !== -1;
-      if (widget.visible) {
-        emit$1(widget, ['activated'], page);
-      }
-    });
-    if (app$1.state === 'Widgets' && activeWidget$1 && !activeWidget$1.visible) {
-      app$1._setState('');
-    }
-  };
-  const getWidgetByName$1 = name => {
-    name = ucfirst$1(name);
-    return widgetsHost$1.getByRef(name) || false;
-  };
-
-  /**
-   * delegate app focus to a on-screen widget
-   * @param name - {string}
-   */
-  const focusWidget$1 = name => {
-    const widget = getWidgetByName$1(name);
-    if (widget) {
-      setActiveWidget$1(widget);
-
-      // if app is already in 'Widgets' state we can assume that
-      // focus has been delegated from one widget to another so
-      // we need to set the new widget reference and trigger a
-      // new focus calculation of Lightning's focuspath
-      if (app$1.state === 'Widgets') {
-        app$1.reload(activeWidget$1);
-      } else {
-        app$1._setState('Widgets', [activeWidget$1]);
-      }
-    }
-  };
-  const restoreFocus$1 = () => {
-    activeWidget$1 = null;
-    app$1._setState('');
-  };
-  const getActiveWidget$1 = () => {
-    return activeWidget$1;
-  };
-  const setActiveWidget$1 = instance => {
-    activeWidget$1 = instance;
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const createComponent$1 = (stage, type) => {
-    return stage.c({
-      type,
-      visible: false,
-      widgets: getReferences$1()
-    });
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /**
-   * Simple flat array that holds the visited hashes + state Object
-   * so the router can navigate back to them
-   * @type {Array}
-   */
-  let history$1 = [];
-  const updateHistory$1 = request => {
-    const hash = getActiveHash$1();
-    if (!hash) {
-      return;
-    }
-
-    // navigate storage flag
-    const register = request.register;
-    const forceNavigateStore = register.get(symbols$1.store);
-
-    // test preventStorage on route configuration
-    const activeRoute = getRouteByHash$1(hash);
-    const preventStorage = getOption$1(activeRoute.options, 'preventStorage');
-
-    // we give prio to navigate storage flag
-    let store = isBoolean$1(forceNavigateStore) ? forceNavigateStore : !preventStorage;
-    if (store) {
-      const toStore = hash.replace(/^\//, '');
-      const location = locationInHistory$1(toStore);
-      const stateObject = getStateObject$1(getActivePage$1(), request);
-      const routerConfig = getRouterConfig$1();
-
-      // store hash if it's not a part of history or flag for
-      // storage of same hash is true
-      if (location === -1 || routerConfig.get('storeSameHash')) {
-        history$1.push({
-          hash: toStore,
-          state: stateObject
-        });
-      } else {
-        // if we visit the same route we want to sync history
-        const prev = history$1.splice(location, 1)[0];
-        history$1.push({
-          hash: prev.hash,
-          state: stateObject
-        });
-      }
-    }
-  };
-  const locationInHistory$1 = hash => {
-    for (let i = 0; i < history$1.length; i++) {
-      if (history$1[i].hash === hash) {
-        return i;
-      }
-    }
-    return -1;
-  };
-  const getHistoryState$1 = hash => {
-    let state = null;
-    if (history$1.length) {
-      // if no hash is provided we get the last
-      // pushed history record
-      if (!hash) {
-        const record = history$1[history$1.length - 1];
-        // could be null
-        state = record.state;
-      } else {
-        if (locationInHistory$1(hash) !== -1) {
-          const record = history$1[locationInHistory$1(hash)];
-          state = record.state;
-        }
-      }
-    }
-    return state;
-  };
-  const replaceHistoryState$1 = function () {
-    let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    let hash = arguments.length > 1 ? arguments[1] : undefined;
-    if (!history$1.length) {
-      return;
-    }
-    const location = hash ? locationInHistory$1(hash) : history$1.length - 1;
-    if (location !== -1 && isObject$2(state)) {
-      history$1[location].state = state;
-    }
-  };
-  const getStateObject$1 = (page, request) => {
-    // if the new request shared instance with the
-    // previous request we used the copied state object
-    if (request.isSharedInstance) {
-      if (request.copiedHistoryState) {
-        return request.copiedHistoryState;
-      }
-    } else if (page && isFunction$1(page.historyState)) {
-      return page.historyState();
-    }
-    return null;
-  };
-  const getHistory$1 = () => {
-    return history$1.slice(0);
-  };
-  const setHistory$1 = function () {
-    let arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    if (isArray$1(arr)) {
-      history$1 = arr;
-    }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /**
-   * @type {Lightning.Application}
-   */
-  let application$1;
-
-  /**
-   * Actual instance of the app
-   * @type {Lightning.Component}
-   */
-  let app$1;
-
-  /**
-   * Component that hosts all routed pages
-   * @type {Lightning.Component}
-   */
-  let pagesHost$1;
-
-  /**
-   * @type {Lightning.Stage}
-   */
-  let stage$1;
-
-  /**
-   * Platform driven Router configuration
-   * @type {Map<string>}
-   */
-  let routerConfig$1;
-
-  /**
-   * Component that hosts all attached widgets
-   * @type {Lightning.Component}
-   */
-  let widgetsHost$1;
-
-  /**
-   * Hash we point the browser to when we boot the app
-   * and there is no deep-link provided
-   * @type {string|Function}
-   */
-  let rootHash$1;
-
-  /**
-   * Boot request will fire before app start
-   * can be used to execute some global logic
-   * and can be configured
-   */
-  let bootRequest$1;
-
-  /**
-   * Flag if we need to update the browser location hash.
-   * Router can work without.
-   * @type {boolean}
-   */
-  let updateHash$1 = true;
-
-  /**
-   * Will be called before a route starts, can be overridden
-   * via routes config
-   * @param from - route we came from
-   * @param to - route we navigate to
-   * @returns {Promise<*>}
-   */
-  // eslint-disable-next-line
-  let beforeEachRoute$1 = async (from, to) => {
-    return true;
-  };
-
-  /**
-   *  * Will be called after a navigate successfully resolved,
-   * can be overridden via routes config
-   */
-  let afterEachRoute$1 = () => {};
-
-  /**
-   * All configured routes
-   * @type {Map<string, object>}
-   */
-  let routes$1 = new Map();
-
-  /**
-   * Store all page components per route
-   * @type {Map<string, object>}
-   */
-  let components$1 = new Map();
-
-  /**
-   * Flag if router has been initialised
-   * @type {boolean}
-   */
-  let initialised$1 = false;
-
-  /**
-   * Current page being rendered on screen
-   * @type {null}
-   */
-  let activePage$1 = null;
-  let activeHash$1;
-  let activeRoute$1;
-
-  /**
-   *  During the process of a navigation request a new
-   *  request can start, to prevent unwanted behaviour
-   *  the navigate()-method stores the last accepted hash
-   *  so we can invalidate any prior requests
-   */
-  let lastAcceptedHash$1;
-
-  /**
-   * With on()-data providing behaviour the Router forced the App
-   * in a Loading state. When the data-provider resolves we want to
-   * change the state back to where we came from
-   */
-  let previousState$1;
-  const mixin$1 = app => {
-    // by default the Router Baseclass provides the component
-    // reference in which we store our pages
-    if (app.pages) {
-      pagesHost$1 = app.pages.childList;
-    }
-    // if the app is using widgets we grab refs
-    // and hide all the widgets
-    if (app.widgets && app.widgets.children) {
-      widgetsHost$1 = app.widgets.childList;
-      // hide all widgets on boot
-      widgetsHost$1.forEach(w => w.visible = false);
-    }
-    app._handleBack = e => {
-      step$1(-1);
-      e.preventDefault();
-    };
-  };
-  const bootRouter$1 = (config, instance) => {
-    let {
-      appInstance,
-      routes
-    } = config;
-
-    // if instance is provided and it's and Lightning Component instance
-    if (instance && isPage$1(instance)) {
-      app$1 = instance;
-    }
-    if (!app$1) {
-      app$1 = appInstance || AppInstance$1;
-    }
-    application$1 = app$1.application;
-    pagesHost$1 = application$1.childList;
-    stage$1 = app$1.stage;
-    routerConfig$1 = getConfigMap$1();
-    mixin$1(app$1);
-    if (isArray$1(routes)) {
-      setup$1(config);
-    } else if (isFunction$1(routes)) {
-      console.warn('[Router]: Calling Router.route() directly is deprecated.');
-      console.warn('Use object config: https://rdkcentral.github.io/Lightning-SDK/#/plugins/router/configuration');
-    }
-  };
-  const setup$1 = config => {
-    if (!initialised$1) {
-      init$1(config);
-    }
-    config.routes.forEach(r => {
-      const path = cleanHash$1(r.path);
-      if (!routeExists$1(path)) {
-        const route = createRoute$1(r);
-        routes$1.set(path, route);
-        // if route has a configured component property
-        // we store it in a different map to simplify
-        // the creating and destroying per route
-        if (route.component) {
-          let type = route.component;
-          if (isComponentConstructor$1(type)) {
-            if (!routerConfig$1.get('lazyCreate')) {
-              type = createComponent$1(stage$1, type);
-              pagesHost$1.a(type);
-            }
-          }
-          components$1.set(path, type);
-        }
-      } else {
-        console.error("".concat(path, " already exists in routes configuration"));
-      }
-    });
-  };
-  const init$1 = config => {
-    rootHash$1 = config.root;
-    if (isFunction$1(config.boot)) {
-      bootRequest$1 = config.boot;
-    }
-    if (isBoolean$1(config.updateHash)) {
-      updateHash$1 = config.updateHash;
-    }
-    if (isFunction$1(config.beforeEachRoute)) {
-      beforeEachRoute$1 = config.beforeEachRoute;
-    }
-    if (isFunction$1(config.afterEachRoute)) {
-      afterEachRoute$1 = config.afterEachRoute;
-    }
-    if (config.bootComponent) {
-      console.warn('[Router]: Boot Component is now available as a special router: https://rdkcentral.github.io/Lightning-SDK/#/plugins/router/configuration?id=special-routes');
-      console.warn('[Router]: setting { bootComponent } property will be deprecated in a future release');
-      if (isPage$1(config.bootComponent)) {
-        config.routes.push({
-          path: '$',
-          component: config.bootComponent,
-          // we try to assign the bootRequest as after data-provider
-          // so it will behave as any other component
-          after: bootRequest$1 || null,
-          options: {
-            preventStorage: true
-          }
-        });
-      } else {
-        console.error("[Router]: ".concat(config.bootComponent, " is not a valid boot component"));
-      }
-    }
-    config.routes.forEach(item => {
-      // replacing regexes with 'R' to avoid issues with pattern matching below
-      const strippedPath = stripRegex$1(item.path);
-
-      // Pattern to identify the last path of the route
-      // It should start with "/:" + any word  and ends with "?"
-      // It should be the last path of the route
-      // valid => /player/:asset/:assetId? (:assetId is optional)
-      // invalid => /player/:asset/:assetId?/test (:assetId? is not an optional path)
-      // invalid => /player/:asset?/:assetId? (second path is not considered as an optional path)
-      const pattern = /.*\/:.*?\?$/u;
-      if (pattern.test(strippedPath)) {
-        const optionalPath = item.path.substring(0, item.path.lastIndexOf('/'));
-        const originalPath = item.path.substring(0, item.path.lastIndexOf('?'));
-        item.path = originalPath;
-        //Create another entry with the optional path
-        let optionalItem = {
-          ...item
-        };
-        optionalItem.path = optionalPath;
-        config.routes.push(optionalItem);
-      }
-    });
-    initialised$1 = true;
-  };
-  const storeComponent$1 = (route, type) => {
-    if (components$1.has(route)) {
-      components$1.set(route, type);
-    }
-  };
-  const getComponent$1 = route => {
-    if (components$1.has(route)) {
-      return components$1.get(route);
-    }
-    return null;
-  };
-
-  // delete existing route instance from memory
-  const deleteCurrentInstance$1 = route => {
-    if (components$1.has(route) && pagesHost$1.getIndex(components$1.get(route)) !== -1) {
-      pagesHost$1.remove(components$1.get(route));
-      storeComponent$1(route, components$1.get(route)._routedType || components$1.get(route).constructor);
-    }
-  };
-
-  /**
-   * Test if router needs to update browser location hash
-   * @returns {boolean}
-   */
-  const mustUpdateLocationHash$1 = () => {
-    if (!routerConfig$1 || !routerConfig$1.size) {
-      return false;
-    }
-    // we need support to either turn change hash off
-    // per platform or per app
-    const updateConfig = routerConfig$1.get('updateHash');
-    return !(isBoolean$1(updateConfig) && !updateConfig || isBoolean$1(updateHash$1) && !updateHash$1);
-  };
-
-  /**
-   * Will be called when a new navigate() request has completed
-   * and has not been expired due to it's async nature
-   * @param request
-   */
-  const onRequestResolved$1 = request => {
-    const hash = request.hash;
-    const route = request.route;
-    const register = request.register;
-    const page = request.page;
-
-    // clean up history if modifier is set
-    if (getOption$1(route.options, 'clearHistory')) {
-      setHistory$1([]);
-    } else if (hash && !isWildcard$1.test(route.path)) {
-      updateHistory$1(request);
-    }
-
-    // we only update the stackLocation if a route
-    // is not expired before it resolves
-    storeComponent$1(route.path, page);
-    if (request.isSharedInstance || !request.isCreated) {
-      emit$1(page, 'changed');
-    } else if (request.isCreated) {
-      emit$1(page, 'mounted');
-    }
-
-    // only update widgets if we have a host
-    if (widgetsHost$1) {
-      updateWidgets$1(route.widgets, page);
-    }
-
-    // we want to clean up if there is an
-    // active page that is not being shared
-    // between current and previous route
-    if (getActivePage$1() && !request.isSharedInstance) {
-      cleanUp$1(activePage$1, request);
-    }
-
-    // provide history object to active page
-    if (register.get(symbols$1.historyState) && isFunction$1(page.historyState)) {
-      page.historyState(register.get(symbols$1.historyState));
-    }
-    setActivePage$1(page);
-    activeHash$1 = request.hash;
-    activeRoute$1 = route.path;
-
-    // cleanup all cancelled requests
-    for (let request of navigateQueue$1.values()) {
-      if (request.isCancelled && request.hash) {
-        navigateQueue$1.delete(request.hash);
-      }
-    }
-    afterEachRoute$1(request);
-    Log.info('[route]:', route.path);
-    Log.info('[hash]:', hash);
-  };
-  const cleanUp$1 = (page, request) => {
-    const route = activeRoute$1;
-    const register = request.register;
-    const lazyDestroy = routerConfig$1.get('lazyDestroy');
-    const destroyOnBack = routerConfig$1.get('destroyOnHistoryBack');
-    const keepAlive = register.get('keepAlive');
-    const isFromHistory = register.get(symbols$1.backtrack);
-    let doCleanup = false;
-
-    // if this request is executed due to a step back in history
-    // and we have configured to destroy active page when we go back
-    // in history or lazyDestory is enabled
-    if (isFromHistory && (destroyOnBack || lazyDestroy)) {
-      doCleanup = true;
-    }
-
-    // clean up if lazyDestroy is enabled and the keepAlive flag
-    // in navigation register is false
-    if (lazyDestroy && !keepAlive) {
-      doCleanup = true;
-    }
-
-    // if the current and new request share the same route blueprint
-    if (activeRoute$1 === request.route.path) {
-      doCleanup = true;
-    }
-    if (doCleanup) {
-      // grab original class constructor if
-      // statemachine routed else store constructor
-      storeComponent$1(route, page._routedType || page.constructor);
-
-      // actual remove of page from memory
-      pagesHost$1.remove(page);
-
-      // force texture gc() if configured
-      // so we can cleanup textures in the same tick
-      if (routerConfig$1.get('gcOnUnload')) {
-        stage$1.gc();
-      }
-    } else {
-      // If we're not removing the page we need to
-      // reset it's properties
-      page.patch({
-        x: 0,
-        y: 0,
-        scale: 1,
-        visible: false,
-        alpha: 1
-      });
-    }
-  };
-  const getActiveHash$1 = () => {
-    return activeHash$1;
-  };
-  const setActivePage$1 = page => {
-    activePage$1 = page;
-  };
-  const getActivePage$1 = () => {
-    return activePage$1;
-  };
-  const getActiveRoute$1 = () => {
-    return activeRoute$1;
-  };
-  const getLastHash$1 = () => {
-    return lastAcceptedHash$1;
-  };
-  const setLastHash$1 = hash => {
-    lastAcceptedHash$1 = hash;
-  };
-  const setPreviousState$1 = state => {
-    previousState$1 = state;
-  };
-  const getPreviousState$1 = () => {
-    return previousState$1;
-  };
-  const routeExists$1 = key => {
-    return routes$1.has(key);
-  };
-  const getRootHash$1 = () => {
-    return rootHash$1;
-  };
-  const getBootRequest$1 = () => {
-    return bootRequest$1;
-  };
-  const getRouterConfig$1 = () => {
-    return routerConfig$1;
-  };
-  const getRoutes$1 = () => {
-    return routes$1;
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const isFunction$1 = v => {
-    return typeof v === 'function';
-  };
-  const isObject$2 = v => {
-    return typeof v === 'object' && v !== null;
-  };
-  const isBoolean$1 = v => {
-    return typeof v === 'boolean';
-  };
-  const isPage$1 = v => {
-    if (v instanceof Lightning.Element || isComponentConstructor$1(v)) {
-      return true;
-    }
-    return false;
-  };
-  const isComponentConstructor$1 = type => {
-    return type.prototype && 'isComponent' in type.prototype;
-  };
-  const isArray$1 = v => {
-    return Array.isArray(v);
-  };
-  const ucfirst$1 = v => {
-    return "".concat(v.charAt(0).toUpperCase()).concat(v.slice(1));
-  };
-  const isString$2 = v => {
-    return typeof v === 'string';
-  };
-  const isPromise$1 = method => {
-    let result;
-    if (isFunction$1(method)) {
-      try {
-        result = method.apply(null);
-      } catch (e) {
-        result = e;
-      }
-    } else {
-      result = method;
-    }
-    return isObject$2(result) && isFunction$1(result.then);
-  };
-  const cleanHash$1 = function () {
-    let hash = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    return hash.replace(/^#/, '').replace(/\/+$/, '');
-  };
-  const getConfigMap$1 = () => {
-    const routerSettings = Settings.get('platform', 'router');
-    const isObj = isObject$2(routerSettings);
-    return ['backtrack', 'gcOnUnload', 'destroyOnHistoryBack', 'lazyCreate', 'lazyDestroy', 'reuseInstance', 'autoRestoreRemote', 'numberNavigation', 'updateHash', 'storeSameHash'].reduce((config, key) => {
-      config.set(key, isObj ? routerSettings[key] : Settings.get('platform', key));
-      return config;
-    }, new Map());
-  };
-  const getQueryStringParams$1 = function () {
-    let hash = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getActiveHash$1();
-    const resumeHash = getResumeHash$1();
-    if ((hash === '$' || !hash) && resumeHash) {
-      if (isString$2(resumeHash)) {
-        hash = resumeHash;
-      }
-    }
-    let parse = '';
-    const getQuery = /([?&].*)/;
-    const matches = getQuery.exec(hash);
-    const params = {};
-    if (document.location && document.location.search) {
-      parse = document.location.search;
-    }
-    if (matches && matches.length) {
-      let hashParams = matches[1];
-      if (parse) {
-        // if location.search is not empty we
-        // remove the leading ? to create a
-        // valid string
-        hashParams = hashParams.replace(/^\?/, '');
-        // we parse hash params last so they we can always
-        // override search params with hash params
-        parse = "".concat(parse, "&").concat(hashParams);
-      } else {
-        parse = hashParams;
-      }
-    }
-    if (parse) {
-      const urlParams = new URLSearchParams(parse);
-      for (const [key, value] of urlParams.entries()) {
-        params[key] = value;
-      }
-      return params;
-    } else {
-      return false;
-    }
-  };
-  const objectToQueryString$1 = obj => {
-    if (!isObject$2(obj)) {
-      return '';
-    }
-    return '?' + Object.keys(obj).map(key => {
-      return "".concat(key, "=").concat(obj[key]);
-    }).join('&');
-  };
-  const symbols$1 = {
-    route: Symbol('route'),
-    hash: Symbol('hash'),
-    store: Symbol('store'),
-    fromHistory: Symbol('fromHistory'),
-    expires: Symbol('expires'),
-    resume: Symbol('resume'),
-    backtrack: Symbol('backtrack'),
-    historyState: Symbol('historyState'),
-    queryParams: Symbol('queryParams')
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const dataHooks$1 = {
-    on: request => {
-      setPreviousState$1(app$1.state || '');
-      app$1._setState('Loading');
-      return execProvider$1(request);
-    },
-    before: request => {
-      return execProvider$1(request);
-    },
-    after: request => {
-      try {
-        execProvider$1(request, true);
-      } catch (e) {
-        // for now we fail silently
-      }
-      return Promise.resolve();
-    }
-  };
-  const execProvider$1 = (request, emitProvided) => {
-    const route = request.route;
-    const provider = route.provider;
-    const expires = route.cache ? route.cache * 1000 : 0;
-    const params = addPersistData$1(request);
-    return provider.request(request.page, {
-      ...params
-    }).then(() => {
-      request.page[symbols$1.expires] = Date.now() + expires;
-      if (emitProvided) {
-        emit$1(request.page, 'dataProvided');
-      }
-    }).catch(e => {
-      request.page[symbols$1.expires] = Date.now();
-      throw e;
-    });
-  };
-  const addPersistData$1 = _ref => {
-    let {
-      page,
-      route,
-      hash,
-      register = new Map()
-    } = _ref;
-    const urlValues = getValuesFromHash$1(hash, route.path);
-    const queryParams = getQueryStringParams$1(hash);
-    const pageData = new Map([...urlValues, ...register]);
-    const params = {};
-
-    // make dynamic url data available to the page
-    // as instance properties
-    for (let [name, value] of pageData) {
-      params[name] = value;
-    }
-    if (queryParams) {
-      params[symbols$1.queryParams] = queryParams;
-    }
-
-    // check navigation register for persistent data
-    if (register.size) {
-      const obj = {};
-      for (let [k, v] of register) {
-        obj[k] = v;
-      }
-      page.persist = obj;
-    }
-
-    // make url data and persist data available
-    // via params property
-    page.params = params;
-    emit$1(page, ['urlParams'], params);
-    return params;
-  };
-
-  /**
-   * Test if page passed cache-time
-   * @param page
-   * @returns {boolean}
-   */
-  const isPageExpired$1 = page => {
-    if (!page[symbols$1.expires]) {
-      return false;
-    }
-    const expires = page[symbols$1.expires];
-    const now = Date.now();
-    return now >= expires;
-  };
-  const hasProvider$1 = path => {
-    if (routeExists$1(path)) {
-      const record = routes$1.get(path);
-      return !!record.provider;
-    }
-    return false;
-  };
-  const getProvider$1 = route => {
-    // @todo: fix, route already is passed in
-    if (routeExists$1(route.path)) {
-      const {
-        provider
-      } = routes$1.get(route.path);
-      return {
-        type: provider.type,
-        provider: provider.request
-      };
-    }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  const fade$1 = (i, o) => {
-    return new Promise(resolve => {
-      i.patch({
-        alpha: 0,
-        visible: true,
-        smooth: {
-          alpha: [1, {
-            duration: 0.5,
-            delay: 0.1
-          }]
-        }
-      });
-      // resolve on y finish
-      i.transition('alpha').on('finish', () => {
-        if (o) {
-          o.visible = false;
-        }
-        resolve();
-      });
-    });
-  };
-  const crossFade$1 = (i, o) => {
-    return new Promise(resolve => {
-      i.patch({
-        alpha: 0,
-        visible: true,
-        smooth: {
-          alpha: [1, {
-            duration: 0.5,
-            delay: 0.1
-          }]
-        }
-      });
-      if (o) {
-        o.patch({
-          smooth: {
-            alpha: [0, {
-              duration: 0.5,
-              delay: 0.3
-            }]
-          }
-        });
-      }
-      // resolve on y finish
-      i.transition('alpha').on('finish', () => {
-        resolve();
-      });
-    });
-  };
-  const moveOnAxes$1 = (axis, direction, i, o) => {
-    const bounds = axis === 'x' ? 1920 : 1080;
-    return new Promise(resolve => {
-      i.patch({
-        ["".concat(axis)]: direction ? bounds * -1 : bounds,
-        visible: true,
-        smooth: {
-          ["".concat(axis)]: [0, {
-            duration: 0.4,
-            delay: 0.2
-          }]
-        }
-      });
-      // out is optional
-      if (o) {
-        o.patch({
-          ["".concat(axis)]: 0,
-          smooth: {
-            ["".concat(axis)]: [direction ? bounds : bounds * -1, {
-              duration: 0.4,
-              delay: 0.2
-            }]
-          }
-        });
-      }
-      // resolve on y finish
-      i.transition(axis).on('finish', () => {
-        resolve();
-      });
-    });
-  };
-  const up$1 = (i, o) => {
-    return moveOnAxes$1('y', 0, i, o);
-  };
-  const down$1 = (i, o) => {
-    return moveOnAxes$1('y', 1, i, o);
-  };
-  const left$1 = (i, o) => {
-    return moveOnAxes$1('x', 0, i, o);
-  };
-  const right$1 = (i, o) => {
-    return moveOnAxes$1('x', 1, i, o);
-  };
-  var Transitions$1 = {
-    fade: fade$1,
-    crossFade: crossFade$1,
-    up: up$1,
-    down: down$1,
-    left: left$1,
-    right: right$1
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /**
-   * execute transition between new / old page and
-   * toggle the defined widgets
-   * @todo: platform override default transition
-   * @param pageIn
-   * @param pageOut
-   */
-  const executeTransition$1 = function (pageIn) {
-    let pageOut = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    const transition = pageIn.pageTransition || pageIn.easing;
-    const hasCustomTransitions = !!(pageIn.smoothIn || pageIn.smoothInOut || transition);
-    const transitionsDisabled = getRouterConfig$1().get('disableTransitions');
-    if (pageIn.easing) {
-      console.warn('easing() method is deprecated and will be removed. Use pageTransition()');
-    }
-
-    // default behaviour is a visibility toggle
-    if (!hasCustomTransitions || transitionsDisabled) {
-      pageIn.visible = true;
-      if (pageOut) {
-        pageOut.visible = false;
-      }
-      return Promise.resolve();
-    }
-    if (transition) {
-      let type;
-      try {
-        type = transition.call(pageIn, pageIn, pageOut);
-      } catch (e) {
-        type = 'crossFade';
-      }
-      if (isPromise$1(type)) {
-        return type;
-      }
-      if (isString$2(type)) {
-        const fn = Transitions$1[type];
-        if (fn) {
-          return fn(pageIn, pageOut);
-        }
-      }
-
-      // keep backwards compatible for now
-      if (pageIn.smoothIn) {
-        // provide a smooth function that resolves itself
-        // on transition finish
-        const smooth = function (p, v) {
-          let args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-          return new Promise(resolve => {
-            pageIn.visible = true;
-            pageIn.setSmooth(p, v, args);
-            pageIn.transition(p).on('finish', () => {
-              resolve();
-            });
-          });
-        };
-        return pageIn.smoothIn({
-          pageIn,
-          smooth
-        });
-      }
-    }
-    return Transitions$1.crossFade(pageIn, pageOut);
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /**
-   * The actual loading of the component
-   * */
-  const load$1 = async request => {
-    let expired = false;
-    try {
-      request = await loader$2(request);
-      if (request && !request.isCancelled) {
-        // in case of on() providing we need to reset
-        // app state;
-        if (app$1.state === 'Loading') {
-          if (getPreviousState$1() === 'Widgets') {
-            app$1._setState('Widgets', [getActiveWidget$1()]);
-          } else {
-            app$1._setState('');
-          }
-        }
-        // Do page transition if instance
-        // is not shared between the routes
-        if (!request.isSharedInstance && !request.isCancelled) {
-          await executeTransition$1(request.page, getActivePage$1());
-        }
-      } else {
-        expired = true;
-      }
-      // on expired we only cleanup
-      if (expired || request.isCancelled) {
-        Log.debug('[router]:', "Rejected ".concat(request.hash, " because route to ").concat(getLastHash$1(), " started"));
-        if (request.isCreated && !request.isSharedInstance) {
-          // remove from render-tree
-          pagesHost$1.remove(request.page);
-        }
-      } else {
-        onRequestResolved$1(request);
-        // resolve promise
-        return request.page;
-      }
-    } catch (request) {
-      if (!request.route) {
-        console.error(request);
-      } else if (!expired) {
-        // @todo: revisit
-        const {
-          route
-        } = request;
-        // clean up history if modifier is set
-        if (getOption$1(route.options, 'clearHistory')) {
-          setHistory$1([]);
-        } else if (!isWildcard$1.test(route.path)) {
-          updateHistory$1(request);
-        }
-        if (request.isCreated && !request.isSharedInstance) {
-          // remove from render-tree
-          pagesHost$1.remove(request.page);
-        }
-        handleError$1(request);
-      }
-    }
-  };
-  const loader$2 = async request => {
-    const route = request.route;
-    const hash = request.hash;
-    const register = request.register;
-
-    // todo: grab from Route instance
-    let type = getComponent$1(route.path);
-    let isConstruct = isComponentConstructor$1(type);
-    let provide = false;
-
-    // if it's an instance bt we're not coming back from
-    // history we test if we can re-use this instance
-    if (!isConstruct && !register.get(symbols$1.backtrack)) {
-      if (!mustReuse$1(route)) {
-        type = type.constructor;
-        isConstruct = true;
-      }
-    }
-
-    // If page is Lightning Component instance
-    if (!isConstruct) {
-      request.page = type;
-      // if we have have a data route for current page
-      if (hasProvider$1(route.path)) {
-        if (isPageExpired$1(type) || type[symbols$1.hash] !== hash) {
-          provide = true;
-        }
-      }
-      let currentRoute = getActivePage$1() && getActivePage$1()[symbols$1.route];
-      // if the new route is equal to the current route it means that both
-      // route share the Component instance and stack location / since this case
-      // is conflicting with the way before() and after() loading works we flag it,
-      // and check platform settings in we want to re-use instance
-      if (route.path === currentRoute) {
-        request.isSharedInstance = true;
-        // since we're re-using the instance we must attach
-        // historyState to the request to prevent it from
-        // being overridden.
-        if (isFunction$1(request.page.historyState)) {
-          request.copiedHistoryState = request.page.historyState();
-        }
-      }
-    } else {
-      request.page = createComponent$1(stage$1, type);
-      pagesHost$1.a(request.page);
-      // test if need to request data provider
-      if (hasProvider$1(route.path)) {
-        provide = true;
-      }
-      request.isCreated = true;
-    }
-
-    // we store hash and route as properties on the page instance
-    // that way we can easily calculate new behaviour on page reload
-    request.page[symbols$1.hash] = hash;
-    request.page[symbols$1.route] = route.path;
-    try {
-      if (provide) {
-        // extract attached data-provider for route
-        // we're processing
-        const {
-          type: loadType,
-          provider
-        } = getProvider$1(route);
-
-        // update running request
-        request.provider = provider;
-        request.providerType = loadType;
-        await dataHooks$1[loadType](request);
-
-        // we early exit if the current request is expired
-        if (hash !== getLastHash$1()) {
-          return false;
-        } else {
-          if (request.providerType !== 'after') {
-            emit$1(request.page, 'dataProvided');
-          }
-          // resolve promise
-          return request;
-        }
-      } else {
-        addPersistData$1(request);
-        return request;
-      }
-    } catch (e) {
-      request.error = e;
-      return Promise.reject(request);
-    }
-  };
-  const handleError$1 = request => {
-    if (request && request.error) {
-      console.error(request.error);
-    } else if (request) {
-      Log.error(request);
-    }
-    if (request.page && routeExists$1('!')) {
-      navigate$1('!', {
-        request
-      }, false);
-    }
-  };
-  const mustReuse$1 = route => {
-    const opt = getOption$1(route.options, 'reuseInstance');
-    const config = routerConfig$1.get('reuseInstance');
-
-    // route always has final decision
-    if (isBoolean$1(opt)) {
-      return opt;
-    }
-    return !(isBoolean$1(config) && config === false);
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class RoutedApp$1 extends Lightning.Component {
-    static _template() {
-      return {
-        Pages: {
-          forceZIndexContext: true
-        },
-        /**
-         * This is a default Loading page that will be made visible
-         * during data-provider on() you CAN override in child-class
-         */
-        Loading: {
-          rect: true,
-          w: 1920,
-          h: 1080,
-          color: 0xff000000,
-          visible: false,
-          zIndex: 99,
-          Label: {
-            mount: 0.5,
-            x: 960,
-            y: 540,
-            text: {
-              text: 'Loading..'
-            }
-          }
-        }
-      };
-    }
-    static _states() {
-      return [class Loading extends this {
-        $enter() {
-          this.tag('Loading').visible = true;
-        }
-        $exit() {
-          this.tag('Loading').visible = false;
-        }
-      }, class Widgets extends this {
-        $enter(args, widget) {
-          // store widget reference
-          this._widget = widget;
-
-          // since it's possible that this behaviour
-          // is non-remote driven we force a recalculation
-          // of the focuspath
-          this._refocus();
-        }
-        _getFocused() {
-          // we delegate focus to selected widget
-          // so it can consume remotecontrol presses
-          return this._widget;
-        }
-
-        // if we want to widget to widget focus delegation
-        reload(widget) {
-          this._widget = widget;
-          this._refocus();
-        }
-        _handleKey() {
-          const restoreFocus = routerConfig$1.get('autoRestoreRemote');
-          /**
-           * The Router used to delegate focus back to the page instance on
-           * every unhandled key. This is barely usefull in any situation
-           * so for now we offer the option to explicity turn that behaviour off
-           * so we don't don't introduce a breaking change.
-           */
-          if (!isBoolean$1(restoreFocus) || restoreFocus === true) {
-            Router$1.focusPage();
-          }
-        }
-      }];
-    }
-
-    /**
-     * Return location where pages need to be stored
-     */
-    get pages() {
-      return this.tag('Pages');
-    }
-
-    /**
-     * Tell router where widgets are stored
-     */
-    get widgets() {
-      return this.tag('Widgets');
-    }
-
-    /**
-     * we MUST register _handleBack method so the Router
-     * can override it
-     * @private
-     */
-    _handleBack() {}
-
-    /**
-     * We MUST return Router.activePage() so the new Page
-     * can listen to the remote-control.
-     */
-    _getFocused() {
-      return Router$1.getActivePage();
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  /*
-  rouThor ==[x]
-   */
-  let navigateQueue$1 = new Map();
-  let forcedHash$1 = '';
-  let resumeHash$1 = '';
-
-  /**
-   * Start routing the app
-   * @param config - route config object
-   * @param instance - instance of the app
-   */
-  const startRouter$1 = (config, instance) => {
-    bootRouter$1(config, instance);
-    registerListener$1();
-    start$1();
-  };
-
-  // start translating url
-  const start$1 = () => {
-    let hash = (getHash$1() || '').replace(/^#/, '');
-    const bootKey = '$';
-    const params = getQueryStringParams$1(hash);
-    const bootRequest = getBootRequest$1();
-    const rootHash = getRootHash$1();
-    const isDirectLoad = hash.indexOf(bootKey) !== -1;
-
-    // prevent direct reload of wildcard routes
-    // expect bootComponent
-    if (isWildcard$1.test(hash) && hash !== bootKey) {
-      hash = '';
-    }
-
-    // store resume point for manual resume
-    resumeHash$1 = isDirectLoad ? rootHash : hash || rootHash;
-    const ready = () => {
-      if (!hash && rootHash) {
-        if (isString$2(rootHash)) {
-          navigate$1(rootHash);
-        } else if (isFunction$1(rootHash)) {
-          rootHash().then(res => {
-            if (isObject$2(res)) {
-              navigate$1(res.path, res.params);
-            } else {
-              navigate$1(res);
-            }
-          });
-        }
-      } else {
-        queue$1(hash);
-        handleHashChange$1().then(() => {
-          app$1._refocus();
-        }).catch(e => {
-          console.error(e);
-        });
-      }
-    };
-    if (routeExists$1(bootKey)) {
-      if (hash && !isDirectLoad) {
-        if (!getRouteByHash$1(hash)) {
-          navigate$1('*', {
-            failedHash: hash
-          });
-          return;
-        }
-      }
-      navigate$1(bootKey, {
-        resume: resumeHash$1,
-        reload: bootKey === hash
-      }, false);
-    } else if (isFunction$1(bootRequest)) {
-      bootRequest(params).then(() => {
-        ready();
-      }).catch(e => {
-        handleBootError$1(e);
-      });
-    } else {
-      ready();
-    }
-  };
-  const handleBootError$1 = e => {
-    if (routeExists$1('!')) {
-      navigate$1('!', {
-        request: {
-          error: e
-        }
-      });
-    } else {
-      console.error(e);
-    }
-  };
-
-  /**
-   * start a new request
-   * @param url
-   * @param args
-   * @param store
-   */
-  const navigate$1 = function (url) {
-    let args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    let store = arguments.length > 2 ? arguments[2] : undefined;
-    if (isObject$2(url)) {
-      url = getHashByName$1(url);
-      if (!url) {
-        return;
-      }
-    }
-    let hash = getHash$1();
-    if (!mustUpdateLocationHash$1() && forcedHash$1) {
-      hash = forcedHash$1;
-    }
-    if (hash.replace(/^#/, '') !== url) {
-      // push request in the queue
-      queue$1(url, args, store);
-      if (mustUpdateLocationHash$1()) {
-        setHash$1(url);
-      } else {
-        forcedHash$1 = url;
-        handleHashChange$1(url).then(() => {
-          app$1._refocus();
-        }).catch(e => {
-          console.error(e);
-        });
-      }
-    } else if (args.reload) {
-      // push request in the queue
-      queue$1(url, args, store);
-      handleHashChange$1(url).then(() => {
-        app$1._refocus();
-      }).catch(e => {
-        console.error(e);
-      });
-    }
-  };
-  const queue$1 = function (hash) {
-    let args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    let store = arguments.length > 2 ? arguments[2] : undefined;
-    hash = cleanHash$1(hash);
-    if (!navigateQueue$1.has(hash)) {
-      for (let request of navigateQueue$1.values()) {
-        request.cancel();
-      }
-      const request = createRequest$1(hash, args, store);
-      navigateQueue$1.set(decodeURIComponent(hash), request);
-      return request;
-    }
-    return false;
-  };
-
-  /**
-   * Handle change of hash
-   * @param override
-   * @returns {Promise<void>}
-   */
-  const handleHashChange$1 = async override => {
-    const hash = cleanHash$1(override || getHash$1());
-    const queueId = decodeURIComponent(hash);
-    let request = navigateQueue$1.get(queueId);
-
-    // handle hash updated manually
-    if (!request && !navigateQueue$1.size) {
-      request = queue$1(hash);
-    }
-    const route = getRouteByHash$1(hash);
-    if (!route) {
-      if (routeExists$1('*')) {
-        navigate$1('*', {
-          failedHash: hash
-        });
-      } else {
-        console.error("Unable to navigate to: ".concat(hash));
-      }
-      return;
-    }
-
-    // update current processed request
-    request.hash = hash;
-    request.route = route;
-    let result = await beforeEachRoute$1(getActiveHash$1(), request);
-
-    // test if a local hook is configured for the route
-    if (result && route.beforeNavigate) {
-      result = await route.beforeNavigate(getActiveHash$1(), request);
-    }
-    if (isBoolean$1(result)) {
-      // only if resolve value is explicitly true
-      // we continue the current route request
-      if (result) {
-        return resolveHashChange$1(request);
-      }
-    } else {
-      // if navigation guard didn't return true
-      // we cancel the current request
-      request.cancel();
-      navigateQueue$1.delete(queueId);
-      if (isString$2(result)) {
-        navigate$1(result);
-      } else if (isObject$2(result)) {
-        let store = true;
-        if (isBoolean$1(result.store)) {
-          store = result.store;
-        }
-        navigate$1(result.path, result.params, store);
-      }
-    }
-  };
-
-  /**
-   * Continue processing the hash change if not blocked
-   * by global or local hook
-   * @param request - {}
-   */
-  const resolveHashChange$1 = request => {
-    const hash = request.hash;
-    const route = request.route;
-    const queueId = decodeURIComponent(hash);
-    // store last requested hash so we can
-    // prevent a route that resolved later
-    // from displaying itself
-    setLastHash$1(hash);
-    if (route.path) {
-      const component = getComponent$1(route.path);
-      // if a hook is provided for the current route
-      if (isFunction$1(route.hook)) {
-        const urlParams = getValuesFromHash$1(hash, route.path);
-        const params = {};
-        for (const key of urlParams.keys()) {
-          params[key] = urlParams.get(key);
-        }
-        route.hook(app$1, {
-          ...params
-        });
-      }
-      // if there is a component attached to the route
-      if (component) {
-        // force page to root state to prevent shared state issues
-        const activePage = getActivePage$1();
-        if (activePage) {
-          const keepAlive = keepActivePageAlive$1(getActiveRoute$1(), request);
-          if (activePage && route.path === getActiveRoute$1() && !keepAlive) {
-            activePage._setState('');
-          }
-        }
-        if (isPage$1(component)) {
-          load$1(request).then(() => {
-            app$1._refocus();
-            navigateQueue$1.delete(queueId);
-          });
-        } else {
-          // of the component is not a constructor
-          // or a Component instance we can assume
-          // that it's a dynamic import
-          component().then(contents => {
-            return contents.default;
-          }).then(module => {
-            storeComponent$1(route.path, module);
-            return load$1(request);
-          }).then(() => {
-            app$1._refocus();
-            navigateQueue$1.delete(queueId);
-          });
-        }
-      } else {
-        navigateQueue$1.delete(queueId);
-      }
-    }
-  };
-
-  /**
-   * Directional step in history
-   * @param level
-   */
-  const step$1 = function () {
-    let level = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    if (!level || isNaN(level)) {
-      return false;
-    }
-    const history = getHistory$1();
-    // for now we only support negative numbers
-    level = Math.abs(level);
-
-    //Check whether we have any history avaialble or not
-    if (history.length) {
-      // for now we only support history back
-      const route = history.splice(history.length - level, level)[0];
-      // store changed history
-      setHistory$1(history);
-      return navigate$1(route.hash, {
-        [symbols$1.backtrack]: true,
-        [symbols$1.historyState]: route.state
-      }, false);
-    } else if (routerConfig$1.get('backtrack')) {
-      const hashLastPart = /(\/:?[\w%\s-]+)$/;
-      let hash = stripRegex$1(getHash$1());
-      let floor = getFloor$1(hash);
-
-      // test if we got deep-linked
-      if (floor > 1) {
-        while (floor--) {
-          // strip of last part
-          hash = hash.replace(hashLastPart, '');
-          // if we have a configured route
-          // we navigate to it
-          if (getRouteByHash$1(hash)) {
-            return navigate$1(hash, {
-              [symbols$1.backtrack]: true
-            }, false);
-          }
-        }
-      }
-    }
-
-    // we can't step back past the amount
-    // of history entries
-    if (level > history.length) {
-      if (isFunction$1(app$1._handleAppClose)) {
-        return app$1._handleAppClose();
-      }
-      return app$1.application.closeApp();
-    }
-    return false;
   };
-
-  /**
-   * Resume Router's page loading process after
-   * the BootComponent became visible;
-   */
-  const resume$1 = () => {
-    if (isString$2(resumeHash$1)) {
-      navigate$1(resumeHash$1, false);
-      resumeHash$1 = '';
-    } else if (isFunction$1(resumeHash$1)) {
-      resumeHash$1().then(res => {
-        resumeHash$1 = '';
-        if (isObject$2(res)) {
-          navigate$1(res.path, res.params);
-        } else {
-          navigate$1(res);
-        }
-      });
-    } else {
-      console.warn('[Router]: resume() called but no hash found');
-    }
-  };
-
-  /**
-   * Force reload active hash
-   */
-  const reload$1 = () => {
-    if (!isNavigating$1()) {
-      const hash = getActiveHash$1();
-      navigate$1(hash, {
-        reload: true
-      }, false);
-    }
-  };
-
-  /**
-   * Query if the Router is still processing a Request
-   * @returns {boolean}
-   */
-  const isNavigating$1 = () => {
-    if (navigateQueue$1.size) {
-      let isProcessing = false;
-      for (let request of navigateQueue$1.values()) {
-        if (!request.isCancelled) {
-          isProcessing = true;
-        }
-      }
-      return isProcessing;
-    }
-    return false;
-  };
-  const getResumeHash$1 = () => {
-    return resumeHash$1;
-  };
-
-  /**
-   * By default we return the location hash
-   * @returns {string}
-   */
-  let getHash$1 = () => {
-    return document.location.hash;
-  };
-
-  /**
-   * Update location hash
-   * @param url
-   */
-  let setHash$1 = url => {
-    document.location.hash = url;
-  };
-
-  /**
-   * On hash change we start processing
-   */
-  const registerListener$1 = () => {
-    Registry$1.addEventListener(window, 'hashchange', async () => {
-      if (mustUpdateLocationHash$1()) {
-        try {
-          await handleHashChange$1();
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    });
-  };
-
-  /**
-   * Navigate to root hash
-   */
-  const root$1 = () => {
-    const rootHash = getRootHash$1();
-    if (isString$2(rootHash)) {
-      navigate$1(rootHash);
-    } else if (isFunction$1(rootHash)) {
-      rootHash().then(res => {
-        if (isObject$2(res)) {
-          navigate$1(res.path, res.params);
-        } else {
-          navigate$1(res);
-        }
-      });
-    }
-  };
-  const deletePage$1 = param => {
-    deleteCurrentInstance$1(param);
-  };
-
-  // export API
-  var Router$1 = {
-    startRouter: startRouter$1,
-    navigate: navigate$1,
-    resume: resume$1,
-    step: step$1,
-    go: step$1,
-    back: step$1.bind(null, -1),
-    activePage: getActivePage$1,
-    getActivePage() {
-      // warning
-      return getActivePage$1();
-    },
-    deletePage: deletePage$1,
-    getActiveRoute: getActiveRoute$1,
-    getActiveHash: getActiveHash$1,
-    focusWidget: focusWidget$1,
-    getActiveWidget: getActiveWidget$1,
-    restoreFocus: restoreFocus$1,
-    isNavigating: isNavigating$1,
-    getHistory: getHistory$1,
-    setHistory: setHistory$1,
-    getHistoryState: getHistoryState$1,
-    replaceHistoryState: replaceHistoryState$1,
-    getQueryStringParams: getQueryStringParams$1,
-    reload: reload$1,
-    symbols: symbols$1,
-    App: RoutedApp$1,
-    // keep backwards compatible
-    focusPage: restoreFocus$1,
-    root: root$1,
-    /**
-     * Deprecated api methods
-     */
-    setupRoutes() {
-      console.warn('Router: setupRoutes is deprecated, consolidate your configuration');
-      console.warn('https://rdkcentral.github.io/Lightning-SDK/#/plugins/router/configuration');
-    },
-    on() {
-      console.warn('Router.on() is deprecated, consolidate your configuration');
-      console.warn('https://rdkcentral.github.io/Lightning-SDK/#/plugins/router/configuration');
-    },
-    before() {
-      console.warn('Router.before() is deprecated, consolidate your configuration');
-      console.warn('https://rdkcentral.github.io/Lightning-SDK/#/plugins/router/configuration');
-    },
-    after() {
-      console.warn('Router.after() is deprecated, consolidate your configuration');
-      console.warn('https://rdkcentral.github.io/Lightning-SDK/#/plugins/router/configuration');
-    }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let ApplicationInstance$1;
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class SubtitleComponent$1 extends Lightning.Component {
-    static _template() {
-      return {
-        visible: false,
-        rect: true,
-        color: 0x90000000,
-        shader: {
-          type: Lightning.shaders.RoundedRectangle,
-          radius: 5
-        },
-        Text: {
-          y: 5,
-          x: 20,
-          text: {
-            textColor: 0xffffffff,
-            fontSize: 38,
-            lineHeight: 38 * 1.4,
-            textAlign: 'center',
-            wordWrap: true,
-            maxLines: 3,
-            shadow: true,
-            shadowColor: 0xff333333
-          }
-        }
-      };
-    }
-    _init() {
-      this._textTextureDefaults = new Lightning.textures.TextTexture(this.stage).cloneArgs();
-      this.tag('Text').on('txLoaded', _ref => {
-        let {
-          _source
-        } = _ref;
-        this.w = _source.w + this.tag('Text').x * 2;
-        this.h = _source.h;
-        this.position();
-      });
-    }
-    get textFormat() {
-      const textTag = this.tag('Text').text;
-      return {
-        fontFace: textTag.fontFace || 'sans-serif',
-        fontSize: textTag.fontSize,
-        lineHeight: textTag.lineHeight,
-        textAlign: textTag.textAlign,
-        wordWrap: true,
-        maxLines: textTag.maxLines
-      };
-    }
-    show() {
-      this.visible = true;
-    }
-    hide() {
-      this.visible = false;
-    }
-    position() {
-      this.x = this._calculateX(this.xPos);
-      this.y = this._calculateY(this.yPos);
-    }
-    set viewportW(v) {
-      this._viewportW = v;
-      this.x = this._calculateX(this.xPos);
-    }
-    get viewportW() {
-      return this._viewportW || this.application.finalW;
-    }
-    set viewportH(v) {
-      this._viewportH = v;
-      this.y = this._calculateY(this.yPos);
-    }
-    get viewportH() {
-      return this._viewportH || this.application.finalH;
-    }
-    _calculateX(x) {
-      if (x === 'center') {
-        x = (this.viewportW - this.finalW) / 2;
-      } else if (x === 'left') {
-        x = 60;
-      } else if (x === 'right') {
-        x = this.viewportW - this.finalW - 60;
-      }
-      return x;
-    }
-    set xPos(v) {
-      this._x = v;
-      this.x = this._calculateX(v);
-    }
-    get xPos() {
-      return this._x || 'center';
-    }
-    _calculateY(y) {
-      if (y === 'center') {
-        return (this.viewportH - this.finalH) / 2;
-      } else if (y === 'top') {
-        return 60;
-      } else if (y === 'bottom') {
-        return this.viewportH - this.finalH - 60;
-      }
-      return y;
-    }
-    set yPos(v) {
-      this._y = v;
-      this.y = this._calculateY(v);
-    }
-    get yPos() {
-      return this._y || 'bottom';
-    }
-    set fontFamily(v) {
-      this.tag('Text').text.fontFace = v;
-    }
-    set fontSize(v) {
-      this.tag('Text').text.fontSize = v;
-      this.tag('Text').text.lineHeight = v * 1.3;
-    }
-    set fontColor(v) {
-      this.tag('Text').color = v;
-    }
-    set backgroundColor(v) {
-      this.color = v;
-    }
-    _defineBreakpoint(text, breakpoint) {
-      if (breakpoint >= this.maxWidth) return this.maxWidth;
-      const info = Lightning.textures.TextTexture.renderer(this.stage, this.stage.platform.getDrawingCanvas(), {
-        ...this._textTextureDefaults,
-        ...this.textFormat,
-        ...{
-          wordWrapWidth: breakpoint
-        },
-        text
-      })._calculateRenderInfo();
-      if (info.width <= breakpoint && info.lines.length <= 2) {
-        return breakpoint;
-      } else {
-        return this._defineBreakpoint(text, breakpoint * 1.25);
-      }
-    }
-    set text(v) {
-      this.alpha = 0;
-      if (v && v.length) {
-        const breakpoint = this._defineBreakpoint(v, 640);
-        this.tag('Text').text.wordWrapWidth = breakpoint;
-        this.tag('Text').text = v;
-        this.alpha = 1;
-      }
-    }
-    set textAlign(v) {
-      this._textAlign = v;
-      this.tag('Text').text.textAlign = v;
-    }
-    set maxWidth(v) {
-      this._maxWidth = v;
-    }
-    get maxWidth() {
-      return (this._maxWidth || 1200) - this.tag('Text').x * 2;
-    }
-    set maxLines(v) {
-      this.tag('Text').text.maxLines = v;
-    }
-  }
 
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
@@ -5592,905 +906,6 @@ var APP_com_domain_app_bundleSize = (function () {
     }
   }];
 
-  var executeAsPromise = (function (method) {
-    let args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    let context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    let result;
-    if (method && typeof method === 'function') {
-      try {
-        result = method.apply(context, args);
-      } catch (e) {
-        result = e;
-      }
-    } else {
-      result = method;
-    }
-
-    // if it looks like a duck .. ehm ... promise and talks like a promise, let's assume it's a promise
-    if (result !== null && typeof result === 'object' && result.then && typeof result.then === 'function') {
-      return result;
-    }
-    // otherwise make it into a promise
-    else {
-      return new Promise((resolve, reject) => {
-        if (result instanceof Error) {
-          reject(result);
-        } else {
-          resolve(result);
-        }
-      });
-    }
-  });
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  var events$1 = {
-    abort: 'Abort',
-    canplay: 'CanPlay',
-    canplaythrough: 'CanPlayThrough',
-    durationchange: 'DurationChange',
-    emptied: 'Emptied',
-    encrypted: 'Encrypted',
-    ended: 'Ended',
-    error: 'Error',
-    interruptbegin: 'InterruptBegin',
-    interruptend: 'InterruptEnd',
-    loadeddata: 'LoadedData',
-    loadedmetadata: 'LoadedMetadata',
-    loadstart: 'LoadStart',
-    pause: 'Pause',
-    play: 'Play',
-    playing: 'Playing',
-    progress: 'Progress',
-    ratechange: 'Ratechange',
-    seeked: 'Seeked',
-    seeking: 'Seeking',
-    stalled: 'Stalled',
-    // suspend: 'Suspend', // this one is called a looooot for some videos
-    timeupdate: 'TimeUpdate',
-    volumechange: 'VolumeChange',
-    waiting: 'Waiting'
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  var autoSetupMixin = (function (sourceObject) {
-    let setup = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : () => {};
-    let ready = false;
-    const doSetup = () => {
-      if (ready === false) {
-        setup();
-        ready = true;
-      }
-    };
-    return Object.keys(sourceObject).reduce((obj, key) => {
-      if (typeof sourceObject[key] === 'function') {
-        obj[key] = function () {
-          doSetup();
-          return sourceObject[key].apply(sourceObject, arguments);
-        };
-      } else if (typeof Object.getOwnPropertyDescriptor(sourceObject, key).get === 'function') {
-        obj.__defineGetter__(key, function () {
-          doSetup();
-          return Object.getOwnPropertyDescriptor(sourceObject, key).get.apply(sourceObject);
-        });
-      } else if (typeof Object.getOwnPropertyDescriptor(sourceObject, key).set === 'function') {
-        obj.__defineSetter__(key, function () {
-          doSetup();
-          return Object.getOwnPropertyDescriptor(sourceObject, key).set.sourceObject[key].apply(sourceObject, arguments);
-        });
-      } else {
-        obj[key] = sourceObject[key];
-      }
-      return obj;
-    }, {});
-  });
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  let timeout = null;
-  var easeExecution = ((cb, delay) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      cb();
-    }, delay);
-  });
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  var VideoTexture = (() => {
-    return class VideoTexture extends Lightning.Component {
-      static _template() {
-        return {
-          Video: {
-            alpha: 1,
-            visible: false,
-            pivot: 0.5,
-            texture: {
-              type: Lightning.textures.StaticTexture,
-              options: {}
-            }
-          }
-        };
-      }
-      set videoEl(v) {
-        this._videoEl = v;
-      }
-      get videoEl() {
-        return this._videoEl;
-      }
-      get videoView() {
-        return this.tag('Video');
-      }
-      get videoTexture() {
-        return this.videoView.texture;
-      }
-      get isVisible() {
-        return this.videoView.alpha === 1 && this.videoView.visible === true;
-      }
-      _init() {
-        this._createVideoTexture();
-      }
-      _createVideoTexture() {
-        const stage = this.stage;
-        const gl = stage.gl;
-        const glTexture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, glTexture);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        this.videoTexture.options = {
-          source: glTexture,
-          w: this.videoEl.width,
-          h: this.videoEl.height
-        };
-        this.videoView.w = this.videoEl.width / this.stage.getRenderPrecision();
-        this.videoView.h = this.videoEl.height / this.stage.getRenderPrecision();
-      }
-      start() {
-        const stage = this.stage;
-        this._lastTime = 0;
-        if (!this._updateVideoTexture) {
-          this._updateVideoTexture = () => {
-            if (this.videoTexture.options.source && this.videoEl.videoWidth && this.active) {
-              const gl = stage.gl;
-              const currentTime = new Date().getTime();
-              const getVideoPlaybackQuality = this.videoEl.getVideoPlaybackQuality();
-
-              // When BR2_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_DEBUGUTILS is not set in WPE, webkitDecodedFrameCount will not be available.
-              // We'll fallback to fixed 30fps in this case.
-              // As 'webkitDecodedFrameCount' is about to deprecate, check for the 'totalVideoFrames'
-              const frameCount = getVideoPlaybackQuality ? getVideoPlaybackQuality.totalVideoFrames : this.videoEl.webkitDecodedFrameCount;
-              const mustUpdate = frameCount ? this._lastFrame !== frameCount : this._lastTime < currentTime - 30;
-              if (mustUpdate) {
-                this._lastTime = currentTime;
-                this._lastFrame = frameCount;
-                try {
-                  gl.bindTexture(gl.TEXTURE_2D, this.videoTexture.options.source);
-                  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-                  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.videoEl);
-                  this._lastFrame = this.videoEl.webkitDecodedFrameCount;
-                  this.videoView.visible = true;
-                  this.videoTexture.options.w = this.videoEl.width;
-                  this.videoTexture.options.h = this.videoEl.height;
-                  const expectedAspectRatio = this.videoView.w / this.videoView.h;
-                  const realAspectRatio = this.videoEl.width / this.videoEl.height;
-                  if (expectedAspectRatio > realAspectRatio) {
-                    this.videoView.scaleX = realAspectRatio / expectedAspectRatio;
-                    this.videoView.scaleY = 1;
-                  } else {
-                    this.videoView.scaleY = expectedAspectRatio / realAspectRatio;
-                    this.videoView.scaleX = 1;
-                  }
-                } catch (e) {
-                  Log.error('texImage2d video', e);
-                  this.stop();
-                }
-                this.videoTexture.source.forceRenderUpdate();
-              }
-            }
-          };
-        }
-        if (!this._updatingVideoTexture) {
-          stage.on('frameStart', this._updateVideoTexture);
-          this._updatingVideoTexture = true;
-        }
-      }
-      stop() {
-        const stage = this.stage;
-        stage.removeListener('frameStart', this._updateVideoTexture);
-        this._updatingVideoTexture = false;
-        this.videoView.visible = false;
-        if (this.videoTexture.options.source) {
-          const gl = stage.gl;
-          gl.bindTexture(gl.TEXTURE_2D, this.videoTexture.options.source);
-          gl.clearColor(0, 0, 0, 1);
-          gl.clear(gl.COLOR_BUFFER_BIT);
-        }
-      }
-      position(top, left) {
-        this.videoView.patch({
-          x: left,
-          y: top
-        });
-      }
-      size(width, height) {
-        this.videoView.patch({
-          w: width,
-          h: height
-        });
-      }
-      show() {
-        this.videoView.alpha = 1;
-      }
-      hide() {
-        this.videoView.alpha = 0;
-      }
-    };
-  });
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let mediaUrl$1 = url => url;
-  let videoEl;
-  let videoTexture;
-  let metrics;
-  let consumer;
-  let precision = 1;
-  let textureMode = false;
-  // todo: add this in a 'Registry' plugin
-  // to be able to always clean this up on app close
-  let eventHandlers = {};
-  const state = {
-    adsEnabled: false,
-    playing: false,
-    _playingAds: false,
-    get playingAds() {
-      return this._playingAds;
-    },
-    set playingAds(val) {
-      if (this._playingAds !== val) {
-        this._playingAds = val;
-        fireOnConsumer(val === true ? 'AdStart' : 'AdEnd');
-      }
-    },
-    skipTime: false,
-    playAfterSeek: null
-  };
-  const hooks = {
-    play() {
-      state.playing = true;
-    },
-    pause() {
-      state.playing = false;
-    },
-    seeked() {
-      state.playAfterSeek === true && videoPlayerPlugin.play();
-      state.playAfterSeek = null;
-    },
-    abort() {
-      deregisterEventListeners();
-    }
-  };
-  const withPrecision = val => Math.round(precision * val) + 'px';
-  const fireOnConsumer = (event, args) => {
-    if (consumer) {
-      consumer.fire('$videoPlayer' + event, args, videoEl.currentTime);
-      consumer.fire('$videoPlayerEvent', event, args, videoEl.currentTime);
-    }
-  };
-  const fireHook = (event, args) => {
-    hooks[event] && typeof hooks[event] === 'function' && hooks[event].call(null, event, args);
-  };
-  let customLoader = null;
-  let customUnloader = null;
-  const loader$1 = (url, videoEl, config) => {
-    return customLoader && typeof customLoader === 'function' ? customLoader(url, videoEl, config) : new Promise(resolve => {
-      url = mediaUrl$1(url);
-      videoEl.setAttribute('src', url);
-      videoEl.load();
-      resolve();
-    });
-  };
-  const unloader = videoEl => {
-    return customUnloader && typeof customUnloader === 'function' ? customUnloader(videoEl) : new Promise(resolve => {
-      videoEl.removeAttribute('src');
-      videoEl.load();
-      resolve();
-    });
-  };
-  const setupVideoTag = () => {
-    const videoEls = document.getElementsByTagName('video');
-    if (videoEls && videoEls.length) {
-      return videoEls[0];
-    } else {
-      const videoEl = document.createElement('video');
-      const platformSettingsWidth = Settings.get('platform', 'width') ? Settings.get('platform', 'width') : 1920;
-      const platformSettingsHeight = Settings.get('platform', 'height') ? Settings.get('platform', 'height') : 1080;
-      videoEl.setAttribute('id', 'video-player');
-      videoEl.setAttribute('width', withPrecision(platformSettingsWidth));
-      videoEl.setAttribute('height', withPrecision(platformSettingsHeight));
-      videoEl.style.position = 'absolute';
-      videoEl.style.zIndex = '1';
-      videoEl.style.display = 'none';
-      videoEl.style.visibility = 'hidden';
-      videoEl.style.top = withPrecision(0);
-      videoEl.style.left = withPrecision(0);
-      videoEl.style.width = withPrecision(platformSettingsWidth);
-      videoEl.style.height = withPrecision(platformSettingsHeight);
-      document.body.appendChild(videoEl);
-      return videoEl;
-    }
-  };
-  const setUpVideoTexture = () => {
-    if (!ApplicationInstance$1.tag('VideoTexture')) {
-      const el = ApplicationInstance$1.stage.c({
-        type: VideoTexture(),
-        ref: 'VideoTexture',
-        zIndex: 0,
-        videoEl
-      });
-      ApplicationInstance$1.childList.addAt(el, 0);
-    }
-    return ApplicationInstance$1.tag('VideoTexture');
-  };
-  const registerEventListeners = () => {
-    Log.info('VideoPlayer', 'Registering event listeners');
-    Object.keys(events$1).forEach(event => {
-      const handler = e => {
-        // Fire a metric for each event (if it exists on the metrics object)
-        if (metrics && metrics[event] && typeof metrics[event] === 'function') {
-          metrics[event]({
-            currentTime: videoEl.currentTime
-          });
-        }
-        // fire an internal hook
-        fireHook(event, {
-          videoElement: videoEl,
-          event: e
-        });
-
-        // fire the event (with human friendly event name) to the consumer of the VideoPlayer
-        fireOnConsumer(events$1[event], {
-          videoElement: videoEl,
-          event: e
-        });
-      };
-      eventHandlers[event] = handler;
-      videoEl.addEventListener(event, handler);
-    });
-  };
-  const deregisterEventListeners = () => {
-    Log.info('VideoPlayer', 'Deregistering event listeners');
-    Object.keys(eventHandlers).forEach(event => {
-      videoEl.removeEventListener(event, eventHandlers[event]);
-    });
-    eventHandlers = {};
-  };
-  const videoPlayerPlugin = {
-    consumer(component) {
-      consumer = component;
-    },
-    loader(loaderFn) {
-      customLoader = loaderFn;
-    },
-    unloader(unloaderFn) {
-      customUnloader = unloaderFn;
-    },
-    position() {
-      let top = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      let left = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      videoEl.style.left = withPrecision(left);
-      videoEl.style.top = withPrecision(top);
-      if (textureMode === true) {
-        videoTexture.position(top, left);
-      }
-    },
-    size() {
-      let width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1920;
-      let height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1080;
-      videoEl.style.width = withPrecision(width);
-      videoEl.style.height = withPrecision(height);
-      videoEl.width = parseFloat(videoEl.style.width);
-      videoEl.height = parseFloat(videoEl.style.height);
-      if (textureMode === true) {
-        videoTexture.size(width, height);
-      }
-    },
-    area() {
-      let top = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      let right = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1920;
-      let bottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1080;
-      let left = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-      this.position(top, left);
-      this.size(right - left, bottom - top);
-    },
-    open(url) {
-      let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      if (!this.canInteract) return;
-      metrics = Metrics$1.media(url);
-      this.hide();
-      deregisterEventListeners();
-      if (this.src == url) {
-        this.clear().then(this.open(url, config));
-      } else {
-        const adConfig = {
-          enabled: state.adsEnabled,
-          duration: 300
-        };
-        if (config.videoId) {
-          adConfig.caid = config.videoId;
-        }
-        Ads.get(adConfig, consumer).then(ads => {
-          state.playingAds = true;
-          ads.prerolls().then(() => {
-            state.playingAds = false;
-            loader$1(url, videoEl, config).then(() => {
-              registerEventListeners();
-              this.show();
-              this.play();
-            }).catch(e => {
-              fireOnConsumer('Error', {
-                videoElement: videoEl,
-                event: e
-              });
-
-              // This is not API-compliant, as it results in firing "$videoPlayererror" rather than "$videoPlayerError".
-              // See docs here for API-compliant events -> https://github.com/Metrological/metrological-sdk/blob/master/docs/plugins/videoplayer.md#event-overview
-              // It has been kept for backwards compatability for library consumers who may have already written handler functions to match it.
-              fireOnConsumer('error', {
-                videoElement: videoEl,
-                event: e
-              });
-            });
-          });
-        });
-      }
-    },
-    reload() {
-      if (!this.canInteract) return;
-      const url = videoEl.getAttribute('src');
-      this.close();
-      this.open(url);
-    },
-    close() {
-      Ads.cancel();
-      if (state.playingAds) {
-        state.playingAds = false;
-        Ads.stop();
-        // call self in next tick
-        setTimeout(() => {
-          this.close();
-        });
-      }
-      if (!this.canInteract) return;
-      this.clear();
-      this.hide();
-      deregisterEventListeners();
-    },
-    clear() {
-      if (!this.canInteract) return;
-      // pause the video first to disable sound
-      this.pause();
-      if (textureMode === true) videoTexture.stop();
-      return unloader(videoEl).then(() => {
-        fireOnConsumer('Clear', {
-          videoElement: videoEl
-        });
-      });
-    },
-    play() {
-      if (!this.canInteract) return;
-      if (textureMode === true) videoTexture.start();
-      executeAsPromise(videoEl.play, null, videoEl).catch(e => {
-        fireOnConsumer('Error', {
-          videoElement: videoEl,
-          event: e
-        });
-
-        // This is not API-compliant, as it results in firing "$videoPlayererror" rather than "$videoPlayerError".
-        // See docs here for API-compliant events -> https://github.com/Metrological/metrological-sdk/blob/master/docs/plugins/videoplayer.md#event-overview
-        // It has been kept for backwards compatability for library consumers who may have already written handler functions to match it.
-        fireOnConsumer('error', {
-          videoElement: videoEl,
-          event: e
-        });
-      });
-    },
-    pause() {
-      if (!this.canInteract) return;
-      videoEl.pause();
-    },
-    playPause() {
-      if (!this.canInteract) return;
-      this.playing === true ? this.pause() : this.play();
-    },
-    mute() {
-      let muted = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      if (!this.canInteract) return;
-      videoEl.muted = muted;
-    },
-    loop() {
-      let looped = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      videoEl.loop = looped;
-    },
-    seek(time) {
-      if (!this.canInteract) return;
-      if (!this.src) return;
-      // define whether should continue to play after seek is complete (in seeked hook)
-      if (state.playAfterSeek === null) {
-        state.playAfterSeek = !!state.playing;
-      }
-      // pause before actually seeking
-      this.pause();
-      // currentTime always between 0 and the duration of the video (minus 0.1s to not set to the final frame and stall the video)
-      videoEl.currentTime = Math.max(0, Math.min(time, this.duration - 0.1));
-    },
-    skip(seconds) {
-      if (!this.canInteract) return;
-      if (!this.src) return;
-      state.skipTime = (state.skipTime || videoEl.currentTime) + seconds;
-      easeExecution(() => {
-        this.seek(state.skipTime);
-        state.skipTime = false;
-      }, 300);
-    },
-    show() {
-      if (!this.canInteract) return;
-      if (textureMode === true) {
-        videoTexture.show();
-      } else {
-        videoEl.style.display = 'block';
-        videoEl.style.visibility = 'visible';
-      }
-    },
-    hide() {
-      if (!this.canInteract) return;
-      if (textureMode === true) {
-        videoTexture.hide();
-      } else {
-        videoEl.style.display = 'none';
-        videoEl.style.visibility = 'hidden';
-      }
-    },
-    enableAds() {
-      let enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      state.adsEnabled = enabled;
-    },
-    /* Public getters */
-    get duration() {
-      return videoEl && (isNaN(videoEl.duration) ? Infinity : videoEl.duration);
-    },
-    get currentTime() {
-      return videoEl && videoEl.currentTime;
-    },
-    get muted() {
-      return videoEl && videoEl.muted;
-    },
-    get looped() {
-      return videoEl && videoEl.loop;
-    },
-    get src() {
-      return videoEl && videoEl.getAttribute('src');
-    },
-    get playing() {
-      return state.playing;
-    },
-    get playingAds() {
-      return state.playingAds;
-    },
-    get canInteract() {
-      // todo: perhaps add an extra flag wether we allow interactions (i.e. pauze, mute, etc.) during ad playback
-      return state.playingAds === false;
-    },
-    get top() {
-      return videoEl && parseFloat(videoEl.style.top);
-    },
-    get left() {
-      return videoEl && parseFloat(videoEl.style.left);
-    },
-    get bottom() {
-      return videoEl && parseFloat(videoEl.style.top - videoEl.style.height);
-    },
-    get right() {
-      return videoEl && parseFloat(videoEl.style.left - videoEl.style.width);
-    },
-    get width() {
-      return videoEl && parseFloat(videoEl.style.width);
-    },
-    get height() {
-      return videoEl && parseFloat(videoEl.style.height);
-    },
-    get visible() {
-      if (textureMode === true) {
-        return videoTexture.isVisible;
-      } else {
-        return videoEl && videoEl.style.display === 'block';
-      }
-    },
-    get adsEnabled() {
-      return state.adsEnabled;
-    },
-    // prefixed with underscore to indicate 'semi-private'
-    // because it's not recommended to interact directly with the video element
-    get _videoEl() {
-      return videoEl;
-    },
-    get _consumer() {
-      return consumer;
-    }
-  };
-  autoSetupMixin(videoPlayerPlugin, () => {
-    precision = precision;
-    videoEl = setupVideoTag();
-    textureMode = Settings.get('platform', 'textureMode', false);
-    if (textureMode === true) {
-      videoEl.setAttribute('crossorigin', 'anonymous');
-      videoTexture = setUpVideoTexture();
-    }
-  });
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class VersionLabel extends Lightning.Component {
-    static _template() {
-      return {
-        rect: true,
-        color: 0xbb0078ac,
-        h: 40,
-        w: 100,
-        x: w => w - 50,
-        y: h => h - 50,
-        mount: 1,
-        Text: {
-          w: w => w,
-          h: h => h,
-          y: 5,
-          x: 20,
-          text: {
-            fontSize: 22,
-            lineHeight: 26
-          }
-        }
-      };
-    }
-    _firstActive() {
-      this.tag('Text').text = "APP - v".concat(this.version, "\nSDK - v").concat(this.sdkVersion);
-      this.tag('Text').loadTexture();
-      this.w = this.tag('Text').renderWidth + 40;
-      this.h = this.tag('Text').renderHeight + 5;
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class FpsIndicator extends Lightning.Component {
-    static _template() {
-      return {
-        rect: true,
-        color: 0xffffffff,
-        texture: Lightning.Tools.getRoundRect(80, 80, 40),
-        h: 80,
-        w: 80,
-        x: 100,
-        y: 100,
-        mount: 1,
-        Background: {
-          x: 3,
-          y: 3,
-          texture: Lightning.Tools.getRoundRect(72, 72, 36),
-          color: 0xff008000
-        },
-        Counter: {
-          w: w => w,
-          h: h => h,
-          y: 10,
-          text: {
-            fontSize: 32,
-            textAlign: 'center'
-          }
-        },
-        Text: {
-          w: w => w,
-          h: h => h,
-          y: 48,
-          text: {
-            fontSize: 15,
-            textAlign: 'center',
-            text: 'FPS'
-          }
-        }
-      };
-    }
-    _setup() {
-      this.config = {
-        ...{
-          log: false,
-          interval: 500,
-          threshold: 1
-        },
-        ...Settings$1.get('platform', 'showFps')
-      };
-      this.fps = 0;
-      this.lastFps = this.fps - this.config.threshold;
-      const fpsCalculator = () => {
-        this.fps = ~~(1 / this.stage.dt);
-      };
-      this.stage.on('frameStart', fpsCalculator);
-      this.stage.off('framestart', fpsCalculator);
-      this.interval = setInterval(this.showFps.bind(this), this.config.interval);
-    }
-    _firstActive() {
-      this.showFps();
-    }
-    _detach() {
-      clearInterval(this.interval);
-    }
-    showFps() {
-      if (Math.abs(this.lastFps - this.fps) <= this.config.threshold) return;
-      this.lastFps = this.fps;
-      // green
-      let bgColor = 0xff008000;
-      // orange
-      if (this.fps <= 40 && this.fps > 20) bgColor = 0xffffa500;
-      // red
-      else if (this.fps <= 20) bgColor = 0xffff0000;
-      this.tag('Background').setSmooth('color', bgColor);
-      this.tag('Counter').text = "".concat(this.fps);
-      this.config.log && Log$1.info('FPS', this.fps);
-    }
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  var fetchJson = (file => {
-    return new Promise((resolve, reject) => {
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
-          // file protocol returns 0
-          // http(s) protocol returns 200
-          if (xhr.status === 0 || xhr.status === 200) resolve(JSON.parse(xhr.responseText));else reject(xhr.statusText);
-        }
-      };
-      xhr.open('GET', file);
-      xhr.send(null);
-    });
-  });
-
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
    * following copyright and licenses apply:
@@ -6587,665 +1002,66 @@ var APP_com_domain_app_bundleSize = (function () {
     }).join('&');
   };
 
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let meta = {};
-  let translations = {};
-  let language = null;
-  const initLanguage = function (file) {
-    let language = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    return new Promise((resolve, reject) => {
-      fetchJson(file).then(json => {
-        setTranslations(json);
-        // set language (directly or in a promise)
-        typeof language === 'object' && 'then' in language && typeof language.then === 'function' ? language.then(lang => setLanguage(lang).then(resolve).catch(reject)).catch(e => {
-          Log$1.error(e);
-          reject(e);
-        }) : setLanguage(language).then(resolve).catch(reject);
-      }).catch(() => {
-        const error = 'Language file ' + file + ' not found';
-        Log$1.error(error);
-        reject(error);
-      });
-    });
-  };
-  const setTranslations = obj => {
-    if ('meta' in obj) {
-      meta = {
-        ...obj.meta
+  class localCookie {
+    constructor(e) {
+      return e = e || {}, this.forceCookies = e.forceCookies || !1, !0 === this._checkIfLocalStorageWorks() && !0 !== e.forceCookies ? {
+        getItem: this._getItemLocalStorage,
+        setItem: this._setItemLocalStorage,
+        removeItem: this._removeItemLocalStorage,
+        clear: this._clearLocalStorage,
+        keys: this._getLocalStorageKeys
+      } : {
+        getItem: this._getItemCookie,
+        setItem: this._setItemCookie,
+        removeItem: this._removeItemCookie,
+        clear: this._clearCookies,
+        keys: this._getCookieKeys
       };
-      delete obj.meta;
     }
-    translations = obj;
-  };
-  const setLanguage = lng => {
-    language = null;
-    return new Promise((resolve, reject) => {
-      if (lng in translations) {
-        language = lng;
-      } else {
-        if ('map' in meta && lng in meta.map && meta.map[lng] in translations) {
-          language = meta.map[lng];
-        } else if ('default' in meta && meta.default in translations) {
-          const error = 'Translations for Language ' + language + ' not found. Using default language ' + meta.default;
-          Log$1.warn(error);
-          language = meta.default;
-        } else {
-          const error = 'Translations for Language ' + language + ' not found.';
-          Log$1.error(error);
-          reject(error);
-        }
+    _checkIfLocalStorageWorks() {
+      if ("undefined" == typeof localStorage) return !1;
+      try {
+        return localStorage.setItem("feature_test", "yes"), "yes" === localStorage.getItem("feature_test") && (localStorage.removeItem("feature_test"), !0);
+      } catch (e) {
+        return !1;
       }
-      if (language) {
-        Log$1.info('Setting language to', language);
-        const translationsObj = translations[language];
-        if (typeof translationsObj === 'object') {
-          resolve();
-        } else if (typeof translationsObj === 'string') {
-          const url = Utils.asset(translationsObj);
-          fetchJson(url).then(json => {
-            // save the translations for this language (to prevent loading twice)
-            translations[language] = json;
-            resolve();
-          }).catch(e => {
-            const error = 'Error while fetching ' + url;
-            Log$1.error(error, e);
-            reject(error);
-          });
-        }
-      }
-    });
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  const registry = {
-    eventListeners: [],
-    timeouts: [],
-    intervals: [],
-    targets: []
-  };
-  var Registry = {
-    // Timeouts
-    setTimeout(cb, timeout) {
-      for (var _len = arguments.length, params = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        params[_key - 2] = arguments[_key];
-      }
-      const timeoutId = setTimeout(() => {
-        registry.timeouts = registry.timeouts.filter(id => id !== timeoutId);
-        cb.apply(null, params);
-      }, timeout, params);
-      Log$1.info('Set Timeout', 'ID: ' + timeoutId);
-      registry.timeouts.push(timeoutId);
-      return timeoutId;
-    },
-    clearTimeout(timeoutId) {
-      if (registry.timeouts.indexOf(timeoutId) > -1) {
-        registry.timeouts = registry.timeouts.filter(id => id !== timeoutId);
-        Log$1.info('Clear Timeout', 'ID: ' + timeoutId);
-        clearTimeout(timeoutId);
-      } else {
-        Log$1.error('Clear Timeout', 'ID ' + timeoutId + ' not found');
-      }
-    },
-    clearTimeouts() {
-      registry.timeouts.forEach(timeoutId => {
-        this.clearTimeout(timeoutId);
+    }
+    _getItemLocalStorage(e) {
+      return window.localStorage.getItem(e);
+    }
+    _setItemLocalStorage(e, t) {
+      return window.localStorage.setItem(e, t);
+    }
+    _removeItemLocalStorage(e) {
+      return window.localStorage.removeItem(e);
+    }
+    _clearLocalStorage() {
+      return window.localStorage.clear();
+    }
+    _getLocalStorageKeys() {
+      return Object.keys(window.localStorage);
+    }
+    _getItemCookie(e) {
+      var t = document.cookie.match(RegExp("(?:^|;\\s*)" + function (e) {
+        return e.replace(/([.*+?\^${}()|\[\]\/\\])/g, "\\$1");
+      }(e) + "=([^;]*)"));
+      return t && "" === t[1] && (t[1] = null), t ? t[1] : null;
+    }
+    _setItemCookie(e, t) {
+      var o = new Date(),
+        r = new Date(o.getTime() + 15768e7);
+      document.cookie = "".concat(e, "=").concat(t, "; expires=").concat(r.toUTCString(), ";");
+    }
+    _removeItemCookie(e) {
+      document.cookie = "".concat(e, "=;Max-Age=-99999999;");
+    }
+    _clearCookies() {
+      document.cookie.split(";").forEach(e => {
+        document.cookie = e.replace(/^ +/, "").replace(/=.*/, "=;expires=Max-Age=-99999999");
       });
-    },
-    // Intervals
-    setInterval(cb, interval) {
-      for (var _len2 = arguments.length, params = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        params[_key2 - 2] = arguments[_key2];
-      }
-      const intervalId = setInterval(() => {
-        registry.intervals.filter(id => id !== intervalId);
-        cb.apply(null, params);
-      }, interval, params);
-      Log$1.info('Set Interval', 'ID: ' + intervalId);
-      registry.intervals.push(intervalId);
-      return intervalId;
-    },
-    clearInterval(intervalId) {
-      if (registry.intervals.indexOf(intervalId) > -1) {
-        registry.intervals = registry.intervals.filter(id => id !== intervalId);
-        Log$1.info('Clear Interval', 'ID: ' + intervalId);
-        clearInterval(intervalId);
-      } else {
-        Log$1.error('Clear Interval', 'ID ' + intervalId + ' not found');
-      }
-    },
-    clearIntervals() {
-      registry.intervals.forEach(intervalId => {
-        this.clearInterval(intervalId);
-      });
-    },
-    // Event listeners
-    addEventListener(target, event, handler) {
-      target.addEventListener(event, handler);
-      const targetIndex = registry.targets.indexOf(target) > -1 ? registry.targets.indexOf(target) : registry.targets.push(target) - 1;
-      registry.eventListeners[targetIndex] = registry.eventListeners[targetIndex] || {};
-      registry.eventListeners[targetIndex][event] = registry.eventListeners[targetIndex][event] || [];
-      registry.eventListeners[targetIndex][event].push(handler);
-      Log$1.info('Add eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler.toString());
-    },
-    removeEventListener(target, event, handler) {
-      const targetIndex = registry.targets.indexOf(target);
-      if (targetIndex > -1 && registry.eventListeners[targetIndex] && registry.eventListeners[targetIndex][event] && registry.eventListeners[targetIndex][event].indexOf(handler) > -1) {
-        registry.eventListeners[targetIndex][event] = registry.eventListeners[targetIndex][event].filter(fn => fn !== handler);
-        Log$1.info('Remove eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler.toString());
-        target.removeEventListener(event, handler);
-        // remove key from event listeners object when no events are registered for that event
-        Object.keys(registry.eventListeners[targetIndex]).forEach(event => {
-          if (registry.eventListeners[targetIndex][event].length === 0) {
-            delete registry.eventListeners[targetIndex][event];
-          }
-        });
-        // remove reference to the target when target has no event listeners registered
-        if (Object.keys(registry.eventListeners[targetIndex]).length === 0) {
-          registry.targets.splice(targetIndex, 1);
-          registry.eventListeners.splice(targetIndex, 1);
-        }
-      } else {
-        Log$1.error('Remove eventListener', 'Not found', 'Target', target, 'Event: ' + event, 'Handler', handler.toString());
-      }
-    },
-    // if `event` is omitted, removes all registered event listeners for target
-    // if `target` is also omitted, removes all registered event listeners
-    removeEventListeners(target, event) {
-      if (target && event) {
-        const targetIndex = registry.targets.indexOf(target);
-        if (targetIndex > -1) {
-          registry.eventListeners[targetIndex][event].forEach(handler => {
-            this.removeEventListener(target, event, handler);
-          });
-        }
-      } else if (target) {
-        const targetIndex = registry.targets.indexOf(target);
-        if (targetIndex > -1) {
-          Object.keys(registry.eventListeners[targetIndex]).forEach(_event => {
-            this.removeEventListeners(target, _event);
-          });
-        }
-      } else {
-        Object.keys(registry.eventListeners).forEach(targetIndex => {
-          this.removeEventListeners(registry.targets[targetIndex]);
-        });
-      }
-    },
-    // Clear everything (to be called upon app close for proper cleanup)
-    clear() {
-      this.clearTimeouts();
-      this.clearIntervals();
-      this.removeEventListeners();
-      registry.eventListeners = [];
-      registry.timeouts = [];
-      registry.intervals = [];
-      registry.targets = [];
     }
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-
-  const isObject$1 = v => {
-    return typeof v === 'object' && v !== null;
-  };
-  const isString$1 = v => {
-    return typeof v === 'string';
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let colors = {
-    white: '#ffffff',
-    black: '#000000',
-    red: '#ff0000',
-    green: '#00ff00',
-    blue: '#0000ff',
-    yellow: '#feff00',
-    cyan: '#00feff',
-    magenta: '#ff00ff'
-  };
-  const normalizedColors = {
-    //store for normalized colors
-  };
-  const addColors = (colorsToAdd, value) => {
-    if (isObject$1(colorsToAdd)) {
-      // clean up normalizedColors if they exist in the to be added colors
-      Object.keys(colorsToAdd).forEach(color => cleanUpNormalizedColors(color));
-      colors = Object.assign({}, colors, colorsToAdd);
-    } else if (isString$1(colorsToAdd) && value) {
-      cleanUpNormalizedColors(colorsToAdd);
-      colors[colorsToAdd] = value;
-    }
-  };
-  const cleanUpNormalizedColors = color => {
-    for (let c in normalizedColors) {
-      if (c.indexOf(color) > -1) {
-        delete normalizedColors[c];
-      }
-    }
-  };
-  const initColors = file => {
-    return new Promise((resolve, reject) => {
-      if (typeof file === 'object') {
-        addColors(file);
-        return resolve();
-      }
-      fetchJson(file).then(json => {
-        addColors(json);
-        return resolve();
-      }).catch(() => {
-        const error = 'Colors file ' + file + ' not found';
-        Log$1.error(error);
-        return reject(error);
-      });
-    });
-  };
-
-  var name = "@lightningjs/sdk";
-  var version = "5.5.3";
-  var license = "Apache-2.0";
-  var types = "index.d.ts";
-  var scripts = {
-  	postinstall: "node ./scripts/postinstall.js",
-  	lint: "eslint '**/*.js'",
-  	release: "npm publish --access public",
-  	typedoc: "typedoc --tsconfig tsconfig.typedoc.json",
-  	tsd: "tsd"
-  };
-  var husky = {
-  	hooks: {
-  		"pre-commit": "lint-staged"
-  	}
-  };
-  var dependencies = {
-  	"@babel/polyfill": "^7.11.5",
-  	"@lightningjs/core": "^2.13.1",
-  	"@metrological/sdk": "https://github.com/sandeep-vedam/metrological-sdk.git#feat/sdksplit",
-  	"@michieljs/execute-as-promise": "^1.0.0",
-  	deepmerge: "^4.2.2",
-  	"is-plain-object": "^5.0.0",
-  	localcookies: "^2.0.0",
-  	shelljs: "^0.8.5",
-  	"url-polyfill": "^1.1.10",
-  	"whatwg-fetch": "^3.0.0"
-  };
-  var devDependencies = {
-  	"@babel/core": "^7.11.6",
-  	"@babel/plugin-transform-parameters": "^7.10.5 ",
-  	"@babel/plugin-transform-spread": "^7.11.0",
-  	"@babel/preset-env": "^7.11.5",
-  	"babel-eslint": "^10.1.0",
-  	eslint: "^7.10.0",
-  	"eslint-config-prettier": "^6.12.0",
-  	"eslint-plugin-prettier": "^3.1.4",
-  	husky: "^4.3.0",
-  	"lint-staged": "^10.4.0",
-  	prettier: "^1.19.1",
-  	rollup: "^1.32.1",
-  	"rollup-plugin-babel": "^4.4.0",
-  	tsd: "^0.22.0",
-  	typedoc: "^0.23.9"
-  };
-  var repository = {
-  	type: "git",
-  	url: "git@github.com:rdkcentral/Lightning-SDK.git"
-  };
-  var bugs = {
-  	url: "https://github.com/rdkcentral/Lightning-SDK/issues"
-  };
-  var packageInfo = {
-  	name: name,
-  	version: version,
-  	license: license,
-  	types: types,
-  	scripts: scripts,
-  	"lint-staged": {
-  	"*.js": [
-  		"eslint --fix"
-  	],
-  	"src/startApp.js": [
-  		"rollup -c ./rollup.config.js"
-  	]
-  },
-  	husky: husky,
-  	dependencies: dependencies,
-  	devDependencies: devDependencies,
-  	repository: repository,
-  	bugs: bugs
-  };
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  let AppInstance;
-  const defaultOptions = {
-    stage: {
-      w: 1920,
-      h: 1080,
-      precision: 1,
-      clearColor: 0x00000000,
-      canvas2d: false
-    },
-    debug: false,
-    defaultFontFace: 'RobotoRegular',
-    keys: {
-      8: 'Back',
-      13: 'Enter',
-      27: 'Menu',
-      37: 'Left',
-      38: 'Up',
-      39: 'Right',
-      40: 'Down',
-      174: 'ChannelDown',
-      175: 'ChannelUp',
-      178: 'Stop',
-      250: 'PlayPause',
-      191: 'Search',
-      // Use "/" for keyboard
-      409: 'Search'
-    }
-  };
-  const customFontFaces = [];
-  const fontLoader = (fonts, store) => new Promise((resolve, reject) => {
-    fonts.map(_ref => {
-      let {
-        family,
-        url,
-        urls,
-        descriptors
-      } = _ref;
-      return () => {
-        const src = urls ? urls.map(url => {
-          return 'url(' + url + ')';
-        }) : 'url(' + url + ')';
-        const fontFace = new FontFace(family, src, descriptors || {});
-        store.push(fontFace);
-        Log$1.info('Loading font', family);
-        document.fonts.add(fontFace);
-        return fontFace.load();
-      };
-    }).reduce((promise, method) => {
-      return promise.then(() => method());
-    }, Promise.resolve(null)).then(resolve).catch(reject);
-  });
-  function Application (App, appData, platformSettings) {
-    const {
-      width,
-      height
-    } = platformSettings;
-    if (width && height) {
-      defaultOptions.stage['w'] = width;
-      defaultOptions.stage['h'] = height;
-      defaultOptions.stage['precision'] = width / 1920;
-    }
-
-    // support for 720p browser
-    if (!width && !height && window.innerHeight === 720) {
-      defaultOptions.stage['w'] = 1280;
-      defaultOptions.stage['h'] = 720;
-      defaultOptions.stage['precision'] = 1280 / 1920;
-    }
-    return class Application extends Lightning.Application {
-      constructor(options) {
-        const config = cjs(defaultOptions, options, {
-          isMergeableObject: isPlainObject
-        });
-        super(config);
-        this.config = config;
-      }
-      static _template() {
-        return {
-          w: 1920,
-          h: 1080
-        };
-      }
-      colorshift() {
-        let type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        Accessibility.colorshift(this, type, config);
-      }
-      get keymapping() {
-        return this.stage.application.config.keys;
-      }
-
-      /**
-       * This function overrides the default keymap with the latest keymap.
-       * @param customKeyMap
-       * @param keepDuplicates
-       */
-      overrideKeyMap(customKeyMap) {
-        let keepDuplicates = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        const baseKeyMap = this.stage.application.config.keys;
-        Object.keys(customKeyMap).reduce((keymapping, key) => {
-          // prevent duplicate values to exist in final keymapping (i.e. 2 keys triggering 'Back')
-          if (!keepDuplicates) {
-            Object.keys(baseKeyMap).forEach(baseKey => {
-              if (baseKey != key && baseKeyMap[baseKey] == customKeyMap[key]) {
-                delete keymapping[baseKey];
-              }
-            });
-          }
-          keymapping[key] = customKeyMap[key];
-          return keymapping;
-        }, baseKeyMap);
-        return baseKeyMap;
-      }
-      _setup() {
-        Promise.all([this.loadFonts(App.config && App.config.fonts || App.getFonts && App.getFonts() || []),
-        // to be deprecated
-        Locale$1.load(App.config && App.config.locale || App.getLocale && App.getLocale()), App.language && this.loadLanguage(App.language()), App.colors && this.loadColors(App.colors())]).then(() => {
-          Metrics$1.app.loaded();
-          this.w = this.config.stage.w / this.config.stage.precision;
-          this.h = this.config.stage.h / this.config.stage.precision;
-          AppInstance = this.stage.c({
-            ref: 'App',
-            type: App,
-            zIndex: 1,
-            forceZIndexContext: !!platformSettings.showVersion || !!platformSettings.showFps
-          });
-          this.childList.a(AppInstance);
-          this._refocus();
-          Log$1.info('App version', this.config.version);
-          Log$1.info('SDK version', packageInfo.version);
-          if (platformSettings.showVersion) {
-            this.childList.a({
-              ref: 'VersionLabel',
-              type: VersionLabel,
-              version: this.config.version,
-              sdkVersion: packageInfo.version,
-              zIndex: 1
-            });
-          }
-          if (platformSettings.showFps) {
-            this.childList.a({
-              ref: 'FpsCounter',
-              type: FpsIndicator,
-              zIndex: 1
-            });
-          }
-          super._setup();
-        }).catch(console.error);
-      }
-      _handleBack() {
-        this.closeApp();
-      }
-      _handleExit() {
-        this.closeApp();
-      }
-      closeApp() {
-        Log$1.info('Signaling App Close');
-        if (platformSettings.onClose && typeof platformSettings.onClose === 'function') {
-          platformSettings.onClose(...arguments);
-        } else {
-          this.close();
-        }
-      }
-      close() {
-        Log$1.info('Closing App');
-        Settings$1.clearSubscribers();
-        Registry.clear();
-        this.childList.remove(this.tag('App'));
-        this.cleanupFonts();
-        // force texture garbage collect
-        this.stage.gc();
-        this.destroy();
-      }
-      loadFonts(fonts) {
-        return platformSettings.fontLoader && typeof platformSettings.fontLoader === 'function' ? platformSettings.fontLoader(fonts, customFontFaces) : fontLoader(fonts, customFontFaces);
-      }
-      cleanupFonts() {
-        if ('delete' in document.fonts) {
-          customFontFaces.forEach(fontFace => {
-            Log$1.info('Removing font', fontFace.family);
-            document.fonts.delete(fontFace);
-          });
-        } else {
-          Log$1.info('No support for removing manually-added fonts');
-        }
-      }
-      loadLanguage(config) {
-        let file = Utils.asset('translations.json');
-        let language = config;
-        if (typeof language === 'object') {
-          language = config.language || null;
-          file = config.file || file;
-        }
-        return initLanguage(file, language);
-      }
-      loadColors(config) {
-        let file = Utils.asset('colors.json');
-        if (config && (typeof config === 'string' || typeof config === 'object')) {
-          file = config;
-        }
-        return initColors(file);
-      }
-      set focus(v) {
-        this._focussed = v;
-        this._refocus();
-      }
-      _getFocused() {
-        return this._focussed || this.tag('App');
-      }
-    };
-  }
-
-  /*
-   * If not stated otherwise in this file or this component's LICENSE file the
-   * following copyright and licenses apply:
-   *
-   * Copyright 2020 Metrological
-   *
-   * Licensed under the Apache License, Version 2.0 (the License);
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   * http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   */
-  class ScaledImageTexture extends Lightning.textures.ImageTexture {
-    constructor(stage) {
-      super(stage);
-      this._scalingOptions = undefined;
-    }
-    set options(options) {
-      this.resizeMode = this._scalingOptions = options;
-    }
-    _getLookupId() {
-      return "".concat(this._src, "-").concat(this._scalingOptions.type, "-").concat(this._scalingOptions.w, "-").concat(this._scalingOptions.h);
-    }
-    getNonDefaults() {
-      const obj = super.getNonDefaults();
-      if (this._src) {
-        obj.src = this._src;
-      }
-      return obj;
+    _getCookieKeys() {
+      return document.cookie.split(";").map(e => e.split("=")[0]);
     }
   }
 
@@ -7268,7 +1084,7 @@ var APP_com_domain_app_bundleSize = (function () {
    * limitations under the License.
    */
   const initStorage = () => {
-    Settings$1.get('platform', 'id');
+    Settings.get('platform', 'id');
     // todo: pass options (for example to force the use of cookies)
     new localCookie();
   };
@@ -7439,7 +1255,7 @@ var APP_com_domain_app_bundleSize = (function () {
       this._register.set(symbols.store, this._storeCaller);
     }
     cancel() {
-      Log$1.debug('[router]:', "cancelled ".concat(this._hash));
+      Log.debug('[router]:', "cancelled ".concat(this._hash));
       this._cancelled = true;
     }
     get url() {
@@ -8074,6 +1890,1064 @@ var APP_com_domain_app_bundleSize = (function () {
     }
   };
 
+  var isMergeableObject = function isMergeableObject(value) {
+    return isNonNullObject(value) && !isSpecial(value);
+  };
+  function isNonNullObject(value) {
+    return !!value && typeof value === 'object';
+  }
+  function isSpecial(value) {
+    var stringValue = Object.prototype.toString.call(value);
+    return stringValue === '[object RegExp]' || stringValue === '[object Date]' || isReactElement(value);
+  }
+
+  // see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
+  var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
+  var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
+  function isReactElement(value) {
+    return value.$$typeof === REACT_ELEMENT_TYPE;
+  }
+  function emptyTarget(val) {
+    return Array.isArray(val) ? [] : {};
+  }
+  function cloneUnlessOtherwiseSpecified(value, options) {
+    return options.clone !== false && options.isMergeableObject(value) ? deepmerge(emptyTarget(value), value, options) : value;
+  }
+  function defaultArrayMerge(target, source, options) {
+    return target.concat(source).map(function (element) {
+      return cloneUnlessOtherwiseSpecified(element, options);
+    });
+  }
+  function getMergeFunction(key, options) {
+    if (!options.customMerge) {
+      return deepmerge;
+    }
+    var customMerge = options.customMerge(key);
+    return typeof customMerge === 'function' ? customMerge : deepmerge;
+  }
+  function getEnumerableOwnPropertySymbols(target) {
+    return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(target).filter(function (symbol) {
+      return Object.propertyIsEnumerable.call(target, symbol);
+    }) : [];
+  }
+  function getKeys(target) {
+    return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target));
+  }
+  function propertyIsOnObject(object, property) {
+    try {
+      return property in object;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  // Protects from prototype poisoning and unexpected merging up the prototype chain.
+  function propertyIsUnsafe(target, key) {
+    return propertyIsOnObject(target, key) // Properties are safe to merge if they don't exist in the target yet,
+    && !(Object.hasOwnProperty.call(target, key) // unsafe if they exist up the prototype chain,
+    && Object.propertyIsEnumerable.call(target, key)); // and also unsafe if they're nonenumerable.
+  }
+  function mergeObject(target, source, options) {
+    var destination = {};
+    if (options.isMergeableObject(target)) {
+      getKeys(target).forEach(function (key) {
+        destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+      });
+    }
+    getKeys(source).forEach(function (key) {
+      if (propertyIsUnsafe(target, key)) {
+        return;
+      }
+      if (propertyIsOnObject(target, key) && options.isMergeableObject(source[key])) {
+        destination[key] = getMergeFunction(key, options)(target[key], source[key], options);
+      } else {
+        destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
+      }
+    });
+    return destination;
+  }
+  function deepmerge(target, source, options) {
+    options = options || {};
+    options.arrayMerge = options.arrayMerge || defaultArrayMerge;
+    options.isMergeableObject = options.isMergeableObject || isMergeableObject;
+    // cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge()
+    // implementations can use it. The caller may not replace it.
+    options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
+    var sourceIsArray = Array.isArray(source);
+    var targetIsArray = Array.isArray(target);
+    var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
+    if (!sourceAndTargetTypesMatch) {
+      return cloneUnlessOtherwiseSpecified(source, options);
+    } else if (sourceIsArray) {
+      return options.arrayMerge(target, source, options);
+    } else {
+      return mergeObject(target, source, options);
+    }
+  }
+  deepmerge.all = function deepmergeAll(array, options) {
+    if (!Array.isArray(array)) {
+      throw new Error('first argument should be an array');
+    }
+    return array.reduce(function (prev, next) {
+      return deepmerge(prev, next, options);
+    }, {});
+  };
+  var deepmerge_1 = deepmerge;
+  var cjs = deepmerge_1;
+
+  /*!
+   * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+   *
+   * Copyright (c) 2014-2017, Jon Schlinkert.
+   * Released under the MIT License.
+   */
+
+  function isObject$2(o) {
+    return Object.prototype.toString.call(o) === '[object Object]';
+  }
+
+  function isPlainObject(o) {
+    var ctor,prot;
+
+    if (isObject$2(o) === false) return false;
+
+    // If has modified constructor
+    ctor = o.constructor;
+    if (ctor === undefined) return true;
+
+    // If has modified prototype
+    prot = ctor.prototype;
+    if (isObject$2(prot) === false) return false;
+
+    // If constructor does not have an Object-specific method
+    if (prot.hasOwnProperty('isPrototypeOf') === false) {
+      return false;
+    }
+
+    // Most likely a plain Object
+    return true;
+  }
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  let warned = false;
+  const deprecated = function () {
+    let force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    if (force === true || warned === false) {
+      console.warn(["The 'Locale'-plugin in the Lightning-SDK is deprecated and will be removed in future releases.", "Please consider using the new 'Language'-plugin instead.", 'https://rdkcentral.github.io/Lightning-SDK/#/plugins/language'].join('\n\n'));
+    }
+    warned = true;
+  };
+  class Locale {
+    constructor() {
+      this.__enabled = false;
+    }
+
+    /**
+     * Loads translation object from external json file.
+     *
+     * @param {String} path Path to resource.
+     * @return {Promise}
+     */
+    async load(path) {
+      if (!this.__enabled) {
+        return;
+      }
+      await fetch(path).then(resp => resp.json()).then(resp => {
+        this.loadFromObject(resp);
+      });
+    }
+
+    /**
+     * Sets language used by module.
+     *
+     * @param {String} lang
+     */
+    setLanguage(lang) {
+      deprecated();
+      this.__enabled = true;
+      this.language = lang;
+    }
+
+    /**
+     * Returns reference to translation object for current language.
+     *
+     * @return {Object}
+     */
+    get tr() {
+      deprecated(true);
+      return this.__trObj[this.language];
+    }
+
+    /**
+     * Loads translation object from existing object (binds existing object).
+     *
+     * @param {Object} trObj
+     */
+    loadFromObject(trObj) {
+      deprecated();
+      const fallbackLanguage = 'en';
+      if (Object.keys(trObj).indexOf(this.language) === -1) {
+        Log.warn('No translations found for: ' + this.language);
+        if (Object.keys(trObj).indexOf(fallbackLanguage) > -1) {
+          Log.warn('Using fallback language: ' + fallbackLanguage);
+          this.language = fallbackLanguage;
+        } else {
+          const error = 'No translations found for fallback language: ' + fallbackLanguage;
+          Log.error(error);
+          throw Error(error);
+        }
+      }
+      this.__trObj = trObj;
+      for (const lang of Object.values(this.__trObj)) {
+        for (const str of Object.keys(lang)) {
+          lang[str] = new LocalizedString(lang[str]);
+        }
+      }
+    }
+  }
+
+  /**
+   * Extended string class used for localization.
+   */
+  class LocalizedString extends String {
+    /**
+     * Returns formatted LocalizedString.
+     * Replaces each placeholder value (e.g. {0}, {1}) with corresponding argument.
+     *
+     * E.g.:
+     * > new LocalizedString('{0} and {1} and {0}').format('A', 'B');
+     * A and B and A
+     *
+     * @param  {...any} args List of arguments for placeholders.
+     */
+    format() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      const sub = args.reduce((string, arg, index) => string.split("{".concat(index, "}")).join(arg), this);
+      return new LocalizedString(sub);
+    }
+  }
+  var Locale$1 = new Locale();
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  class VersionLabel extends Lightning.Component {
+    static _template() {
+      return {
+        rect: true,
+        color: 0xbb0078ac,
+        h: 40,
+        w: 100,
+        x: w => w - 50,
+        y: h => h - 50,
+        mount: 1,
+        Text: {
+          w: w => w,
+          h: h => h,
+          y: 5,
+          x: 20,
+          text: {
+            fontSize: 22,
+            lineHeight: 26
+          }
+        }
+      };
+    }
+    _firstActive() {
+      this.tag('Text').text = "APP - v".concat(this.version, "\nSDK - v").concat(this.sdkVersion);
+      this.tag('Text').loadTexture();
+      this.w = this.tag('Text').renderWidth + 40;
+      this.h = this.tag('Text').renderHeight + 5;
+    }
+  }
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  class FpsIndicator extends Lightning.Component {
+    static _template() {
+      return {
+        rect: true,
+        color: 0xffffffff,
+        texture: Lightning.Tools.getRoundRect(80, 80, 40),
+        h: 80,
+        w: 80,
+        x: 100,
+        y: 100,
+        mount: 1,
+        Background: {
+          x: 3,
+          y: 3,
+          texture: Lightning.Tools.getRoundRect(72, 72, 36),
+          color: 0xff008000
+        },
+        Counter: {
+          w: w => w,
+          h: h => h,
+          y: 10,
+          text: {
+            fontSize: 32,
+            textAlign: 'center'
+          }
+        },
+        Text: {
+          w: w => w,
+          h: h => h,
+          y: 48,
+          text: {
+            fontSize: 15,
+            textAlign: 'center',
+            text: 'FPS'
+          }
+        }
+      };
+    }
+    _setup() {
+      this.config = {
+        ...{
+          log: false,
+          interval: 500,
+          threshold: 1
+        },
+        ...Settings.get('platform', 'showFps')
+      };
+      this.fps = 0;
+      this.lastFps = this.fps - this.config.threshold;
+      const fpsCalculator = () => {
+        this.fps = ~~(1 / this.stage.dt);
+      };
+      this.stage.on('frameStart', fpsCalculator);
+      this.stage.off('framestart', fpsCalculator);
+      this.interval = setInterval(this.showFps.bind(this), this.config.interval);
+    }
+    _firstActive() {
+      this.showFps();
+    }
+    _detach() {
+      clearInterval(this.interval);
+    }
+    showFps() {
+      if (Math.abs(this.lastFps - this.fps) <= this.config.threshold) return;
+      this.lastFps = this.fps;
+      // green
+      let bgColor = 0xff008000;
+      // orange
+      if (this.fps <= 40 && this.fps > 20) bgColor = 0xffffa500;
+      // red
+      else if (this.fps <= 20) bgColor = 0xffff0000;
+      this.tag('Background').setSmooth('color', bgColor);
+      this.tag('Counter').text = "".concat(this.fps);
+      this.config.log && Log.info('FPS', this.fps);
+    }
+  }
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+  var fetchJson = (file => {
+    return new Promise((resolve, reject) => {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          // file protocol returns 0
+          // http(s) protocol returns 200
+          if (xhr.status === 0 || xhr.status === 200) resolve(JSON.parse(xhr.responseText));else reject(xhr.statusText);
+        }
+      };
+      xhr.open('GET', file);
+      xhr.send(null);
+    });
+  });
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  let meta = {};
+  let translations = {};
+  let language = null;
+  const initLanguage = function (file) {
+    let language = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    return new Promise((resolve, reject) => {
+      fetchJson(file).then(json => {
+        setTranslations(json);
+        // set language (directly or in a promise)
+        typeof language === 'object' && 'then' in language && typeof language.then === 'function' ? language.then(lang => setLanguage(lang).then(resolve).catch(reject)).catch(e => {
+          Log.error(e);
+          reject(e);
+        }) : setLanguage(language).then(resolve).catch(reject);
+      }).catch(() => {
+        const error = 'Language file ' + file + ' not found';
+        Log.error(error);
+        reject(error);
+      });
+    });
+  };
+  const setTranslations = obj => {
+    if ('meta' in obj) {
+      meta = {
+        ...obj.meta
+      };
+      delete obj.meta;
+    }
+    translations = obj;
+  };
+  const setLanguage = lng => {
+    language = null;
+    return new Promise((resolve, reject) => {
+      if (lng in translations) {
+        language = lng;
+      } else {
+        if ('map' in meta && lng in meta.map && meta.map[lng] in translations) {
+          language = meta.map[lng];
+        } else if ('default' in meta && meta.default in translations) {
+          const error = 'Translations for Language ' + language + ' not found. Using default language ' + meta.default;
+          Log.warn(error);
+          language = meta.default;
+        } else {
+          const error = 'Translations for Language ' + language + ' not found.';
+          Log.error(error);
+          reject(error);
+        }
+      }
+      if (language) {
+        Log.info('Setting language to', language);
+        const translationsObj = translations[language];
+        if (typeof translationsObj === 'object') {
+          resolve();
+        } else if (typeof translationsObj === 'string') {
+          const url = Utils.asset(translationsObj);
+          fetchJson(url).then(json => {
+            // save the translations for this language (to prevent loading twice)
+            translations[language] = json;
+            resolve();
+          }).catch(e => {
+            const error = 'Error while fetching ' + url;
+            Log.error(error, e);
+            reject(error);
+          });
+        }
+      }
+    });
+  };
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  const registry = {
+    eventListeners: [],
+    timeouts: [],
+    intervals: [],
+    targets: []
+  };
+  var Registry = {
+    // Timeouts
+    setTimeout(cb, timeout) {
+      for (var _len = arguments.length, params = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        params[_key - 2] = arguments[_key];
+      }
+      const timeoutId = setTimeout(() => {
+        registry.timeouts = registry.timeouts.filter(id => id !== timeoutId);
+        cb.apply(null, params);
+      }, timeout, params);
+      Log.info('Set Timeout', 'ID: ' + timeoutId);
+      registry.timeouts.push(timeoutId);
+      return timeoutId;
+    },
+    clearTimeout(timeoutId) {
+      if (registry.timeouts.indexOf(timeoutId) > -1) {
+        registry.timeouts = registry.timeouts.filter(id => id !== timeoutId);
+        Log.info('Clear Timeout', 'ID: ' + timeoutId);
+        clearTimeout(timeoutId);
+      } else {
+        Log.error('Clear Timeout', 'ID ' + timeoutId + ' not found');
+      }
+    },
+    clearTimeouts() {
+      registry.timeouts.forEach(timeoutId => {
+        this.clearTimeout(timeoutId);
+      });
+    },
+    // Intervals
+    setInterval(cb, interval) {
+      for (var _len2 = arguments.length, params = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        params[_key2 - 2] = arguments[_key2];
+      }
+      const intervalId = setInterval(() => {
+        registry.intervals.filter(id => id !== intervalId);
+        cb.apply(null, params);
+      }, interval, params);
+      Log.info('Set Interval', 'ID: ' + intervalId);
+      registry.intervals.push(intervalId);
+      return intervalId;
+    },
+    clearInterval(intervalId) {
+      if (registry.intervals.indexOf(intervalId) > -1) {
+        registry.intervals = registry.intervals.filter(id => id !== intervalId);
+        Log.info('Clear Interval', 'ID: ' + intervalId);
+        clearInterval(intervalId);
+      } else {
+        Log.error('Clear Interval', 'ID ' + intervalId + ' not found');
+      }
+    },
+    clearIntervals() {
+      registry.intervals.forEach(intervalId => {
+        this.clearInterval(intervalId);
+      });
+    },
+    // Event listeners
+    addEventListener(target, event, handler) {
+      target.addEventListener(event, handler);
+      const targetIndex = registry.targets.indexOf(target) > -1 ? registry.targets.indexOf(target) : registry.targets.push(target) - 1;
+      registry.eventListeners[targetIndex] = registry.eventListeners[targetIndex] || {};
+      registry.eventListeners[targetIndex][event] = registry.eventListeners[targetIndex][event] || [];
+      registry.eventListeners[targetIndex][event].push(handler);
+      Log.info('Add eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler.toString());
+    },
+    removeEventListener(target, event, handler) {
+      const targetIndex = registry.targets.indexOf(target);
+      if (targetIndex > -1 && registry.eventListeners[targetIndex] && registry.eventListeners[targetIndex][event] && registry.eventListeners[targetIndex][event].indexOf(handler) > -1) {
+        registry.eventListeners[targetIndex][event] = registry.eventListeners[targetIndex][event].filter(fn => fn !== handler);
+        Log.info('Remove eventListener', 'Target:', target, 'Event: ' + event, 'Handler:', handler.toString());
+        target.removeEventListener(event, handler);
+        // remove key from event listeners object when no events are registered for that event
+        Object.keys(registry.eventListeners[targetIndex]).forEach(event => {
+          if (registry.eventListeners[targetIndex][event].length === 0) {
+            delete registry.eventListeners[targetIndex][event];
+          }
+        });
+        // remove reference to the target when target has no event listeners registered
+        if (Object.keys(registry.eventListeners[targetIndex]).length === 0) {
+          registry.targets.splice(targetIndex, 1);
+          registry.eventListeners.splice(targetIndex, 1);
+        }
+      } else {
+        Log.error('Remove eventListener', 'Not found', 'Target', target, 'Event: ' + event, 'Handler', handler.toString());
+      }
+    },
+    // if `event` is omitted, removes all registered event listeners for target
+    // if `target` is also omitted, removes all registered event listeners
+    removeEventListeners(target, event) {
+      if (target && event) {
+        const targetIndex = registry.targets.indexOf(target);
+        if (targetIndex > -1) {
+          registry.eventListeners[targetIndex][event].forEach(handler => {
+            this.removeEventListener(target, event, handler);
+          });
+        }
+      } else if (target) {
+        const targetIndex = registry.targets.indexOf(target);
+        if (targetIndex > -1) {
+          Object.keys(registry.eventListeners[targetIndex]).forEach(_event => {
+            this.removeEventListeners(target, _event);
+          });
+        }
+      } else {
+        Object.keys(registry.eventListeners).forEach(targetIndex => {
+          this.removeEventListeners(registry.targets[targetIndex]);
+        });
+      }
+    },
+    // Clear everything (to be called upon app close for proper cleanup)
+    clear() {
+      this.clearTimeouts();
+      this.clearIntervals();
+      this.removeEventListeners();
+      registry.eventListeners = [];
+      registry.timeouts = [];
+      registry.intervals = [];
+      registry.targets = [];
+    }
+  };
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+  const isObject$1 = v => {
+    return typeof v === 'object' && v !== null;
+  };
+  const isString$1 = v => {
+    return typeof v === 'string';
+  };
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  let colors = {
+    white: '#ffffff',
+    black: '#000000',
+    red: '#ff0000',
+    green: '#00ff00',
+    blue: '#0000ff',
+    yellow: '#feff00',
+    cyan: '#00feff',
+    magenta: '#ff00ff'
+  };
+  const normalizedColors = {
+    //store for normalized colors
+  };
+  const addColors = (colorsToAdd, value) => {
+    if (isObject$1(colorsToAdd)) {
+      // clean up normalizedColors if they exist in the to be added colors
+      Object.keys(colorsToAdd).forEach(color => cleanUpNormalizedColors(color));
+      colors = Object.assign({}, colors, colorsToAdd);
+    } else if (isString$1(colorsToAdd) && value) {
+      cleanUpNormalizedColors(colorsToAdd);
+      colors[colorsToAdd] = value;
+    }
+  };
+  const cleanUpNormalizedColors = color => {
+    for (let c in normalizedColors) {
+      if (c.indexOf(color) > -1) {
+        delete normalizedColors[c];
+      }
+    }
+  };
+  const initColors = file => {
+    return new Promise((resolve, reject) => {
+      if (typeof file === 'object') {
+        addColors(file);
+        return resolve();
+      }
+      fetchJson(file).then(json => {
+        addColors(json);
+        return resolve();
+      }).catch(() => {
+        const error = 'Colors file ' + file + ' not found';
+        Log.error(error);
+        return reject(error);
+      });
+    });
+  };
+
+  var name = "@lightningjs/sdk";
+  var version = "5.5.3";
+  var license = "Apache-2.0";
+  var types = "index.d.ts";
+  var scripts = {
+  	postinstall: "node ./scripts/postinstall.js",
+  	lint: "eslint '**/*.js'",
+  	release: "npm publish --access public",
+  	typedoc: "typedoc --tsconfig tsconfig.typedoc.json",
+  	tsd: "tsd"
+  };
+  var husky = {
+  	hooks: {
+  		"pre-commit": "lint-staged"
+  	}
+  };
+  var dependencies = {
+  	"@babel/polyfill": "^7.11.5",
+  	"@lightningjs/core": "^2.13.1",
+  	"@metrological/sdk": "https://github.com/sandeep-vedam/metrological-sdk.git#feat/sdksplit",
+  	"@michieljs/execute-as-promise": "^1.0.0",
+  	deepmerge: "^4.2.2",
+  	"is-plain-object": "^5.0.0",
+  	localcookies: "^2.0.0",
+  	shelljs: "^0.8.5",
+  	"url-polyfill": "^1.1.10",
+  	"whatwg-fetch": "^3.0.0"
+  };
+  var devDependencies = {
+  	"@babel/core": "^7.11.6",
+  	"@babel/plugin-transform-parameters": "^7.10.5 ",
+  	"@babel/plugin-transform-spread": "^7.11.0",
+  	"@babel/preset-env": "^7.11.5",
+  	"babel-eslint": "^10.1.0",
+  	eslint: "^7.10.0",
+  	"eslint-config-prettier": "^6.12.0",
+  	"eslint-plugin-prettier": "^3.1.4",
+  	husky: "^4.3.0",
+  	"lint-staged": "^10.4.0",
+  	prettier: "^1.19.1",
+  	rollup: "^1.32.1",
+  	"rollup-plugin-babel": "^4.4.0",
+  	tsd: "^0.22.0",
+  	typedoc: "^0.23.9"
+  };
+  var repository = {
+  	type: "git",
+  	url: "git@github.com:rdkcentral/Lightning-SDK.git"
+  };
+  var bugs = {
+  	url: "https://github.com/rdkcentral/Lightning-SDK/issues"
+  };
+  var packageInfo = {
+  	name: name,
+  	version: version,
+  	license: license,
+  	types: types,
+  	scripts: scripts,
+  	"lint-staged": {
+  	"*.js": [
+  		"eslint --fix"
+  	],
+  	"src/startApp.js": [
+  		"rollup -c ./rollup.config.js"
+  	]
+  },
+  	husky: husky,
+  	dependencies: dependencies,
+  	devDependencies: devDependencies,
+  	repository: repository,
+  	bugs: bugs
+  };
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  let AppInstance;
+  const defaultOptions = {
+    stage: {
+      w: 1920,
+      h: 1080,
+      precision: 1,
+      clearColor: 0x00000000,
+      canvas2d: false
+    },
+    debug: false,
+    defaultFontFace: 'RobotoRegular',
+    keys: {
+      8: 'Back',
+      13: 'Enter',
+      27: 'Menu',
+      37: 'Left',
+      38: 'Up',
+      39: 'Right',
+      40: 'Down',
+      174: 'ChannelDown',
+      175: 'ChannelUp',
+      178: 'Stop',
+      250: 'PlayPause',
+      191: 'Search',
+      // Use "/" for keyboard
+      409: 'Search'
+    }
+  };
+  const customFontFaces = [];
+  const fontLoader = (fonts, store) => new Promise((resolve, reject) => {
+    fonts.map(_ref => {
+      let {
+        family,
+        url,
+        urls,
+        descriptors
+      } = _ref;
+      return () => {
+        const src = urls ? urls.map(url => {
+          return 'url(' + url + ')';
+        }) : 'url(' + url + ')';
+        const fontFace = new FontFace(family, src, descriptors || {});
+        store.push(fontFace);
+        Log.info('Loading font', family);
+        document.fonts.add(fontFace);
+        return fontFace.load();
+      };
+    }).reduce((promise, method) => {
+      return promise.then(() => method());
+    }, Promise.resolve(null)).then(resolve).catch(reject);
+  });
+  function Application (App, appData, platformSettings) {
+    const {
+      width,
+      height
+    } = platformSettings;
+    if (width && height) {
+      defaultOptions.stage['w'] = width;
+      defaultOptions.stage['h'] = height;
+      defaultOptions.stage['precision'] = width / 1920;
+    }
+
+    // support for 720p browser
+    if (!width && !height && window.innerHeight === 720) {
+      defaultOptions.stage['w'] = 1280;
+      defaultOptions.stage['h'] = 720;
+      defaultOptions.stage['precision'] = 1280 / 1920;
+    }
+    return class Application extends Lightning.Application {
+      constructor(options) {
+        const config = cjs(defaultOptions, options, {
+          isMergeableObject: isPlainObject
+        });
+        super(config);
+        this.config = config;
+      }
+      static _template() {
+        return {
+          w: 1920,
+          h: 1080
+        };
+      }
+      colorshift() {
+        let type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+        let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        Accessibility.colorshift(this, type, config);
+      }
+      get keymapping() {
+        return this.stage.application.config.keys;
+      }
+
+      /**
+       * This function overrides the default keymap with the latest keymap.
+       * @param customKeyMap
+       * @param keepDuplicates
+       */
+      overrideKeyMap(customKeyMap) {
+        let keepDuplicates = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        const baseKeyMap = this.stage.application.config.keys;
+        Object.keys(customKeyMap).reduce((keymapping, key) => {
+          // prevent duplicate values to exist in final keymapping (i.e. 2 keys triggering 'Back')
+          if (!keepDuplicates) {
+            Object.keys(baseKeyMap).forEach(baseKey => {
+              if (baseKey != key && baseKeyMap[baseKey] == customKeyMap[key]) {
+                delete keymapping[baseKey];
+              }
+            });
+          }
+          keymapping[key] = customKeyMap[key];
+          return keymapping;
+        }, baseKeyMap);
+        return baseKeyMap;
+      }
+      _setup() {
+        Promise.all([this.loadFonts(App.config && App.config.fonts || App.getFonts && App.getFonts() || []),
+        // to be deprecated
+        Locale$1.load(App.config && App.config.locale || App.getLocale && App.getLocale()), App.language && this.loadLanguage(App.language()), App.colors && this.loadColors(App.colors())]).then(() => {
+          Metrics$1.app.loaded();
+          this.w = this.config.stage.w / this.config.stage.precision;
+          this.h = this.config.stage.h / this.config.stage.precision;
+          AppInstance = this.stage.c({
+            ref: 'App',
+            type: App,
+            zIndex: 1,
+            forceZIndexContext: !!platformSettings.showVersion || !!platformSettings.showFps
+          });
+          this.childList.a(AppInstance);
+          this._refocus();
+          Log.info('App version', this.config.version);
+          Log.info('SDK version', packageInfo.version);
+          if (platformSettings.showVersion) {
+            this.childList.a({
+              ref: 'VersionLabel',
+              type: VersionLabel,
+              version: this.config.version,
+              sdkVersion: packageInfo.version,
+              zIndex: 1
+            });
+          }
+          if (platformSettings.showFps) {
+            this.childList.a({
+              ref: 'FpsCounter',
+              type: FpsIndicator,
+              zIndex: 1
+            });
+          }
+          super._setup();
+        }).catch(console.error);
+      }
+      _handleBack() {
+        this.closeApp();
+      }
+      _handleExit() {
+        this.closeApp();
+      }
+      closeApp() {
+        Log.info('Signaling App Close');
+        if (platformSettings.onClose && typeof platformSettings.onClose === 'function') {
+          platformSettings.onClose(...arguments);
+        } else {
+          this.close();
+        }
+      }
+      close() {
+        Log.info('Closing App');
+        Settings.clearSubscribers();
+        Registry.clear();
+        this.childList.remove(this.tag('App'));
+        this.cleanupFonts();
+        // force texture garbage collect
+        this.stage.gc();
+        this.destroy();
+      }
+      loadFonts(fonts) {
+        return platformSettings.fontLoader && typeof platformSettings.fontLoader === 'function' ? platformSettings.fontLoader(fonts, customFontFaces) : fontLoader(fonts, customFontFaces);
+      }
+      cleanupFonts() {
+        if ('delete' in document.fonts) {
+          customFontFaces.forEach(fontFace => {
+            Log.info('Removing font', fontFace.family);
+            document.fonts.delete(fontFace);
+          });
+        } else {
+          Log.info('No support for removing manually-added fonts');
+        }
+      }
+      loadLanguage(config) {
+        let file = Utils.asset('translations.json');
+        let language = config;
+        if (typeof language === 'object') {
+          language = config.language || null;
+          file = config.file || file;
+        }
+        return initLanguage(file, language);
+      }
+      loadColors(config) {
+        let file = Utils.asset('colors.json');
+        if (config && (typeof config === 'string' || typeof config === 'object')) {
+          file = config;
+        }
+        return initColors(file);
+      }
+      set focus(v) {
+        this._focussed = v;
+        this._refocus();
+      }
+      _getFocused() {
+        return this._focussed || this.tag('App');
+      }
+    };
+  }
+
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
    * following copyright and licenses apply:
@@ -8421,8 +3295,8 @@ var APP_com_domain_app_bundleSize = (function () {
       }
     }
     afterEachRoute(request);
-    Log$1.info('[route]:', route.path);
-    Log$1.info('[hash]:', hash);
+    Log.info('[route]:', route.path);
+    Log.info('[hash]:', hash);
   };
   const cleanUp = (page, request) => {
     const route = activeRoute;
@@ -8578,10 +3452,10 @@ var APP_com_domain_app_bundleSize = (function () {
     return hash.replace(/^#/, '').replace(/\/+$/, '');
   };
   const getConfigMap = () => {
-    const routerSettings = Settings$1.get('platform', 'router');
+    const routerSettings = Settings.get('platform', 'router');
     const isObj = isObject(routerSettings);
     return ['backtrack', 'gcOnUnload', 'destroyOnHistoryBack', 'lazyCreate', 'lazyDestroy', 'reuseInstance', 'autoRestoreRemote', 'numberNavigation', 'updateHash', 'storeSameHash'].reduce((config, key) => {
-      config.set(key, isObj ? routerSettings[key] : Settings$1.get('platform', key));
+      config.set(key, isObj ? routerSettings[key] : Settings.get('platform', key));
       return config;
     }, new Map());
   };
@@ -8995,7 +3869,7 @@ var APP_com_domain_app_bundleSize = (function () {
   const load = async request => {
     let expired = false;
     try {
-      request = await loader(request);
+      request = await loader$1(request);
       if (request && !request.isCancelled) {
         // in case of on() providing we need to reset
         // app state;
@@ -9016,7 +3890,7 @@ var APP_com_domain_app_bundleSize = (function () {
       }
       // on expired we only cleanup
       if (expired || request.isCancelled) {
-        Log$1.debug('[router]:', "Rejected ".concat(request.hash, " because route to ").concat(getLastHash(), " started"));
+        Log.debug('[router]:', "Rejected ".concat(request.hash, " because route to ").concat(getLastHash(), " started"));
         if (request.isCreated && !request.isSharedInstance) {
           // remove from render-tree
           pagesHost.remove(request.page);
@@ -9048,7 +3922,7 @@ var APP_com_domain_app_bundleSize = (function () {
       }
     }
   };
-  const loader = async request => {
+  const loader$1 = async request => {
     const route = request.route;
     const hash = request.hash;
     const register = request.register;
@@ -9141,7 +4015,7 @@ var APP_com_domain_app_bundleSize = (function () {
     if (request && request.error) {
       console.error(request.error);
     } else if (request) {
-      Log$1.error(request);
+      Log.error(request);
     }
     if (request.page && routeExists('!')) {
       navigate('!', {
@@ -9827,6 +4701,974 @@ var APP_com_domain_app_bundleSize = (function () {
     return ApplicationInstance;
   });
 
+  var executeAsPromise = (function (method) {
+    let args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    let context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    let result;
+    if (method && typeof method === 'function') {
+      try {
+        result = method.apply(context, args);
+      } catch (e) {
+        result = e;
+      }
+    } else {
+      result = method;
+    }
+
+    // if it looks like a duck .. ehm ... promise and talks like a promise, let's assume it's a promise
+    if (result !== null && typeof result === 'object' && result.then && typeof result.then === 'function') {
+      return result;
+    }
+    // otherwise make it into a promise
+    else {
+      return new Promise((resolve, reject) => {
+        if (result instanceof Error) {
+          reject(result);
+        } else {
+          resolve(result);
+        }
+      });
+    }
+  });
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+  var events$1 = {
+    abort: 'Abort',
+    canplay: 'CanPlay',
+    canplaythrough: 'CanPlayThrough',
+    durationchange: 'DurationChange',
+    emptied: 'Emptied',
+    encrypted: 'Encrypted',
+    ended: 'Ended',
+    error: 'Error',
+    interruptbegin: 'InterruptBegin',
+    interruptend: 'InterruptEnd',
+    loadeddata: 'LoadedData',
+    loadedmetadata: 'LoadedMetadata',
+    loadstart: 'LoadStart',
+    pause: 'Pause',
+    play: 'Play',
+    playing: 'Playing',
+    progress: 'Progress',
+    ratechange: 'Ratechange',
+    seeked: 'Seeked',
+    seeking: 'Seeking',
+    stalled: 'Stalled',
+    // suspend: 'Suspend', // this one is called a looooot for some videos
+    timeupdate: 'TimeUpdate',
+    volumechange: 'VolumeChange',
+    waiting: 'Waiting'
+  };
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+  var autoSetupMixin = (function (sourceObject) {
+    let setup = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : () => {};
+    let ready = false;
+    const doSetup = () => {
+      if (ready === false) {
+        setup();
+        ready = true;
+      }
+    };
+    return Object.keys(sourceObject).reduce((obj, key) => {
+      if (typeof sourceObject[key] === 'function') {
+        obj[key] = function () {
+          doSetup();
+          return sourceObject[key].apply(sourceObject, arguments);
+        };
+      } else if (typeof Object.getOwnPropertyDescriptor(sourceObject, key).get === 'function') {
+        obj.__defineGetter__(key, function () {
+          doSetup();
+          return Object.getOwnPropertyDescriptor(sourceObject, key).get.apply(sourceObject);
+        });
+      } else if (typeof Object.getOwnPropertyDescriptor(sourceObject, key).set === 'function') {
+        obj.__defineSetter__(key, function () {
+          doSetup();
+          return Object.getOwnPropertyDescriptor(sourceObject, key).set.sourceObject[key].apply(sourceObject, arguments);
+        });
+      } else {
+        obj[key] = sourceObject[key];
+      }
+      return obj;
+    }, {});
+  });
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+
+  let timeout = null;
+  var easeExecution = ((cb, delay) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      cb();
+    }, delay);
+  });
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  var VideoTexture = (() => {
+    return class VideoTexture extends Lightning.Component {
+      static _template() {
+        return {
+          Video: {
+            alpha: 1,
+            visible: false,
+            pivot: 0.5,
+            texture: {
+              type: Lightning.textures.StaticTexture,
+              options: {}
+            }
+          }
+        };
+      }
+      set videoEl(v) {
+        this._videoEl = v;
+      }
+      get videoEl() {
+        return this._videoEl;
+      }
+      get videoView() {
+        return this.tag('Video');
+      }
+      get videoTexture() {
+        return this.videoView.texture;
+      }
+      get isVisible() {
+        return this.videoView.alpha === 1 && this.videoView.visible === true;
+      }
+      _init() {
+        this._createVideoTexture();
+      }
+      _createVideoTexture() {
+        const stage = this.stage;
+        const gl = stage.gl;
+        const glTexture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, glTexture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        this.videoTexture.options = {
+          source: glTexture,
+          w: this.videoEl.width,
+          h: this.videoEl.height
+        };
+        this.videoView.w = this.videoEl.width / this.stage.getRenderPrecision();
+        this.videoView.h = this.videoEl.height / this.stage.getRenderPrecision();
+      }
+      start() {
+        const stage = this.stage;
+        this._lastTime = 0;
+        if (!this._updateVideoTexture) {
+          this._updateVideoTexture = () => {
+            if (this.videoTexture.options.source && this.videoEl.videoWidth && this.active) {
+              const gl = stage.gl;
+              const currentTime = new Date().getTime();
+              const getVideoPlaybackQuality = this.videoEl.getVideoPlaybackQuality();
+
+              // When BR2_PACKAGE_GST1_PLUGINS_BAD_PLUGIN_DEBUGUTILS is not set in WPE, webkitDecodedFrameCount will not be available.
+              // We'll fallback to fixed 30fps in this case.
+              // As 'webkitDecodedFrameCount' is about to deprecate, check for the 'totalVideoFrames'
+              const frameCount = getVideoPlaybackQuality ? getVideoPlaybackQuality.totalVideoFrames : this.videoEl.webkitDecodedFrameCount;
+              const mustUpdate = frameCount ? this._lastFrame !== frameCount : this._lastTime < currentTime - 30;
+              if (mustUpdate) {
+                this._lastTime = currentTime;
+                this._lastFrame = frameCount;
+                try {
+                  gl.bindTexture(gl.TEXTURE_2D, this.videoTexture.options.source);
+                  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+                  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.videoEl);
+                  this._lastFrame = this.videoEl.webkitDecodedFrameCount;
+                  this.videoView.visible = true;
+                  this.videoTexture.options.w = this.videoEl.width;
+                  this.videoTexture.options.h = this.videoEl.height;
+                  const expectedAspectRatio = this.videoView.w / this.videoView.h;
+                  const realAspectRatio = this.videoEl.width / this.videoEl.height;
+                  if (expectedAspectRatio > realAspectRatio) {
+                    this.videoView.scaleX = realAspectRatio / expectedAspectRatio;
+                    this.videoView.scaleY = 1;
+                  } else {
+                    this.videoView.scaleY = expectedAspectRatio / realAspectRatio;
+                    this.videoView.scaleX = 1;
+                  }
+                } catch (e) {
+                  Log.error('texImage2d video', e);
+                  this.stop();
+                }
+                this.videoTexture.source.forceRenderUpdate();
+              }
+            }
+          };
+        }
+        if (!this._updatingVideoTexture) {
+          stage.on('frameStart', this._updateVideoTexture);
+          this._updatingVideoTexture = true;
+        }
+      }
+      stop() {
+        const stage = this.stage;
+        stage.removeListener('frameStart', this._updateVideoTexture);
+        this._updatingVideoTexture = false;
+        this.videoView.visible = false;
+        if (this.videoTexture.options.source) {
+          const gl = stage.gl;
+          gl.bindTexture(gl.TEXTURE_2D, this.videoTexture.options.source);
+          gl.clearColor(0, 0, 0, 1);
+          gl.clear(gl.COLOR_BUFFER_BIT);
+        }
+      }
+      position(top, left) {
+        this.videoView.patch({
+          x: left,
+          y: top
+        });
+      }
+      size(width, height) {
+        this.videoView.patch({
+          w: width,
+          h: height
+        });
+      }
+      show() {
+        this.videoView.alpha = 1;
+      }
+      hide() {
+        this.videoView.alpha = 0;
+      }
+    };
+  });
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  let mediaUrl$1 = url => url;
+  let videoEl;
+  let videoTexture;
+  let metrics;
+  let consumer$1;
+  let precision = 1;
+  let textureMode = false;
+  // todo: add this in a 'Registry' plugin
+  // to be able to always clean this up on app close
+  let eventHandlers = {};
+  const state$1 = {
+    adsEnabled: false,
+    playing: false,
+    _playingAds: false,
+    get playingAds() {
+      return this._playingAds;
+    },
+    set playingAds(val) {
+      if (this._playingAds !== val) {
+        this._playingAds = val;
+        fireOnConsumer$1(val === true ? 'AdStart' : 'AdEnd');
+      }
+    },
+    skipTime: false,
+    playAfterSeek: null
+  };
+  const hooks = {
+    play() {
+      state$1.playing = true;
+    },
+    pause() {
+      state$1.playing = false;
+    },
+    seeked() {
+      state$1.playAfterSeek === true && videoPlayerPlugin.play();
+      state$1.playAfterSeek = null;
+    },
+    abort() {
+      deregisterEventListeners();
+    }
+  };
+  const withPrecision = val => Math.round(precision * val) + 'px';
+  const fireOnConsumer$1 = (event, args) => {
+    if (consumer$1) {
+      consumer$1.fire('$videoPlayer' + event, args, videoEl.currentTime);
+      consumer$1.fire('$videoPlayerEvent', event, args, videoEl.currentTime);
+    }
+  };
+  const fireHook = (event, args) => {
+    hooks[event] && typeof hooks[event] === 'function' && hooks[event].call(null, event, args);
+  };
+  let customLoader = null;
+  let customUnloader = null;
+  const loader = (url, videoEl, config) => {
+    return customLoader && typeof customLoader === 'function' ? customLoader(url, videoEl, config) : new Promise(resolve => {
+      url = mediaUrl$1(url);
+      videoEl.setAttribute('src', url);
+      videoEl.load();
+      resolve();
+    });
+  };
+  const unloader = videoEl => {
+    return customUnloader && typeof customUnloader === 'function' ? customUnloader(videoEl) : new Promise(resolve => {
+      videoEl.removeAttribute('src');
+      videoEl.load();
+      resolve();
+    });
+  };
+  const setupVideoTag = () => {
+    const videoEls = document.getElementsByTagName('video');
+    if (videoEls && videoEls.length) {
+      return videoEls[0];
+    } else {
+      const videoEl = document.createElement('video');
+      const platformSettingsWidth = Settings.get('platform', 'width') ? Settings.get('platform', 'width') : 1920;
+      const platformSettingsHeight = Settings.get('platform', 'height') ? Settings.get('platform', 'height') : 1080;
+      videoEl.setAttribute('id', 'video-player');
+      videoEl.setAttribute('width', withPrecision(platformSettingsWidth));
+      videoEl.setAttribute('height', withPrecision(platformSettingsHeight));
+      videoEl.style.position = 'absolute';
+      videoEl.style.zIndex = '1';
+      videoEl.style.display = 'none';
+      videoEl.style.visibility = 'hidden';
+      videoEl.style.top = withPrecision(0);
+      videoEl.style.left = withPrecision(0);
+      videoEl.style.width = withPrecision(platformSettingsWidth);
+      videoEl.style.height = withPrecision(platformSettingsHeight);
+      document.body.appendChild(videoEl);
+      return videoEl;
+    }
+  };
+  const setUpVideoTexture = () => {
+    if (!ApplicationInstance.tag('VideoTexture')) {
+      const el = ApplicationInstance.stage.c({
+        type: VideoTexture(),
+        ref: 'VideoTexture',
+        zIndex: 0,
+        videoEl
+      });
+      ApplicationInstance.childList.addAt(el, 0);
+    }
+    return ApplicationInstance.tag('VideoTexture');
+  };
+  const registerEventListeners = () => {
+    Log.info('VideoPlayer', 'Registering event listeners');
+    Object.keys(events$1).forEach(event => {
+      const handler = e => {
+        // Fire a metric for each event (if it exists on the metrics object)
+        if (metrics && metrics[event] && typeof metrics[event] === 'function') {
+          metrics[event]({
+            currentTime: videoEl.currentTime
+          });
+        }
+        // fire an internal hook
+        fireHook(event, {
+          videoElement: videoEl,
+          event: e
+        });
+
+        // fire the event (with human friendly event name) to the consumer of the VideoPlayer
+        fireOnConsumer$1(events$1[event], {
+          videoElement: videoEl,
+          event: e
+        });
+      };
+      eventHandlers[event] = handler;
+      videoEl.addEventListener(event, handler);
+    });
+  };
+  const deregisterEventListeners = () => {
+    Log.info('VideoPlayer', 'Deregistering event listeners');
+    Object.keys(eventHandlers).forEach(event => {
+      videoEl.removeEventListener(event, eventHandlers[event]);
+    });
+    eventHandlers = {};
+  };
+  const videoPlayerPlugin = {
+    consumer(component) {
+      consumer$1 = component;
+    },
+    loader(loaderFn) {
+      customLoader = loaderFn;
+    },
+    unloader(unloaderFn) {
+      customUnloader = unloaderFn;
+    },
+    position() {
+      let top = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      let left = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      videoEl.style.left = withPrecision(left);
+      videoEl.style.top = withPrecision(top);
+      if (textureMode === true) {
+        videoTexture.position(top, left);
+      }
+    },
+    size() {
+      let width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1920;
+      let height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1080;
+      videoEl.style.width = withPrecision(width);
+      videoEl.style.height = withPrecision(height);
+      videoEl.width = parseFloat(videoEl.style.width);
+      videoEl.height = parseFloat(videoEl.style.height);
+      if (textureMode === true) {
+        videoTexture.size(width, height);
+      }
+    },
+    area() {
+      let top = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      let right = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1920;
+      let bottom = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1080;
+      let left = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+      this.position(top, left);
+      this.size(right - left, bottom - top);
+    },
+    open(url) {
+      let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      if (!this.canInteract) return;
+      metrics = Metrics$1.media(url);
+      this.hide();
+      deregisterEventListeners();
+      if (this.src == url) {
+        this.clear().then(this.open(url, config));
+      } else {
+        const adConfig = {
+          enabled: state$1.adsEnabled,
+          duration: 300
+        };
+        if (config.videoId) {
+          adConfig.caid = config.videoId;
+        }
+        Ads.get(adConfig, consumer$1).then(ads => {
+          state$1.playingAds = true;
+          ads.prerolls().then(() => {
+            state$1.playingAds = false;
+            loader(url, videoEl, config).then(() => {
+              registerEventListeners();
+              this.show();
+              this.play();
+            }).catch(e => {
+              fireOnConsumer$1('Error', {
+                videoElement: videoEl,
+                event: e
+              });
+
+              // This is not API-compliant, as it results in firing "$videoPlayererror" rather than "$videoPlayerError".
+              // See docs here for API-compliant events -> https://github.com/Metrological/metrological-sdk/blob/master/docs/plugins/videoplayer.md#event-overview
+              // It has been kept for backwards compatability for library consumers who may have already written handler functions to match it.
+              fireOnConsumer$1('error', {
+                videoElement: videoEl,
+                event: e
+              });
+            });
+          });
+        });
+      }
+    },
+    reload() {
+      if (!this.canInteract) return;
+      const url = videoEl.getAttribute('src');
+      this.close();
+      this.open(url);
+    },
+    close() {
+      Ads.cancel();
+      if (state$1.playingAds) {
+        state$1.playingAds = false;
+        Ads.stop();
+        // call self in next tick
+        setTimeout(() => {
+          this.close();
+        });
+      }
+      if (!this.canInteract) return;
+      this.clear();
+      this.hide();
+      deregisterEventListeners();
+    },
+    clear() {
+      if (!this.canInteract) return;
+      // pause the video first to disable sound
+      this.pause();
+      if (textureMode === true) videoTexture.stop();
+      return unloader(videoEl).then(() => {
+        fireOnConsumer$1('Clear', {
+          videoElement: videoEl
+        });
+      });
+    },
+    play() {
+      if (!this.canInteract) return;
+      if (textureMode === true) videoTexture.start();
+      executeAsPromise(videoEl.play, null, videoEl).catch(e => {
+        fireOnConsumer$1('Error', {
+          videoElement: videoEl,
+          event: e
+        });
+
+        // This is not API-compliant, as it results in firing "$videoPlayererror" rather than "$videoPlayerError".
+        // See docs here for API-compliant events -> https://github.com/Metrological/metrological-sdk/blob/master/docs/plugins/videoplayer.md#event-overview
+        // It has been kept for backwards compatability for library consumers who may have already written handler functions to match it.
+        fireOnConsumer$1('error', {
+          videoElement: videoEl,
+          event: e
+        });
+      });
+    },
+    pause() {
+      if (!this.canInteract) return;
+      videoEl.pause();
+    },
+    playPause() {
+      if (!this.canInteract) return;
+      this.playing === true ? this.pause() : this.play();
+    },
+    mute() {
+      let muted = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      if (!this.canInteract) return;
+      videoEl.muted = muted;
+    },
+    loop() {
+      let looped = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      videoEl.loop = looped;
+    },
+    seek(time) {
+      if (!this.canInteract) return;
+      if (!this.src) return;
+      // define whether should continue to play after seek is complete (in seeked hook)
+      if (state$1.playAfterSeek === null) {
+        state$1.playAfterSeek = !!state$1.playing;
+      }
+      // pause before actually seeking
+      this.pause();
+      // currentTime always between 0 and the duration of the video (minus 0.1s to not set to the final frame and stall the video)
+      videoEl.currentTime = Math.max(0, Math.min(time, this.duration - 0.1));
+    },
+    skip(seconds) {
+      if (!this.canInteract) return;
+      if (!this.src) return;
+      state$1.skipTime = (state$1.skipTime || videoEl.currentTime) + seconds;
+      easeExecution(() => {
+        this.seek(state$1.skipTime);
+        state$1.skipTime = false;
+      }, 300);
+    },
+    show() {
+      if (!this.canInteract) return;
+      if (textureMode === true) {
+        videoTexture.show();
+      } else {
+        videoEl.style.display = 'block';
+        videoEl.style.visibility = 'visible';
+      }
+    },
+    hide() {
+      if (!this.canInteract) return;
+      if (textureMode === true) {
+        videoTexture.hide();
+      } else {
+        videoEl.style.display = 'none';
+        videoEl.style.visibility = 'hidden';
+      }
+    },
+    enableAds() {
+      let enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      state$1.adsEnabled = enabled;
+    },
+    /* Public getters */
+    get duration() {
+      return videoEl && (isNaN(videoEl.duration) ? Infinity : videoEl.duration);
+    },
+    get currentTime() {
+      return videoEl && videoEl.currentTime;
+    },
+    get muted() {
+      return videoEl && videoEl.muted;
+    },
+    get looped() {
+      return videoEl && videoEl.loop;
+    },
+    get src() {
+      return videoEl && videoEl.getAttribute('src');
+    },
+    get playing() {
+      return state$1.playing;
+    },
+    get playingAds() {
+      return state$1.playingAds;
+    },
+    get canInteract() {
+      // todo: perhaps add an extra flag wether we allow interactions (i.e. pauze, mute, etc.) during ad playback
+      return state$1.playingAds === false;
+    },
+    get top() {
+      return videoEl && parseFloat(videoEl.style.top);
+    },
+    get left() {
+      return videoEl && parseFloat(videoEl.style.left);
+    },
+    get bottom() {
+      return videoEl && parseFloat(videoEl.style.top - videoEl.style.height);
+    },
+    get right() {
+      return videoEl && parseFloat(videoEl.style.left - videoEl.style.width);
+    },
+    get width() {
+      return videoEl && parseFloat(videoEl.style.width);
+    },
+    get height() {
+      return videoEl && parseFloat(videoEl.style.height);
+    },
+    get visible() {
+      if (textureMode === true) {
+        return videoTexture.isVisible;
+      } else {
+        return videoEl && videoEl.style.display === 'block';
+      }
+    },
+    get adsEnabled() {
+      return state$1.adsEnabled;
+    },
+    // prefixed with underscore to indicate 'semi-private'
+    // because it's not recommended to interact directly with the video element
+    get _videoEl() {
+      return videoEl;
+    },
+    get _consumer() {
+      return consumer$1;
+    }
+  };
+  autoSetupMixin(videoPlayerPlugin, () => {
+    precision = ApplicationInstance && ApplicationInstance.stage && ApplicationInstance.stage.getRenderPrecision() || precision;
+    videoEl = setupVideoTag();
+    textureMode = Settings.get('platform', 'textureMode', false);
+    if (textureMode === true) {
+      videoEl.setAttribute('crossorigin', 'anonymous');
+      videoTexture = setUpVideoTexture();
+    }
+  });
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  let consumer;
+  let getAds = () => {
+    // todo: enable some default ads during development, maybe from the settings.json
+    return Promise.resolve({
+      prerolls: [],
+      midrolls: [],
+      postrolls: []
+    });
+  };
+  const state = {
+    active: false
+  };
+  const playSlot = function () {
+    let slot = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    return slot.reduce((promise, ad) => {
+      return promise.then(() => {
+        return playAd(ad);
+      });
+    }, Promise.resolve(null));
+  };
+  const playAd = ad => {
+    return new Promise(resolve => {
+      if (state.active === false) {
+        Log.info('Ad', 'Skipping add due to inactive state');
+        return resolve();
+      }
+      // is it safe to rely on videoplayer plugin already created the video tag?
+      const videoEl = document.getElementsByTagName('video')[0];
+      videoEl.style.display = 'block';
+      videoEl.style.visibility = 'visible';
+      videoEl.src = mediaUrl$1(ad.url);
+      videoEl.load();
+      let timeEvents = null;
+      let timeout;
+      const cleanup = () => {
+        // remove all listeners
+        Object.keys(handlers).forEach(handler => videoEl.removeEventListener(handler, handlers[handler]));
+        resolve();
+      };
+      const handlers = {
+        play() {
+          Log.info('Ad', 'Play ad', ad.url);
+          fireOnConsumer('Play', ad);
+          sendBeacon(ad.callbacks, 'defaultImpression');
+        },
+        ended() {
+          fireOnConsumer('Ended', ad);
+          sendBeacon(ad.callbacks, 'complete');
+          cleanup();
+        },
+        timeupdate() {
+          if (!timeEvents && videoEl.duration) {
+            // calculate when to fire the time based events (now that duration is known)
+            timeEvents = {
+              firstQuartile: videoEl.duration / 4,
+              midPoint: videoEl.duration / 2,
+              thirdQuartile: videoEl.duration / 4 * 3
+            };
+            Log.info('Ad', 'Calculated quartiles times', {
+              timeEvents
+            });
+          }
+          if (timeEvents && timeEvents.firstQuartile && videoEl.currentTime >= timeEvents.firstQuartile) {
+            fireOnConsumer('FirstQuartile', ad);
+            delete timeEvents.firstQuartile;
+            sendBeacon(ad.callbacks, 'firstQuartile');
+          }
+          if (timeEvents && timeEvents.midPoint && videoEl.currentTime >= timeEvents.midPoint) {
+            fireOnConsumer('MidPoint', ad);
+            delete timeEvents.midPoint;
+            sendBeacon(ad.callbacks, 'midPoint');
+          }
+          if (timeEvents && timeEvents.thirdQuartile && videoEl.currentTime >= timeEvents.thirdQuartile) {
+            fireOnConsumer('ThirdQuartile', ad);
+            delete timeEvents.thirdQuartile;
+            sendBeacon(ad.callbacks, 'thirdQuartile');
+          }
+        },
+        stalled() {
+          fireOnConsumer('Stalled', ad);
+          timeout = setTimeout(() => {
+            cleanup();
+          }, 5000); // make timeout configurable
+        },
+        canplay() {
+          timeout && clearTimeout(timeout);
+        },
+        error() {
+          fireOnConsumer('Error', ad);
+          cleanup();
+        },
+        // this doesn't work reliably on sky box, moved logic to timeUpdate event
+        // loadedmetadata() {
+        //   // calculate when to fire the time based events (now that duration is known)
+        //   timeEvents = {
+        //     firstQuartile: videoEl.duration / 4,
+        //     midPoint: videoEl.duration / 2,
+        //     thirdQuartile: (videoEl.duration / 4) * 3,
+        //   }
+        // },
+        abort() {
+          cleanup();
+        }
+        // todo: pause, resume, mute, unmute beacons
+      };
+      // add all listeners
+      Object.keys(handlers).forEach(handler => videoEl.addEventListener(handler, handlers[handler]));
+      videoEl.play();
+    });
+  };
+  const sendBeacon = (callbacks, event) => {
+    if (callbacks && callbacks[event]) {
+      Log.info('Ad', 'Sending beacon', event, callbacks[event]);
+      return callbacks[event].reduce((promise, url) => {
+        return promise.then(() => fetch(url)
+        // always resolve, also in case of a fetch error (so we don't block firing the rest of the beacons for this event)
+        // note: for fetch failed http responses don't throw an Error :)
+        .then(response => {
+          if (response.status === 200) {
+            fireOnConsumer('Beacon' + event + 'Sent');
+          } else {
+            fireOnConsumer('Beacon' + event + 'Failed' + response.status);
+          }
+          Promise.resolve(null);
+        }).catch(() => {
+          Promise.resolve(null);
+        }));
+      }, Promise.resolve(null));
+    } else {
+      Log.info('Ad', 'No callback found for ' + event);
+    }
+  };
+  const fireOnConsumer = (event, args) => {
+    if (consumer) {
+      consumer.fire('$ad' + event, args);
+      consumer.fire('$adEvent', event, args);
+    }
+  };
+  var Ads = {
+    get(config, videoPlayerConsumer) {
+      if (config.enabled === false) {
+        return Promise.resolve({
+          prerolls() {
+            return Promise.resolve();
+          }
+        });
+      }
+      consumer = videoPlayerConsumer;
+      return new Promise(resolve => {
+        Log.info('Ad', 'Starting session');
+        getAds().then(ads => {
+          Log.info('Ad', 'API result', ads);
+          resolve({
+            prerolls() {
+              if (ads.preroll) {
+                state.active = true;
+                fireOnConsumer('PrerollSlotImpression', ads);
+                sendBeacon(ads.preroll.callbacks, 'slotImpression');
+                return playSlot(ads.preroll.ads).then(() => {
+                  fireOnConsumer('PrerollSlotEnd', ads);
+                  sendBeacon(ads.preroll.callbacks, 'slotEnd');
+                  state.active = false;
+                });
+              }
+              return Promise.resolve();
+            },
+            midrolls() {
+              return Promise.resolve();
+            },
+            postrolls() {
+              return Promise.resolve();
+            }
+          });
+        });
+      });
+    },
+    cancel() {
+      Log.info('Ad', 'Cancel Ad');
+      state.active = false;
+    },
+    stop() {
+      Log.info('Ad', 'Stop Ad');
+      state.active = false;
+      // fixme: duplication
+      const videoEl = document.getElementsByTagName('video')[0];
+      videoEl.pause();
+      videoEl.removeAttribute('src');
+    }
+  };
+
+  /*
+   * If not stated otherwise in this file or this component's LICENSE file the
+   * following copyright and licenses apply:
+   *
+   * Copyright 2020 Metrological
+   *
+   * Licensed under the Apache License, Version 2.0 (the License);
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   * http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  class ScaledImageTexture extends Lightning.textures.ImageTexture {
+    constructor(stage) {
+      super(stage);
+      this._scalingOptions = undefined;
+    }
+    set options(options) {
+      this.resizeMode = this._scalingOptions = options;
+    }
+    _getLookupId() {
+      return "".concat(this._src, "-").concat(this._scalingOptions.type, "-").concat(this._scalingOptions.w, "-").concat(this._scalingOptions.h);
+    }
+    getNonDefaults() {
+      const obj = super.getNonDefaults();
+      if (this._src) {
+        obj.src = this._src;
+      }
+      return obj;
+    }
+  }
+
   /*
    * If not stated otherwise in this file or this component's LICENSE file the
    * following copyright and licenses apply:
@@ -9851,8 +5693,8 @@ var APP_com_domain_app_bundleSize = (function () {
     _construct() {
       this._skipRenderToTexture = false;
       this._metrics = null;
-      this._textureMode = Settings$1.get('platform', 'textureMode') || false;
-      Log$1.info('Texture mode: ' + this._textureMode);
+      this._textureMode = Settings.get('platform', 'textureMode') || false;
+      Log.info('Texture mode: ' + this._textureMode);
       console.warn(["The 'MediaPlayer'-plugin in the Lightning-SDK is deprecated and will be removed in future releases.", "Please consider using the new 'VideoPlayer'-plugin instead.", 'https://rdkcentral.github.io/Lightning-SDK/#/plugins/videoplayer'].join('\n\n'));
     }
     static _template() {
@@ -9917,7 +5759,7 @@ var APP_com_domain_app_bundleSize = (function () {
       });
     }
     _deregisterListeners() {
-      Log$1.info('Deregistering event listeners MediaPlayer');
+      Log.info('Deregistering event listeners MediaPlayer');
       events.forEach((event, index) => {
         this.videoEl.removeEventListener(event, this.eventHandlers[index]);
       });
@@ -9979,7 +5821,7 @@ var APP_com_domain_app_bundleSize = (function () {
                     this.videoTextureView.scaleX = 1;
                   }
                 } catch (e) {
-                  Log$1.error('texImage2d video', e);
+                  Log.error('texImage2d video', e);
                   this._stopUpdatingVideoTexture();
                   this.videoTextureView.visible = false;
                 }
@@ -10030,7 +5872,7 @@ var APP_com_domain_app_bundleSize = (function () {
         } else if (settings.stream && settings.stream.src) {
           // This is here to be backwards compatible, will be removed
           // in future sdk release
-          if (Settings$1.get('app', 'hls')) {
+          if (Settings.get('app', 'hls')) {
             if (!window.Hls) {
               window.Hls = class Hls {
                 static isSupported() {
@@ -10073,9 +5915,9 @@ var APP_com_domain_app_bundleSize = (function () {
       // prep the media url to play depending on platform (mediaPlayerplugin)
       url = mediaUrl(url);
       this._metrics = Metrics$1.media(url);
-      Log$1.info('Playing stream', url);
+      Log.info('Playing stream', url);
       if (this.application.noVideo) {
-        Log$1.info('noVideo option set, so ignoring: ' + url);
+        Log.info('noVideo option set, so ignoring: ' + url);
         return;
       }
       // close the video when opening same url as current (effectively reloading)
