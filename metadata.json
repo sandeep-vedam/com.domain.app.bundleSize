@@ -1,0 +1,6 @@
+{
+  "name": "bundleSize",
+  "identifier": "com.domain.app.bundleSize",
+  "version": "1.0.0",
+  "icon": "./static/icon.png"
+}
