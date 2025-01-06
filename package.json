@@ -2,7 +2,7 @@
   "name": "com.domain.app.bundleSize",
   "description": "bundleSize",
   "dependencies": {
-    "@lightningjs/sdk": "^5.5.4"
+    "@lightningjs/sdk": "https://github.com/sandeep-vedam/Lightning-SDK.git#feat/splitsdk"
   },
   "lint-staged": {
     "*.js": [
